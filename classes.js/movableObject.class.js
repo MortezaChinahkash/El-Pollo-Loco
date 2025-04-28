@@ -1,9 +1,13 @@
 class movableObject{
-    x;
-    y;
-    img;
+    x = 120;
+    y = 400;
+    img ;
 
     moveRight() {
         console.log("moving right");
+    }
+    moveleft(){
+        console.log("moving left");
+        
     }
 }
