@@ -4,9 +4,10 @@ class movableObject{
     img ;
     width = 150;
     height = 300;
-    imageCache =[]
+    imageCache =[];
     currentImage = 0;
-    speed = 1
+    speed = 1;
+    otherDirection = false;
 
 
     loadImage(path){
