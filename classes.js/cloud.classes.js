@@ -10,7 +10,7 @@ class Cloud extends movableObject{
 
     animate(){
         setInterval(()=>{
-            this.x -= 0.1
-        },1000/60)
+            this.x -= 0.06
+        },1000/120)
     }
 }

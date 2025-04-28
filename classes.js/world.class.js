@@ -1,51 +1,58 @@
-class World{
-    character = new Character();
-    
-    backgroundObjects =[
-        new BackgroundObject('img/img_pollo_locco/img/5_background/layers/air.png', 0, 480),
-        new BackgroundObject('img/img_pollo_locco/img/5_background/layers/3_third_layer/1.png', 80 , 400),
-        new BackgroundObject('img/img_pollo_locco/img/5_background/layers/2_second_layer/1.png',80, 400),
-        new BackgroundObject('img/img_pollo_locco/img/5_background/layers/1_first_layer/1.png',80,400)
-    ]
-    enemies = [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-    ];
+class World {
+  character = new Character();
 
-    clouds =[
-        new Cloud(),
-    ];
-   
-    ctx;
-    constructor(canvas){
-        this.ctx = canvas.getContext('2d');
-        this.canvas = canvas
-        this.draw()
-    }
+  backgroundObjects = [
+    new BackgroundObject(
+      "img/img_pollo_locco/img/5_background/layers/air.png",
+      0,
+      480
+    ),
+    new BackgroundObject(
+      "img/img_pollo_locco/img/5_background/layers/3_third_layer/1.png",
+      80,
+      400
+    ),
+    new BackgroundObject(
+      "img/img_pollo_locco/img/5_background/layers/2_second_layer/1.png",
+      80,
+      400
+    ),
+    new BackgroundObject(
+      "img/img_pollo_locco/img/5_background/layers/1_first_layer/1.png",
+      80,
+      400
+    ),
+  ];
+  enemies = [new Chicken(), new Chicken(), new Chicken()];
 
+  clouds = [new Cloud()];
 
+  ctx;
+  constructor(canvas) {
+    this.ctx = canvas.getContext("2d");
+    this.canvas = canvas;
+    this.draw();
+  }
 
+  draw() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    draw(){
-        this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
-    
-        this.addObjectsToMap(this.backgroundObjects)
-        this.addObjectsToMap(this.clouds)
-        this.addObjectsToMap(this.enemies)
-        this.addToMap(this.character)
-        requestAnimationFrame(() => {
-            this.draw();
-        });
-    }   
+    this.addObjectsToMap(this.backgroundObjects);
+    this.addObjectsToMap(this.clouds);
+    this.addObjectsToMap(this.enemies);
+    this.addToMap(this.character);
+    requestAnimationFrame(() => {
+      this.draw();
+    });
+  }
 
-    addObjectsToMap(objects){
-        objects.forEach(o => {
-            this.addToMap(o)
-        })
-    }
+  addObjectsToMap(objects) {
+    objects.forEach((o) => {
+      this.addToMap(o);
+    });
+  }
 
-    addToMap(mo){
-        this.ctx.drawImage(mo.img,mo.x,mo.y,mo.width,mo.height)    
-    }
+  addToMap(mo) {
+    this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+  }
 }
