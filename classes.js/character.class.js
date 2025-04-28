@@ -13,6 +13,7 @@ class Character extends movableObject {
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-26.png",
   ];
   world;
+  camera_x = 0
   constructor() {
     super().loadImage(
       "img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png"
@@ -31,6 +32,7 @@ class Character extends movableObject {
         this.x -= this.speed;
         this.otherDirection = true 
       }
+      this.world.camera_x = -this.x;
     }, 1000 / 60);
 
     setInterval(() => {
