@@ -7,6 +7,8 @@ class Character extends movableObject {
   energy = 100;
   damage;
   isHurt = false;
+  isInvincible = false;
+  isVisible = true;
 
   IMAGES_WALKING = [
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png",
@@ -45,8 +47,6 @@ class Character extends movableObject {
   world;
   camera_x = 0;
 
- 
-
   constructor() {
     super();
     this.loadImage("img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png");
@@ -62,15 +62,33 @@ class Character extends movableObject {
   collision() {
     setInterval(() => {
       this.world.enemies.forEach((enemy) => {
-        if (this.isColliding(enemy) && !this.isHurt) {
-          this.energy -= enemy.damage;
-          console.log(this.energy);
-          this.playHurtAnimation();
+        if (this.isColliding(enemy) && !this.isInvincible) {
+          this.takeDamage(enemy.damage);
         }
       });
-    }, 200);
+    }, 1000);
   }
 
+  takeDamage(damage) {
+    this.energy -= damage;
+    console.log('Energy:', this.energy);
+    this.isInvincible = true;
+    this.playHurtAnimation();
+    this.startBlinking();
+    setTimeout(() => {
+      this.isInvincible = false;
+      this.isVisible = true; 
+    }, 1000);
+
+    startBlinking() {
+      let blinkInterval = setInterval(() => {
+        this.isVisible = !this.isVisible;
+      }, 100);
+      setTimeout(() => {
+        clearInterval(blinkInterval);
+        this.isVisible = true; 
+      }, 1000);
+    }
 
   animate() {
     setInterval(() => {
@@ -92,8 +110,6 @@ class Character extends movableObject {
       this.playAnimation(this.IMAGES_WALKING);
     }
   }
-
-  
 
   handleInput() {
     if (
