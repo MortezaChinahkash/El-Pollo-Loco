@@ -13,22 +13,20 @@ class Endboss extends movableObject {
     constructor(levelWidth) {
         super();
         this.levelWidth = levelWidth;
-        this.width = 250;    // <-- Breite setzen
-        this.height = 300;   // <-- Höhe setzen
-        this.x = this.levelWidth - this.width;   // <-- Jetzt korrekt
-        this.y = 150; // etwas über dem Boden (anpassen falls nötig)
+        this.width = 250;
+        this.height = 300; 
+        this.x = this.levelWidth - this.width; 
+        this.y = 110
         this.speed = 0.15 + Math.random() * 0.25;
         this.loadImage('img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_WALKING);
         this.animate();
+        this.applyGravity()
     }
 
     animate() {
         setInterval(() => {
-            let i = this.currentImage % this.IMAGES_WALKING.length;
-            let path = this.IMAGES_WALKING[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
+            this.playAnimation(this.IMAGES_WALKING)
         }, 150); 
     }
 }

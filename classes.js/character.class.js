@@ -1,6 +1,6 @@
 class Character extends movableObject {
   x = 90;
-  y = 135;
+  y = 60;
   width = 150;
   height = 300;
   speed = 5;
@@ -12,6 +12,9 @@ class Character extends movableObject {
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-25.png",
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-26.png",
   ];
+  IMAGES_JUMPING_UP = [];
+  IMAGES_JUMPING_DOWN = [];
+
   world;
   camera_x = 0;
   constructor() {
@@ -20,6 +23,7 @@ class Character extends movableObject {
     );
     this.loadImages(this.IMAGES_WALKING);
     this.animate();
+    this.applyGravity();
   }
 
   animate() {
@@ -42,10 +46,7 @@ class Character extends movableObject {
 
     setInterval(() => {
       if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        let i = this.currentImage % this.IMAGES_WALKING.length;
-        let path = this.IMAGES_WALKING[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        this.playAnimation(this.IMAGES_WALKING);
       }
     }, 100);
   }
