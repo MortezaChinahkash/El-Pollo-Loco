@@ -13,7 +13,7 @@ class Character extends movableObject {
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-26.png",
   ];
   world;
-  camera_x = 0
+  camera_x = 0;
   constructor() {
     super().loadImage(
       "img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png"
@@ -24,15 +24,20 @@ class Character extends movableObject {
 
   animate() {
     setInterval(() => {
-      if (this.world.keyboard.RIGHT) {
+      if (
+        this.world.keyboard.RIGHT &&
+        this.x < this.world.level.levelWidth - this.width
+      ) {
         this.x += this.speed;
-        this.otherDirection = false
+        this.otherDirection = false;
       }
-      if (this.world.keyboard.LEFT) {
+      if (this.world.keyboard.LEFT && this.x > 0) {
         this.x -= this.speed;
-        this.otherDirection = true 
+        this.otherDirection = true;
       }
-      this.world.camera_x = -this.x;
+      let camLimit = this.world.level.levelWidth - this.world.canvas.width;
+      this.world.camera_x = Math.min(25, -(this.x - 25));
+      this.world.camera_x = Math.max(this.world.camera_x, -camLimit);
     }, 1000 / 60);
 
     setInterval(() => {
