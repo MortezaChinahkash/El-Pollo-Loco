@@ -1,19 +1,23 @@
 class World {
     character = new Character();
-    enemies = [new Chicken(), new Chicken(), new Chicken()];
+    enemies;
     canvas;
-    clouds = [new Cloud()];
+    clouds;
     keyboard;
     ctx;
     camera_x = 0;
-    backgroundObjects = [];
+    backgroundObjects
+    level;
   
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard, level) {
       this.ctx = canvas.getContext("2d");
       this.canvas = canvas;
       this.keyboard = keyboard;
+      this.level = level; 
+      this.enemies = level.enemies;
+      this.clouds = level.clouds;
+      this.backgroundObjects = level.backgroundObjects; 
       this.setWorld();
-      this.generateBackground();
       this.draw();
     }
   
@@ -21,45 +25,12 @@ class World {
       this.character.world = this;
     }
   
-    generateBackground() {
-        const backgrounds = [
-          {
-            air: "img/img_pollo_locco/img/5_background/layers/air.png",
-            third: "img/img_pollo_locco/img/5_background/layers/3_third_layer/1.png",
-            second: "img/img_pollo_locco/img/5_background/layers/2_second_layer/1.png",
-            first: "img/img_pollo_locco/img/5_background/layers/1_first_layer/1.png",
-          },
-          {
-            air: "img/img_pollo_locco/img/5_background/layers/air.png",
-            third: "img/img_pollo_locco/img/5_background/layers/3_third_layer/2.png",
-            second: "img/img_pollo_locco/img/5_background/layers/2_second_layer/2.png",
-            first: "img/img_pollo_locco/img/5_background/layers/1_first_layer/2.png",
-          },
-        ];
     
-        const segmentWidth = 719;
-        const levelWidth = 5000; 
-    
-        let startX = -719;
-        let blockIndex = 0;
-    
-        while (startX < levelWidth) {
-          let block = backgrounds[blockIndex % backgrounds.length];
-    
-          this.backgroundObjects.push(new BackgroundObject(block.air, startX, 480));
-          this.backgroundObjects.push(new BackgroundObject(block.third, startX, 400));
-          this.backgroundObjects.push(new BackgroundObject(block.second, startX, 400));
-          this.backgroundObjects.push(new BackgroundObject(block.first, startX, 400));
-    
-          startX += segmentWidth;
-          blockIndex++;
-        }
-      }
   
     draw() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.translate(this.camera_x, 0);
-      this.addObjectsToMap(this.backgroundObjects);
+      this.addObjectsToMap(this.level.backgroundObjects);
       this.addObjectsToMap(this.clouds);
       this.addObjectsToMap(this.enemies);
       this.addToMap(this.character);
