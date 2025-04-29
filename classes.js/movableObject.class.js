@@ -22,6 +22,18 @@ class movableObject {
     }, 1000 / 25);
   }
 
+  draw(ctx) {
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  }
+  
+  drawCollisionFrame(ctx){
+    ctx.beginPath();
+    ctx.lineWidth = "5";
+    ctx.strokeStyle = "blue";
+    ctx.rect(this.x, this.y, this.width, this.height);
+    ctx.stroke();
+  }
+
   isAboveGround() {
     return this.y < 135;
   }
@@ -53,7 +65,6 @@ class movableObject {
 
   moveLeft() {
     this.x -= this.speed;
- 
   }
 
   jump() {
