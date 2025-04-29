@@ -32,11 +32,12 @@ class World {
       this.ctx.translate(this.camera_x, 0);
       this.addObjectsToMap(this.level.backgroundObjects);
       this.addObjectsToMap(this.clouds);
-      this.addObjectsToMap(this.enemies);
+      let sortedEnemies = [...this.enemies].sort((a, b) => a.y - b.y);
+      this.addObjectsToMap(sortedEnemies);
       this.addToMap(this.character);
       this.ctx.translate(-this.camera_x, 0);
       requestAnimationFrame(() => this.draw());
-    }
+  }
   
     addObjectsToMap(objects) {
       objects.forEach(o => this.addToMap(o));
