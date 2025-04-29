@@ -10,6 +10,8 @@ class movableObject {
   otherDirection = false;
   speedY = 0;
   acceleration = 1.2;
+  energy = 100;
+  damage;
 
   applyGravity() {
     setInterval(() => {
@@ -25,13 +27,26 @@ class movableObject {
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
+
+  drawCollisionFrame(ctx) {
+    if (this instanceof Character || this instanceof Chicken) {
+      ctx.beginPath();
+      ctx.lineWidth = "5";
+      ctx.strokeStyle = "blue";
+      ctx.rect(this.x, this.y, this.width, this.height);
+      ctx.stroke();
+    }
+  }
+
   
-  drawCollisionFrame(ctx){
-    ctx.beginPath();
-    ctx.lineWidth = "5";
-    ctx.strokeStyle = "blue";
-    ctx.rect(this.x, this.y, this.width, this.height);
-    ctx.stroke();
+  isColliding(mo) {
+    return (
+      this.x + this.width > mo.x &&
+      this.y + this.height > mo.y &&
+      this.x < mo.x &&
+      this.y < mo.y + mo.height
+    );
+    console.log("Kollision!!");
   }
 
   isAboveGround() {
@@ -58,6 +73,14 @@ class movableObject {
     this.currentImage++;
   }
 
+  playHurtAnimation() {
+    this.isHurt = true;
+    this.playAnimation(this.IMAGES_HURT, false);
+    setTimeout(() => {
+      this.isHurt = false;
+    }, this.IMAGES_HURT.length * 100); 
+  }
+  
   moveRight() {
     this.x += this.speed;
     this.otherDirection = false;

@@ -4,6 +4,10 @@ class Character extends movableObject {
   width = 150;
   height = 300;
   speed = 5;
+  energy = 100;
+  damage;
+  isHurt = false;
+
   IMAGES_WALKING = [
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png",
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-22.png",
@@ -23,18 +27,50 @@ class Character extends movableObject {
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-38.png",
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-39.png",
   ];
+  IMAGES_HURT = [
+    "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-41.png",
+    "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-42.png",
+    "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-43.png",
+  ];
+  IMAGES_DEAD = [
+    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-51.png",
+    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-52.png",
+    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-53.png",
+    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-54.png",
+    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-55.png",
+    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-56.png",
+    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-57.png",
+  ];
 
   world;
   camera_x = 0;
+
+ 
 
   constructor() {
     super();
     this.loadImage("img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
+    this.loadImages(this.IMAGES_HURT);
+    this.loadImages(this.IMAGES_DEAD);
     this.animate();
     this.applyGravity();
+    this.collision();
   }
+
+  collision() {
+    setInterval(() => {
+      this.world.enemies.forEach((enemy) => {
+        if (this.isColliding(enemy) && !this.isHurt) {
+          this.energy -= enemy.damage;
+          console.log(this.energy);
+          this.playHurtAnimation();
+        }
+      });
+    }, 200);
+  }
+
 
   animate() {
     setInterval(() => {
@@ -47,14 +83,17 @@ class Character extends movableObject {
   }
 
   charAnimations() {
+    if (this.isHurt) {
+      return;
+    }
     if (this.isAboveGround()) {
       this.playAnimation(this.IMAGES_JUMPING);
-    } else {
-      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        this.playAnimation(this.IMAGES_WALKING);
-      }
+    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      this.playAnimation(this.IMAGES_WALKING);
     }
   }
+
+  
 
   handleInput() {
     if (

@@ -3,12 +3,14 @@ class Level {
   clouds;
   backgroundObjects;
   levelWidth;
+  levelNumber;
 
-  constructor(enemies, clouds, backgroundObjects, levelWidth) {
+  constructor(enemies, clouds, backgroundObjects, levelWidth, levelNumber) {
     this.enemies = enemies;
     this.clouds = clouds;
     this.backgroundObjects = backgroundObjects;
     this.levelWidth = levelWidth;
+    this.levelNumber = levelNumber;
     this.generateBackground();
     this.generateClouds();
     this.generateChickens();
@@ -69,14 +71,20 @@ class Level {
   generateChickens() {
     const minChicken = Math.floor(this.levelWidth / 500);
     const maxChicken = Math.floor(this.levelWidth / 200);
-    const count =
-      minChicken + Math.floor(Math.random() * (maxChicken - minChicken + 1));
-
+    const count = minChicken + Math.floor(Math.random() * (maxChicken - minChicken + 1));
+  
     for (let i = 0; i < count; i++) {
-      this.enemies.push(new Chicken(this.levelWidth));
+      const chicken = new Chicken(this.levelWidth);
+      chicken.damage = 1 + this.levelNumber * 1.5; 
+      chicken.energy = 100
+      this.enemies.push(chicken);
     }
   }
+  
   generateEndboss() {
-    this.enemies.push(new Endboss(this.levelWidth));
-}
+    const boss = new Endboss(this.levelWidth);
+    boss.damage = 5 + this.levelNumber * 5;
+    boss.energy = 200 + this.levelNumber * 50;
+    this.enemies.push(boss);
+  }
 }

@@ -5,15 +5,19 @@ class Chicken extends movableObject {
   width;
   height;
   speed;
+  energy
+  damage = 5
   IMAGES_WALKING = [
     "img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
     "img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
     "img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
   ];
 
-  constructor(levelWidth) {
+  constructor(levelWidth, damage, energy) {
     super();
     this.levelWidth = levelWidth;
+    this.damage = damage
+    this.energy = energy
     this.x = 250 + Math.random() * (this.levelWidth - 250);
     this.y = this.randomHeight();
     this.setRandomSize();

@@ -19,10 +19,21 @@ class World {
     this.backgroundObjects = level.backgroundObjects;
     this.setWorld();
     this.draw();
+    this.checkCollisions();
   }
 
   setWorld() {
     this.character.world = this;
+  }
+
+  checkCollisions(){
+    setInterval(() => {
+      this.level.enemies.forEach((enemy) =>{
+       if(this.character.isColliding(enemy)){
+        // console.log("Collision with Character", enemy);
+       }
+      })
+    }, 100);
   }
 
   draw() {
@@ -43,7 +54,7 @@ class World {
 
   addToMap(mo) {
     if (mo.otherDirection) {
-     
+     this.flipImage(mo)
     }
     if (mo.img) {
       mo.draw(this.ctx);
@@ -55,12 +66,13 @@ class World {
   }
 
   flipImage(mo){
-    this.flipImage(mo)
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
     this.ctx.scale(-1, 1);
     mo.x = mo.x * -1;
   }
+
+
 
   flipImageBack(mo){
     mo.x = mo.x * -1;
