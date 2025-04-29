@@ -12,6 +12,7 @@ class Level {
     this.generateBackground();
     this.generateClouds();
     this.generateChickens();
+    this.generateEndboss();
   }
 
   generateBackground() {
@@ -75,4 +76,7 @@ class Level {
       this.enemies.push(new Chicken(this.levelWidth));
     }
   }
+  generateEndboss() {
+    this.enemies.push(new Endboss(this.levelWidth));
+}
 }
