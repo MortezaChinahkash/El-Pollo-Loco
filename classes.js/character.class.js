@@ -7,8 +7,7 @@ class Character extends movableObject {
   energy = 100;
   damage;
   isHurt = false;
-  isInvincible = false;
-  isVisible = true;
+  isDeadState = false;
 
   IMAGES_WALKING = [
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png",
@@ -56,54 +55,51 @@ class Character extends movableObject {
     this.loadImages(this.IMAGES_DEAD);
     this.animate();
     this.applyGravity();
-    this.collision();
+    this.checkCollisions(); 
   }
 
-  collision() {
+  checkCollisions() {
     setInterval(() => {
+      if (this.isDeadState) return;
+  
       this.world.enemies.forEach((enemy) => {
-        if (this.isColliding(enemy) && !this.isInvincible) {
-          this.takeDamage(enemy.damage);
+        if (this.isColliding(enemy) && !this.isHurt) {
+          this.hit(enemy.damage);
+          this.playHurtAnimation();
+          console.log(this.energy);
+  
+          if (this.isDead()) {
+            this.playDeadSequence();
+          }
         }
       });
-    }, 1000);
+    }, 500);
   }
 
-  takeDamage(damage) {
-    this.energy -= damage;
-    console.log('Energy:', this.energy);
-    this.isInvincible = true;
-    this.playHurtAnimation();
-    this.startBlinking();
-    setTimeout(() => {
-      this.isInvincible = false;
-      this.isVisible = true; 
-    }, 1000);
-
-    startBlinking() {
-      let blinkInterval = setInterval(() => {
-        this.isVisible = !this.isVisible;
-      }, 100);
-      setTimeout(() => {
-        clearInterval(blinkInterval);
-        this.isVisible = true; 
-      }, 1000);
-    }
+  playDeadSequence() {
+    this.isDeadState = true;
+    this.currentImage = 0;
+  
+    let interval = setInterval(() => {
+      if (this.currentImage < this.IMAGES_DEAD.length) {
+        let path = this.IMAGES_DEAD[this.currentImage];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+      } else {
+        clearInterval(interval); 
+        this.currentImage--;
+      }
+    }, 100); 
+  }
 
   animate() {
-    setInterval(() => {
-      this.handleInput();
-    }, 1000 / 60);
-
-    setInterval(() => {
-      this.charAnimations();
-    }, 120);
+    setInterval(() => this.handleInput(), 1000 / 60);
+    setInterval(() => this.charAnimations(), 120);
   }
 
   charAnimations() {
-    if (this.isHurt) {
-      return;
-    }
+    if (this.isHurt) return;
+    if (this.isDeadState) return;
     if (this.isAboveGround()) {
       this.playAnimation(this.IMAGES_JUMPING);
     } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -112,10 +108,8 @@ class Character extends movableObject {
   }
 
   handleInput() {
-    if (
-      this.world.keyboard.RIGHT &&
-      this.x < this.world.level.levelWidth - this.width
-    ) {
+    if (this.isDeadState) return;
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.levelWidth - this.width) {
       this.moveRight();
     }
     if (this.world.keyboard.LEFT && this.x > 0) {
@@ -125,6 +119,7 @@ class Character extends movableObject {
     if (this.world.keyboard.UP && !this.isAboveGround()) {
       this.jump();
     }
+
     let camLimit = this.world.level.levelWidth - this.world.canvas.width;
     this.setLevelWidth(camLimit);
   }

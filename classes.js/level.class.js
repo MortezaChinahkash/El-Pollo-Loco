@@ -74,17 +74,17 @@ class Level {
     const count = minChicken + Math.floor(Math.random() * (maxChicken - minChicken + 1));
   
     for (let i = 0; i < count; i++) {
-      const chicken = new Chicken(this.levelWidth);
-      chicken.damage = 1 + this.levelNumber * 1.5; 
-      chicken.energy = 100
+      const chickenDamage = 1 + this.levelNumber * 1.5;
+      const chickenEnergy = 100;
+      const chicken = new Chicken(this.levelWidth, chickenDamage, chickenEnergy);
       this.enemies.push(chicken);
     }
   }
   
   generateEndboss() {
-    const boss = new Endboss(this.levelWidth);
-    boss.damage = 5 + this.levelNumber * 5;
-    boss.energy = 200 + this.levelNumber * 50;
+    const bossDamage = 5 + this.levelNumber * 5;
+    const bossEnergy = 200 + this.levelNumber * 50;
+    const boss = new Endboss(this.levelWidth, bossDamage, bossEnergy);
     this.enemies.push(boss);
   }
 }

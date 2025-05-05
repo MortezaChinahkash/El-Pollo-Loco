@@ -10,9 +10,11 @@ class Endboss extends movableObject {
         'img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G12.png',
     ];
 
-    constructor(levelWidth) {
+    constructor(levelWidth, damage, energy) {
         super();
         this.levelWidth = levelWidth;
+        this.damage = damage 
+        this.energy = energy 
         this.width = 250;
         this.height = 300; 
         this.x = this.levelWidth - this.width; 

@@ -46,7 +46,17 @@ class movableObject {
       this.x < mo.x &&
       this.y < mo.y + mo.height
     );
-    console.log("Kollision!!");
+  }
+  
+  hit(damage) {
+    this.energy -= damage;
+    if (this.energy < 0){
+      this.energy = 0 
+    }
+  }
+
+  isDead(){
+    return this.energy == 0;
   }
 
   isAboveGround() {
@@ -73,14 +83,21 @@ class movableObject {
     this.currentImage++;
   }
 
+  playDeadAnimation(){
+    this.playAnimation(this.IMAGES_DEAD);
+    setTimeout(() => {
+    }, this.IMAGES_DEAD.length * 10); 
+  }
+  
+
   playHurtAnimation() {
     this.isHurt = true;
     this.playAnimation(this.IMAGES_HURT, false);
     setTimeout(() => {
       this.isHurt = false;
-    }, this.IMAGES_HURT.length * 100); 
+    }, this.IMAGES_HURT.length * 10); 
   }
-  
+
   moveRight() {
     this.x += this.speed;
     this.otherDirection = false;
