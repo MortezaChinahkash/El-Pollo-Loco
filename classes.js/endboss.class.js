@@ -12,6 +12,12 @@ class Endboss extends movableObject {
 
     constructor(levelWidth, damage, energy) {
         super();
+        this.offset = {
+            top: 50,
+            bottom: 10,
+            left: 10,
+            right: 10
+          };
         this.levelWidth = levelWidth;
         this.damage = damage 
         this.energy = energy 
