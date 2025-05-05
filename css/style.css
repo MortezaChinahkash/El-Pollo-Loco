@@ -2,9 +2,31 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
     margin: 0;
+    background-image: url(../img/ChatGPT\ Image\ 5.\ Mai\ 2025\,\ 14_01_04.png);
+    background-size: cover;
+    background-position: center;
 }
 
 canvas{
     background-color: black;
+    box-shadow: 1px 1px 50px 15px
 }
+#loading-screen {
+    text-align: center;
+    width: 780px;
+    height: 480px;
+    background-image: url(../img/img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png);
+    background-size: cover;
+    background-position: center;
+    color: rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    font-family: sans-serif;
+    z-index: 999;
+  }

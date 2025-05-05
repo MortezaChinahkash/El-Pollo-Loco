@@ -97,17 +97,13 @@ class Character extends movableObject {
   checkCollisions() {
     setInterval(() => {
       if (this.isDeadState) return;
-
+  
       this.world.enemies.forEach((enemy) => {
-        if (this.isColliding(enemy) && !this.isHurt) {
-          this.hit(enemy.damage);
-          this.playHurtAnimation();
-          console.log(this.energy);
-
-          if (this.isDead()) {
-            this.playDeadSequence();
-          }
+        if (this.isColliding(enemy)) {
+          this.handleEnemyCollision(enemy);
         }
+        console.log(this.energy);
+        
       });
     }, 500);
   }
@@ -147,6 +143,30 @@ class Character extends movableObject {
       this.playAnimation(this.IMAGES_IDLE);
     }
   }
+
+  handleEnemyCollision(enemy) {
+    const playerBottom = this.y + this.offset.top + this.height - this.offset.bottom;
+    const enemyTop = enemy.y + enemy.offset.top;
+  
+    const isFalling = this.speedY < 0;
+  
+    const verticalHitFromAbove = playerBottom <= enemyTop + 10 && isFalling;
+  
+    if (verticalHitFromAbove) {
+      enemy.hit(100);
+      this.jump();
+    } else if (!this.isHurt) {
+      this.hit(enemy.damage);
+      this.playHurtAnimation();
+  
+      if (this.isDead()) {
+        this.playDeadSequence();
+      }
+    }
+    console.log(enemy.energy);
+    
+  }
+  
 
   handleInput() {
     if (this.isDeadState) return;
