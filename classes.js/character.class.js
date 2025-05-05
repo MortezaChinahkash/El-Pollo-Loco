@@ -96,26 +96,49 @@ class Character extends movableObject {
 
   checkCollisions() {
     setInterval(() => {
-      if (this.isDeadState) return;
+      if (this.isDeadState || this.isHurt) return;
+  
+      let jumpedOnEnemy = false;
+  
+      // Zuerst prüfen: Auf einen Gegner gesprungen?
       this.world.enemies.forEach((enemy) => {
-        if (this.isColliding(enemy)) {
-          const jumpedOnEnemy = this.isJumpingOn(enemy);
-          if (jumpedOnEnemy) {
-            enemy.hit(this.damage);
-            this.speedY = 15;
-            console.log(enemy.energy);
-          } else if (!this.isHurt) {
-            this.hit(enemy.damage);
-            this.playHurtAnimation()
-            if (this.isDead()) {
-              this.playDeadSequence();
-            }
-          }
+        if (this.isColliding(enemy) && this.isJumpingOn(enemy)) {
+          enemy.hit(this.damage);
+          this.speedY = 15;
+          jumpedOnEnemy = true;
         }
       });
+  
+      // Nur Schaden nehmen, wenn KEIN Gegner angesprungen wurde
+      if (!jumpedOnEnemy) {
+        const enemy = this.world.enemies.find(
+          (e) => this.isColliding(e)
+        );
+        if (enemy) {
+          this.hit(enemy.damage);
+        }
+      }
       console.log(this.energy);
       
+      
     }, 100);
+  }
+
+  hit(damage) {
+    if (this.isHurt) return;
+  
+    this.energy -= damage;
+    if (this.energy < 0) this.energy = 0;
+  
+    this.isHurt = true;
+    this.lastMovementTime = Date.now();
+    this.playHurtAnimation();
+  
+    if (this.isDead()) {
+      this.playDeadSequence();
+    }
+  
+    setTimeout(() => this.isHurt = false, 1000);
   }
 
   isJumpingOn(enemy) {

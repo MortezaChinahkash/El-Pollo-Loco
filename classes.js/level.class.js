@@ -18,7 +18,23 @@ class Level {
   }
 
   generateBackground() {
-    const backgrounds = [
+    const backgrounds = this.defineBG();
+    const segmentWidth = 719;
+    let startX = -719;
+    let blockIndex = 0;
+    while (startX < this.levelWidth) {
+      let block = backgrounds[blockIndex % backgrounds.length];
+      this.backgroundObjects.push(new BackgroundObject(block.air, startX, 480));
+      this.backgroundObjects.push(new BackgroundObject(block.third, startX, 400));
+      this.backgroundObjects.push(new BackgroundObject(block.second, startX, 400));
+      this.backgroundObjects.push(new BackgroundObject(block.first, startX, 400));
+      startX += segmentWidth;
+      blockIndex++;
+    }
+  }
+
+  defineBG() {
+    return [
       {
         air: "img/img_pollo_locco/img/5_background/layers/air.png",
         third:
@@ -38,29 +54,7 @@ class Level {
           "img/img_pollo_locco/img/5_background/layers/1_first_layer/2.png",
       },
     ];
-
-    const segmentWidth = 719;
-    let startX = -719;
-    let blockIndex = 0;
-    while (startX < this.levelWidth) {
-      let block = backgrounds[blockIndex % backgrounds.length];
-
-      this.backgroundObjects.push(new BackgroundObject(block.air, startX, 480));
-      this.backgroundObjects.push(
-        new BackgroundObject(block.third, startX, 400)
-      );
-      this.backgroundObjects.push(
-        new BackgroundObject(block.second, startX, 400)
-      );
-      this.backgroundObjects.push(
-        new BackgroundObject(block.first, startX, 400)
-      );
-
-      startX += segmentWidth;
-      blockIndex++;
-    }
   }
-
   generateClouds() {
     const numberOfClouds = Math.floor(this.levelWidth / 700);
     for (let i = 0; i < numberOfClouds; i++) {
@@ -72,16 +66,15 @@ class Level {
     const minChicken = Math.floor(this.levelWidth / 500);
     const maxChicken = Math.floor(this.levelWidth / 200);
     const count = minChicken + Math.floor(Math.random() * (maxChicken - minChicken + 1));
-  
     for (let i = 0; i < count; i++) {
-      const chickenDamage = 1 + this.levelNumber * 1.5;
+      const chickenDamage = 1 + this.levelNumber * 0.1;
       const chicken = new Chicken(this.levelWidth, chickenDamage);
       this.enemies.push(chicken);
     }
   }
-  
+
   generateEndboss() {
-    const bossDamage = 5 + this.levelNumber * 5;
+    const bossDamage = 5 + this.levelNumber * 1;
     const bossEnergy = 200 + this.levelNumber * 50;
     const boss = new Endboss(this.levelWidth, bossDamage, bossEnergy);
     this.enemies.push(boss);
