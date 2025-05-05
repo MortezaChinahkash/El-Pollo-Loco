@@ -75,8 +75,7 @@ class Level {
   
     for (let i = 0; i < count; i++) {
       const chickenDamage = 1 + this.levelNumber * 1.5;
-      const chickenEnergy = 100;
-      const chicken = new Chicken(this.levelWidth, chickenDamage, chickenEnergy);
+      const chicken = new Chicken(this.levelWidth, chickenDamage);
       this.enemies.push(chicken);
     }
   }

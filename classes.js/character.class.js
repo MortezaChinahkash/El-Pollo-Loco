@@ -5,7 +5,7 @@ class Character extends movableObject {
   height = 300;
   speed = 5;
   energy = 100;
-  damage;
+  damage = 100
   isHurt = false;
   isDeadState = false;
   lastMovementTime = Date.now();
@@ -97,15 +97,29 @@ class Character extends movableObject {
   checkCollisions() {
     setInterval(() => {
       if (this.isDeadState) return;
-  
       this.world.enemies.forEach((enemy) => {
         if (this.isColliding(enemy)) {
-          this.handleEnemyCollision(enemy);
+          const jumpedOnEnemy = this.isJumpingOn(enemy);
+          if (jumpedOnEnemy) {
+            enemy.hit(this.damage);
+            this.speedY = 15;
+            console.log(enemy.energy);
+          } else if (!this.isHurt) {
+            this.hit(enemy.damage);
+            this.playHurtAnimation()
+            if (this.isDead()) {
+              this.playDeadSequence();
+            }
+          }
         }
-        console.log(this.energy);
-        
       });
-    }, 500);
+      console.log(this.energy);
+      
+    }, 100);
+  }
+
+  isJumpingOn(enemy) {
+    return this.speedY < 0 && this.y + this.height - this.offset.bottom < enemy.y + enemy.height / 2;
   }
 
   playDeadSequence() {
@@ -143,30 +157,6 @@ class Character extends movableObject {
       this.playAnimation(this.IMAGES_IDLE);
     }
   }
-
-  handleEnemyCollision(enemy) {
-    const playerBottom = this.y + this.offset.top + this.height - this.offset.bottom;
-    const enemyTop = enemy.y + enemy.offset.top;
-  
-    const isFalling = this.speedY < 0;
-  
-    const verticalHitFromAbove = playerBottom <= enemyTop + 10 && isFalling;
-  
-    if (verticalHitFromAbove) {
-      enemy.hit(100);
-      this.jump();
-    } else if (!this.isHurt) {
-      this.hit(enemy.damage);
-      this.playHurtAnimation();
-  
-      if (this.isDead()) {
-        this.playDeadSequence();
-      }
-    }
-    console.log(enemy.energy);
-    
-  }
-  
 
   handleInput() {
     if (this.isDeadState) return;
