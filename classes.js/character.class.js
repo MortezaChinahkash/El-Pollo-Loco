@@ -8,6 +8,34 @@ class Character extends movableObject {
   damage;
   isHurt = false;
   isDeadState = false;
+  lastMovementTime = Date.now();
+  idleThreshold = 5000;
+
+  IMAGES_IDLE_LONG = [
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-11.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-12.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-13.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-14.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-15.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-16.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-17.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-18.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-19.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-20.png",
+  ];
+
+  IMAGES_IDLE = [
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-2.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-3.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-4.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-5.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-6.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-7.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-8.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-9.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-10.png",
+  ];
 
   IMAGES_WALKING = [
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png",
@@ -53,21 +81,23 @@ class Character extends movableObject {
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
+    this.loadImages(this.IMAGES_IDLE);
+    this.loadImages(this.IMAGES_IDLE_LONG);
     this.animate();
     this.applyGravity();
-    this.checkCollisions(); 
+    this.checkCollisions();
   }
 
   checkCollisions() {
     setInterval(() => {
       if (this.isDeadState) return;
-  
+
       this.world.enemies.forEach((enemy) => {
         if (this.isColliding(enemy) && !this.isHurt) {
           this.hit(enemy.damage);
           this.playHurtAnimation();
           console.log(this.energy);
-  
+
           if (this.isDead()) {
             this.playDeadSequence();
           }
@@ -79,17 +109,17 @@ class Character extends movableObject {
   playDeadSequence() {
     this.isDeadState = true;
     this.currentImage = 0;
-  
+
     let interval = setInterval(() => {
       if (this.currentImage < this.IMAGES_DEAD.length) {
         let path = this.IMAGES_DEAD[this.currentImage];
         this.img = this.imageCache[path];
         this.currentImage++;
       } else {
-        clearInterval(interval); 
+        clearInterval(interval);
         this.currentImage--;
       }
-    }, 100); 
+    }, 100);
   }
 
   animate() {
@@ -98,28 +128,42 @@ class Character extends movableObject {
   }
 
   charAnimations() {
-    if (this.isHurt) return;
-    if (this.isDeadState) return;
+    if (this.isHurt || this.isDeadState) return;
+    const now = Date.now();
+    const timeSinceLastMove = now - this.lastMovementTime;
     if (this.isAboveGround()) {
       this.playAnimation(this.IMAGES_JUMPING);
     } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       this.playAnimation(this.IMAGES_WALKING);
+    } else if (timeSinceLastMove >= this.idleThreshold) {
+      this.playAnimation(this.IMAGES_IDLE_LONG);
+    } else {
+      this.playAnimation(this.IMAGES_IDLE);
     }
   }
 
   handleInput() {
     if (this.isDeadState) return;
-    if (this.world.keyboard.RIGHT && this.x < this.world.level.levelWidth - this.width) {
+    let moved = false;
+    if (
+      this.world.keyboard.RIGHT &&
+      this.x < this.world.level.levelWidth - this.width
+    ) {
       this.moveRight();
+      moved = true;
     }
     if (this.world.keyboard.LEFT && this.x > 0) {
       this.moveLeft();
       this.otherDirection = true;
+      moved = true;
     }
     if (this.world.keyboard.UP && !this.isAboveGround()) {
       this.jump();
+      moved = true;
     }
-
+    if (moved) {
+      this.lastMovementTime = Date.now();
+    }
     let camLimit = this.world.level.levelWidth - this.world.canvas.width;
     this.setLevelWidth(camLimit);
   }

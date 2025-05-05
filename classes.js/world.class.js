@@ -19,7 +19,6 @@ class World {
     this.backgroundObjects = level.backgroundObjects;
     this.setWorld();
     this.draw();
-    // this.checkCollisions(); ❌ ENTFERNT!
   }
 
   setWorld() {
