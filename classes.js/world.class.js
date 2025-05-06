@@ -32,6 +32,7 @@ class World {
     setInterval(() => {
       this.checkCollision();
       this.checkThrowObjects();
+      this.bottleHitEnemy();
     }, 100);
   }
 
@@ -59,6 +60,16 @@ class World {
         this.character.hit(enemy.damage);
       }
     }
+  }
+
+  bottleHitEnemy() {
+    this.throwableObject.forEach((bottle) => {
+      this.enemies.forEach((enemy) => {
+        if (bottle.isColliding(enemy)) {
+          enemy.hit(this.character.damage);
+        }
+      });
+    });
   }
 
   draw() {

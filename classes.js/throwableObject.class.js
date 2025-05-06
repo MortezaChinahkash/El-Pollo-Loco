@@ -1,6 +1,7 @@
 class ThrowableObject extends movableObject {
   speedY;
   speedX;
+  damage = 100 
   offset = {
     top: 10,
     bottom: 10,
