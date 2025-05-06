@@ -8,6 +8,7 @@ class DrawableObject {
     imageCache = [];
     currentImage = 0;
 
+
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
@@ -26,7 +27,7 @@ class DrawableObject {
   }
 
   drawCollisionFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject){
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "blue";

@@ -9,6 +9,7 @@ class World {
   backgroundObjects;
   level;
   statusbar = new Statusbar(this.character);
+  throwableObject = [new ThrowableObject()];
 
   constructor(canvas, keyboard, level) {
     this.ctx = canvas.getContext("2d");
@@ -29,15 +30,14 @@ class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
-    
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.clouds);
     let sortedEnemies = [...this.enemies].sort((a, b) => a.y - b.y);
     this.addObjectsToMap(sortedEnemies);
+    this.addObjectsToMap(this.throwableObject)
     this.addToMap(this.character);
-    
     this.ctx.translate(-this.camera_x, 0);
-    this.addToMap(this.statusbar)
+    this.addToMap(this.statusbar);
     requestAnimationFrame(() => this.draw());
   }
 
