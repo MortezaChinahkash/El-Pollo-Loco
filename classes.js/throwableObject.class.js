@@ -24,16 +24,24 @@ class ThrowableObject extends movableObject {
     "img/img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png"
   ];
 
-  constructor() {
+  constructor(x, y) {
     super();
-    this.x = 100;
-    this.y = 100;
+    this.x = x
+    this.y = y
     this.width = 70
     this.height = 90 
     this.loadImages(this.IMAGES_BOTTLE_ROTATION)
     this.loadImages(this.IMAGES_BOTTLE_SPLASH)
     this.loadImage("img/img_pollo_locco/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png");
+    this.throw(100, 100)
   }
 
-  throw() {}
+  throw() {
+
+    this.speedY = 15
+    this.applyGravity()
+    setInterval(() => {
+        this.x += 5
+    }, 15);
+  }
 }

@@ -1,5 +1,4 @@
 class movableObject extends DrawableObject {
-  
   speed = 1;
   otherDirection = false;
   speedY = 0;
@@ -10,7 +9,7 @@ class movableObject extends DrawableObject {
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0
+    right: 0,
   };
 
   applyGravity() {
@@ -32,20 +31,24 @@ class movableObject extends DrawableObject {
       this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
     );
   }
-  
+
   hit(damage) {
     this.energy -= damage;
-    if (this.energy < 0){
-      this.energy = 0 
+    if (this.energy < 0) {
+      this.energy = 0;
     }
   }
 
-  isDead(){
+  isDead() {
     return this.energy == 0;
   }
 
   isAboveGround() {
-    return this.y < 135;
+    if (this instanceof ThrowableObject) {
+      return true;
+    } else {
+      return this.y < 135;
+    }
   }
 
   playAnimation(images) {
@@ -55,18 +58,17 @@ class movableObject extends DrawableObject {
     this.currentImage++;
   }
 
-  playDeadAnimation(){
+  playDeadAnimation() {
     this.playAnimation(this.IMAGES_DEAD);
-    setTimeout(() => {
-    }, this.IMAGES_DEAD.length * 10); 
+    setTimeout(() => {}, this.IMAGES_DEAD.length * 10);
   }
-  
+
   playHurtAnimation() {
     this.isHurt = true;
     this.playAnimation(this.IMAGES_HURT, false);
     setTimeout(() => {
       this.isHurt = false;
-    }, this.IMAGES_HURT.length * 10); 
+    }, this.IMAGES_HURT.length * 10);
   }
 
   moveRight() {

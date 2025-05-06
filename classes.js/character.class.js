@@ -5,7 +5,7 @@ class Character extends movableObject {
   height = 300;
   speed = 5;
   energy = 100;
-  damage = 100
+  damage = 100;
   isHurt = false;
   isDeadState = false;
   lastMovementTime = Date.now();
@@ -80,7 +80,7 @@ class Character extends movableObject {
       top: 120,
       bottom: 10,
       left: 20,
-      right: 30
+      right: 30,
     };
     this.loadImage("img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
@@ -91,64 +91,34 @@ class Character extends movableObject {
     this.loadImages(this.IMAGES_IDLE_LONG);
     this.animate();
     this.applyGravity();
-    this.checkCollisions();
+    
   }
 
-  checkCollisions() {
-    setInterval(() => {
-      if (this.isDeadState || this.isHurt) return;
   
-      let jumpedOnEnemy = false;
-  
-      // Zuerst prüfen: Auf einen Gegner gesprungen?
-      this.world.enemies.forEach((enemy) => {
-        if (this.isColliding(enemy) && this.isJumpingOn(enemy)) {
-          enemy.hit(this.damage);
-          this.speedY = 15;
-          jumpedOnEnemy = true;
-        }
-      });
-  
-      // Nur Schaden nehmen, wenn KEIN Gegner angesprungen wurde
-      if (!jumpedOnEnemy) {
-        const enemy = this.world.enemies.find(
-          (e) => this.isColliding(e)
-        );
-        if (enemy) {
-          this.hit(enemy.damage);
-        }
-      }
-      console.log(this.energy);
-      
-      
-    }, 100);
-  }
 
   hit(damage) {
     if (this.isHurt) return;
-  
     this.energy -= damage;
     if (this.energy < 0) this.energy = 0;
-  
     this.isHurt = true;
-    this.lastMovementTime = Date.now();
+    this.resetMovementTimer()
     this.playHurtAnimation();
-  
     if (this.isDead()) {
       this.playDeadSequence();
     }
-  
-    setTimeout(() => this.isHurt = false, 1000);
+    setTimeout(() => (this.isHurt = false), 1000);
   }
 
   isJumpingOn(enemy) {
-    return this.speedY < 0 && this.y + this.height - this.offset.bottom < enemy.y + enemy.height / 2;
+    return (
+      this.speedY < 0 &&
+      this.y + this.height - this.offset.bottom < enemy.y + enemy.height / 2
+    );
   }
 
   playDeadSequence() {
     this.isDeadState = true;
     this.currentImage = 0;
-
     let interval = setInterval(() => {
       if (this.currentImage < this.IMAGES_DEAD.length) {
         let path = this.IMAGES_DEAD[this.currentImage];
@@ -201,10 +171,14 @@ class Character extends movableObject {
       moved = true;
     }
     if (moved) {
-      this.lastMovementTime = Date.now();
+      this.resetMovementTimer()
     }
     let camLimit = this.world.level.levelWidth - this.world.canvas.width;
     this.setLevelWidth(camLimit);
+  }
+
+  resetMovementTimer(){
+    return this.lastMovementTime = Date.now();
   }
 
   setLevelWidth(camLimit) {

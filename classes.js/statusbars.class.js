@@ -25,8 +25,6 @@ class Statusbar extends DrawableObject {
   startSyncWithCharacter() {
     setInterval(() => {
       this.setPercentage(this.character.energy);
-      console.log(this.character.energy, "% müssten angezeigt werden");
-      
     }, 100); 
   }
 

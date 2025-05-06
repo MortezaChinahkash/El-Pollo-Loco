@@ -9,7 +9,7 @@ class World {
   backgroundObjects;
   level;
   statusbar = new Statusbar(this.character);
-  throwableObject = [new ThrowableObject()];
+  throwableObject = [];
 
   constructor(canvas, keyboard, level) {
     this.ctx = canvas.getContext("2d");
@@ -21,10 +21,44 @@ class World {
     this.backgroundObjects = level.backgroundObjects;
     this.setWorld();
     this.draw();
+    this.run();
   }
 
   setWorld() {
     this.character.world = this;
+  }
+
+  run() {
+    setInterval(() => {
+      this.checkCollision();
+      this.checkThrowObjects();
+    }, 100);
+  }
+
+  checkThrowObjects() {
+    if (this.keyboard.SPACE) {
+      this.character.resetMovementTimer()
+      let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+      this.throwableObject.push(bottle)
+    }
+  }
+
+  checkCollision() {
+    if (this.character.isDeadState || this.character.isHurt) return;
+    let jumpedOnEnemy = false;
+    this.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy) && this.character.isJumpingOn(enemy)) {
+        enemy.hit(this.character.damage);
+        this.character.speedY = 15;
+        jumpedOnEnemy = true;
+      }
+    });
+    if (!jumpedOnEnemy) {
+      const enemy = this.enemies.find((e) => this.character.isColliding(e));
+      if (enemy) {
+        this.character.hit(enemy.damage);
+      }
+    }
   }
 
   draw() {
