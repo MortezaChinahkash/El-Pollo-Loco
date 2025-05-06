@@ -1,18 +1,11 @@
-class movableObject {
-  x = 90;
-  y = 135;
-  img;
-  width = 150;
-  height = 300;
-  imageCache = [];
-  currentImage = 0;
+class movableObject extends DrawableObject {
+  
   speed = 1;
   otherDirection = false;
   speedY = 0;
   acceleration = 1.2;
   energy = 100;
   damage;
-
   offset = {
     top: 0,
     bottom: 0,
@@ -31,25 +24,9 @@ class movableObject {
     }, 1000 / 25);
   }
 
-  draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  }
+  
 
-  drawCollisionFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
-      ctx.beginPath();
-      ctx.lineWidth = "5";
-      ctx.strokeStyle = "blue";
-      ctx.rect(
-        this.x + this.offset.left,
-        this.y + this.offset.top,
-        this.width - this.offset.left - this.offset.right,
-        this.height - this.offset.top - this.offset.bottom
-      );
-      ctx.stroke();
-    }
-  }
-
+  
   
   isColliding(mo) {
     return (
@@ -73,19 +50,6 @@ class movableObject {
 
   isAboveGround() {
     return this.y < 135;
-  }
-
-  loadImage(path) {
-    this.img = new Image();
-    this.img.src = path;
-  }
-
-  loadImages(arr) {
-    arr.forEach((path) => {
-      let img = new Image();
-      img.src = path;
-      this.imageCache[path] = img;
-    });
   }
 
   playAnimation(images) {
