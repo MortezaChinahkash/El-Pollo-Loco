@@ -24,10 +24,6 @@ class movableObject extends DrawableObject {
     }, 1000 / 25);
   }
 
-  
-
-  
-  
   isColliding(mo) {
     return (
       this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
@@ -65,7 +61,6 @@ class movableObject extends DrawableObject {
     }, this.IMAGES_DEAD.length * 10); 
   }
   
-
   playHurtAnimation() {
     this.isHurt = true;
     this.playAnimation(this.IMAGES_HURT, false);

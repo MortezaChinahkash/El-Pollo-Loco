@@ -10,20 +10,31 @@ class Statusbar extends DrawableObject {
 
   percentage = 100;
 
-  constructor() {
+  constructor(character) {
     super();
+    this.character = character
     this.loadImages(this.IMAGES);
     this.setPercentage(100);
     this.x = 40;
     this.y = 0;
     this.width = 200
     this.height = 60
+    this.startSyncWithCharacter()
+  }
+
+  startSyncWithCharacter() {
+    setInterval(() => {
+      this.setPercentage(this.character.energy);
+      console.log(this.character.energy, "% müssten angezeigt werden");
+      
+    }, 100); 
   }
 
   setPercentage(percentage) {
     this.percentage = percentage;
     let path = this.IMAGES[this.resolveImageIndex()];
     this.img = this.imageCache[path];
+    
   }
 
   resolveImageIndex() {
@@ -33,9 +44,9 @@ class Statusbar extends DrawableObject {
       return 4;
     } else if (this.percentage > 60) {
       return 3;
-    } else if (this.percentage > 40) {
+    } else if (this.percentage > 30) {
       return 2;
-    } else if (this.percentage > 20) {
+    } else if (this.percentage > 0) {
       return 1;
     } else {
       return 0;

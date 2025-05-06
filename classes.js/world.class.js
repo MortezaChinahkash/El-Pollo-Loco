@@ -8,7 +8,7 @@ class World {
   camera_x = 0;
   backgroundObjects;
   level;
-  statusbar = new Statusbar();
+  statusbar = new Statusbar(this.character);
 
   constructor(canvas, keyboard, level) {
     this.ctx = canvas.getContext("2d");
