@@ -75,8 +75,9 @@ class Level {
 
   generateEndboss() {
     const bossDamage = 5 + this.levelNumber * 1;
-    const bossEnergy = 200 + this.levelNumber * 50;
-    const boss = new Endboss(this.levelWidth, bossDamage, bossEnergy);
+    const energy = 200 + this.levelNumber * 50;
+    const boss = new Endboss(this.levelWidth, bossDamage, energy);
+    this.boss = boss;                       
     this.enemies.push(boss);
   }
 }

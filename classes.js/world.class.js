@@ -8,7 +8,6 @@ class World {
   camera_x = 0;
   backgroundObjects;
   level;
-  statusbar = new Statusbar(this.character);
   throwableObject = [];
 
   constructor(canvas, keyboard, level) {
@@ -16,10 +15,15 @@ class World {
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.level = level;
+    this.character = new Character();
     this.enemies = level.enemies;
     this.clouds = level.clouds;
     this.backgroundObjects = level.backgroundObjects;
     this.setWorld();
+    this.healthBar = new Statusbar("health", this.character);
+    this.coinBar = new Statusbar("coins", this.character);
+    this.bottleBar = new Statusbar("bottles", this.character);
+    this.endbossBar = new Statusbar("endboss", this.level.boss);
     this.draw();
     this.run();
   }
@@ -38,9 +42,12 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.SPACE) {
-      this.character.resetMovementTimer()
-      let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-      this.throwableObject.push(bottle)
+      this.character.resetMovementTimer();
+      let bottle = new ThrowableObject(
+        this.character.x + 100,
+        this.character.y + 100
+      );
+      this.throwableObject.push(bottle);
     }
   }
 
@@ -48,7 +55,10 @@ class World {
     if (this.character.isDeadState || this.character.isHurt) return;
     let jumpedOnEnemy = false;
     this.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy) && this.character.isJumpingOn(enemy)) {
+      if (
+        this.character.isColliding(enemy) &&
+        this.character.isJumpingOn(enemy)
+      ) {
         enemy.hit(this.character.damage);
         this.character.speedY = 15;
         jumpedOnEnemy = true;
@@ -79,10 +89,15 @@ class World {
     this.addObjectsToMap(this.clouds);
     let sortedEnemies = [...this.enemies].sort((a, b) => a.y - b.y);
     this.addObjectsToMap(sortedEnemies);
-    this.addObjectsToMap(this.throwableObject)
+    this.addObjectsToMap(this.throwableObject);
     this.addToMap(this.character);
     this.ctx.translate(-this.camera_x, 0);
-    this.addToMap(this.statusbar);
+    this.healthBar.draw(this.ctx);
+    this.coinBar.draw(this.ctx);
+    this.bottleBar.draw(this.ctx);
+    this.ctx.translate(this.camera_x, 0);
+    this.endbossBar.draw(this.ctx);
+    this.ctx.translate(-this.camera_x, 0);
     requestAnimationFrame(() => this.draw());
   }
 

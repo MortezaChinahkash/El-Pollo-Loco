@@ -45,6 +45,7 @@ class Character extends movableObject {
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-25.png",
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-26.png",
   ];
+
   IMAGES_JUMPING = [
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-31.png",
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-32.png",
@@ -56,11 +57,13 @@ class Character extends movableObject {
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-38.png",
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-39.png",
   ];
+
   IMAGES_HURT = [
     "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-41.png",
     "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-42.png",
     "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-43.png",
   ];
+
   IMAGES_DEAD = [
     "img/img_pollo_locco/img/2_character_pepe/5_dead/D-51.png",
     "img/img_pollo_locco/img/2_character_pepe/5_dead/D-52.png",
@@ -82,6 +85,8 @@ class Character extends movableObject {
       left: 20,
       right: 30,
     };
+    this.coins = 0;
+    this.bottles = 0;
     this.loadImage("img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
@@ -91,17 +96,14 @@ class Character extends movableObject {
     this.loadImages(this.IMAGES_IDLE_LONG);
     this.animate();
     this.applyGravity();
-    
   }
-
-  
 
   hit(damage) {
     if (this.isHurt) return;
     this.energy -= damage;
     if (this.energy < 0) this.energy = 0;
     this.isHurt = true;
-    this.resetMovementTimer()
+    this.resetMovementTimer();
     this.playHurtAnimation();
     if (this.isDead()) {
       this.playDeadSequence();
@@ -138,6 +140,7 @@ class Character extends movableObject {
 
   charAnimations() {
     if (this.isHurt || this.isDeadState) return;
+    if (!this.world || !this.world.keyboard) return;
     const now = Date.now();
     const timeSinceLastMove = now - this.lastMovementTime;
     if (this.isAboveGround()) {
@@ -153,12 +156,15 @@ class Character extends movableObject {
 
   handleInput() {
     if (this.isDeadState) return;
+    if (!this.world || !this.world.keyboard || !this.world.level || !this.world.canvas) return;
+
     let moved = false;
     if (
       this.world.keyboard.RIGHT &&
       this.x < this.world.level.levelWidth - this.width
     ) {
       this.moveRight();
+      this.otherDirection = false;
       moved = true;
     }
     if (this.world.keyboard.LEFT && this.x > 0) {
@@ -171,13 +177,14 @@ class Character extends movableObject {
       moved = true;
     }
     if (moved) {
-      this.resetMovementTimer()
+      this.resetMovementTimer();
     }
+
     let camLimit = this.world.level.levelWidth - this.world.canvas.width;
     this.setLevelWidth(camLimit);
   }
 
-  resetMovementTimer(){
+  resetMovementTimer() {
     return this.lastMovementTime = Date.now();
   }
 
