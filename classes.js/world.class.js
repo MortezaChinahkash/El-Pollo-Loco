@@ -9,6 +9,7 @@ class World {
   backgroundObjects;
   level;
   throwableObject = [];
+  lastBottleThrowTime = 0;
 
   constructor(canvas, keyboard, level) {
     this.ctx = canvas.getContext("2d");
@@ -28,8 +29,20 @@ class World {
     this.run();
   }
 
+
   setWorld() {
     this.character.world = this;
+  }
+
+  checkThrowObjects() {
+    const now = Date.now();
+  
+    if (this.keyboard.SPACE && now - this.lastBottleThrowTime >= 1000) {
+      this.character.resetMovementTimer();
+      let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+      this.throwableObject.push(bottle);
+      this.lastBottleThrowTime = now; 
+    }
   }
 
   run() {
@@ -37,19 +50,12 @@ class World {
       this.checkCollision();
       this.checkThrowObjects();
       this.bottleHitEnemy();
-    }, 100);
-  }
+  
+      this.throwableObject = this.throwableObject.filter(obj => !obj.markedForDeletion);
+    this.enemies = this.enemies.filter(enemy => !enemy.markedForDeletion);
+  }, 50);
+}
 
-  checkThrowObjects() {
-    if (this.keyboard.SPACE) {
-      this.character.resetMovementTimer();
-      let bottle = new ThrowableObject(
-        this.character.x + 100,
-        this.character.y + 100
-      );
-      this.throwableObject.push(bottle);
-    }
-  }
 
   checkCollision() {
     if (this.character.isDeadState || this.character.isHurt) return;
@@ -75,8 +81,13 @@ class World {
   bottleHitEnemy() {
     this.throwableObject.forEach((bottle) => {
       this.enemies.forEach((enemy) => {
-        if (bottle.isColliding(enemy)) {
-          enemy.hit(this.character.damage);
+        if (
+          !bottle.isSplashing &&                     // Flasche splasht gerade nicht
+          !enemy.markedForDeletion &&                // Gegner ist noch aktiv
+          bottle.isColliding(enemy)                  // Es findet eine Kollision statt
+        ) {
+          enemy.hit(this.character.damage);          // Gegner bekommt Schaden
+          bottle.splash();                           // Flasche spielt Splash-Animation
         }
       });
     });
