@@ -11,6 +11,11 @@ class Endboss extends movableObject {
   jumpingAttack = false;
   isLooping = false;
   isAnimating = false;
+  width = 250;
+  height = 300;
+  x = this.levelWidth + 300;
+  y = 110;
+  speed = 20;
 
   IMAGES_WALKING = [
     "img/img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -55,11 +60,6 @@ class Endboss extends movableObject {
     this.levelWidth = levelWidth;
     this.damage = damage;
     this.energy = energy;
-    this.width = 250;
-    this.height = 300;
-    this.x = this.levelWidth + 300;
-    this.y = 110;
-    this.speed = 20;
     this.loadImage(this.IMAGES_ALERT[0]);
     this.loadImages(this.IMAGES_ALERT);
     this.loadImages(this.IMAGES_WALKING);
@@ -71,7 +71,6 @@ class Endboss extends movableObject {
   activate() {
     this.activated = true;
     this.movingIn = true;
-
     this.moveInInterval = setInterval(() => {
       if (this.x > this.levelWidth - this.width) {
         this.x -= 5;
@@ -101,48 +100,42 @@ class Endboss extends movableObject {
         clearInterval(this.attackInterval);
         return;
       }
-
       const player = this.world?.character;
       if (!player) return;
-
       const distanceToPlayer = Math.abs(this.x - player.x);
       const step = 3;
       this.otherDirection = player.x < this.x;
-
-      if (!this.jumpingAttack && !this.isAnimating) {
-        this.loopAnimation(this.IMAGES_WALKING, 200);
-
-        if (this.x < player.x - 10) this.x += step;
-        else if (this.x > player.x + 10) this.x -= step;
-      }
-
-      if (
-        distanceToPlayer < 150 &&
-        !this.jumpingAttack &&
-        !this.isAboveGround()
-      ) {
-        this.jumpingAttack = true;
-        this.speedY = 20;
-
-        // ✅ X-Bewegung im Moment des Absprungs, Richtung Spieler
-        const direction = player.x < this.x ? -1 : 1;
-        this.x += direction * 40;
-
-        this.playFullAnimationOnce(this.IMAGES_ATTACK, () => {
-          this.jumpingAttack = false;
-        }, 140);
-      }
+      this.walkToPlayer(player, step);
+      this.handleJumpAttack(player, distanceToPlayer);
     }, 1000 / 30);
+  }
+
+  walkToPlayer(){
+    if (!this.jumpingAttack && !this.isAnimating) {
+      this.loopAnimation(this.IMAGES_WALKING, 200);
+      if (this.x < player.x - 10) this.x += step;
+      else if (this.x > player.x + 10) this.x -= step;
+    }
+  }
+
+  handleJumpAttack(player, distanceToPlayer) {
+    if (distanceToPlayer < 150 && !this.jumpingAttack && !this.isAboveGround()) {
+      this.jumpingAttack = true;
+      this.speedY = 20;
+      const direction = player.x < this.x ? -1 : 1;
+      this.x += direction * 50;
+      this.playFullAnimationOnce(this.IMAGES_ATTACK, () => {
+        this.jumpingAttack = false;
+      }, 140);
+    }
   }
 
   loopAnimation(images, interval = 200) {
     if (this.currentAnimationImages === images && this.isLooping) return;
     this.stopCurrentAnimation();
-
     this.currentAnimationImages = images;
     this.currentImage = 0;
     this.isLooping = true;
-
     this.currentAnimationInterval = setInterval(() => {
       const path = images[this.currentImage];
       this.img = this.imageCache[path];
@@ -155,7 +148,6 @@ class Endboss extends movableObject {
     this.stopCurrentAnimation();
     this.isAnimating = true;
     this.currentImage = 0;
-
     this.currentAnimationInterval = setInterval(() => {
       if (this.currentImage < images.length) {
         const path = images[this.currentImage];
@@ -184,7 +176,6 @@ class Endboss extends movableObject {
     this.currentImage = 0;
     this.opacity = 1;
     this.stopCurrentAnimation();
-
     this.deathInterval = setInterval(() => {
       if (this.currentImage < this.IMAGES_DEAD.length) {
         const path = this.IMAGES_DEAD[this.currentImage];

@@ -148,14 +148,10 @@ xlogger(){
 
   charAnimations() {
     if (this.isHurt || this.isDeadState) return;
-  
     const bossIsEntering = this.world.level.boss?.movingIn;
-  
     const now = Date.now();
     const timeSinceLastMove = now - this.lastMovementTime;
-  
     if (bossIsEntering) {
-      // Wenn Boss reinläuft: Nur Idle-Animation
       this.playAnimation(this.IMAGES_IDLE);
     } else if (this.isAboveGround()) {
       this.playAnimation(this.IMAGES_JUMPING);
@@ -169,7 +165,7 @@ xlogger(){
   }
 
   handleInput() {
-    if (this.isDeadState || this.world?.level?.boss?.movingIn) return; // ❗ blockiert während Boss reinläuft
+    if (this.isDeadState || this.world?.level?.boss?.movingIn) return;
   
     let moved = false;
   
