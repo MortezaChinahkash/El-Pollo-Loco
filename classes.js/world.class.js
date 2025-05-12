@@ -30,6 +30,7 @@ class World {
     this.coinBar = new Statusbar("coins", this.character, 10);
     this.bottleBar = new Statusbar("bottles", this.character, this.maxBottles);
     this.endbossBar = new Statusbar("endboss", this.level.boss);
+    this.level.boss.world = this;
     this.draw();
     this.run();
     this.bottleSpawnCount = 0;
