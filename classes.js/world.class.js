@@ -20,11 +20,15 @@ class World {
     this.enemies = level.enemies;
     this.clouds = level.clouds;
     this.backgroundObjects = level.backgroundObjects;
+    this.collectableItems = level.collectableItems || [];
+    this.maxBottles = this.collectableItems.filter(
+      (i) => i.type === "bottle"
+    ).length;
     this.END_BOSS_TRIGGER_X = this.level.levelWidth - 690;
     this.setWorld();
     this.healthBar = new Statusbar("health", this.character);
-    this.coinBar = new Statusbar("coins", this.character);
-    this.bottleBar = new Statusbar("bottles", this.character);
+    this.coinBar = new Statusbar("coins", this.character, 10);
+    this.bottleBar = new Statusbar("bottles", this.character, this.maxBottles);
     this.endbossBar = new Statusbar("endboss", this.level.boss);
     this.draw();
     this.run();
@@ -32,18 +36,37 @@ class World {
 
   setWorld() {
     this.character.world = this;
+    this.character.animate();
+  }
+
+  checkCollectableItems() {
+    this.collectableItems.forEach((item) => {
+      if (!item.collected && this.character.isColliding(item)) {
+        item.collect(this.character);
+      }
+    });
+
+    // Entferne eingesammelte Items aus dem Array
+    this.collectableItems = this.collectableItems.filter(
+      (item) => !item.markedForDeletion
+    );
   }
 
   checkThrowObjects() {
     const now = Date.now();
     if (this.character.world.level.boss?.movingIn) return;
-    if (this.keyboard.SPACE && now - this.lastBottleThrowTime >= 1000) {
+    if (
+      this.keyboard.SPACE &&
+      now - this.lastBottleThrowTime >= 1000 &&
+      this.character.bottles > 0 // ❗ Nur wenn Flaschen vorhanden sind
+    ) {
       this.character.resetMovementTimer();
       let bottle = new ThrowableObject(
         this.character.x + 100,
         this.character.y + 100
       );
       this.throwableObject.push(bottle);
+      this.character.bottles--; // ❗ Eine Flasche wird verbraucht
       this.lastBottleThrowTime = now;
     }
   }
@@ -54,15 +77,22 @@ class World {
       this.checkThrowObjects();
       this.bottleHitEnemy();
       this.activateBoss();
-      this.throwableObject = this.throwableObject.filter(obj => !obj.markedForDeletion);
-      this.enemies = this.enemies.filter(enemy => !enemy.markedForDeletion);
+      this.checkCollectableItems();
+      this.throwableObject = this.throwableObject.filter(
+        (obj) => !obj.markedForDeletion
+      );
+      this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion);
     }, 10);
   }
 
   activateBoss() {
     const boss = this.level.enemies.find((e) => e instanceof Endboss);
-  
-    if (boss && !boss.activated && this.character.x >= this.END_BOSS_TRIGGER_X) {
+
+    if (
+      boss &&
+      !boss.activated &&
+      this.character.x >= this.END_BOSS_TRIGGER_X
+    ) {
       console.log("Boss aktiviert!");
       boss.activate();
     }
@@ -107,12 +137,18 @@ class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
+
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.clouds);
+
     let sortedEnemies = [...this.enemies].sort((a, b) => a.y - b.y);
     this.addObjectsToMap(sortedEnemies);
+
     this.addObjectsToMap(this.throwableObject);
     this.addToMap(this.character);
+
+    this.addObjectsToMap(this.collectableItems); // 🟡 Coins & Bottles hier zeichnen
+
     this.ctx.translate(-this.camera_x, 0);
     this.healthBar.draw(this.ctx);
     this.coinBar.draw(this.ctx);
@@ -120,6 +156,7 @@ class World {
     this.ctx.translate(this.camera_x, 0);
     this.endbossBar.draw(this.ctx);
     this.ctx.translate(-this.camera_x, 0);
+
     requestAnimationFrame(() => this.draw());
   }
 
