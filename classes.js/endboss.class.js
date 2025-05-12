@@ -13,7 +13,6 @@ class Endboss extends movableObject {
   isAnimating = false;
   width = 250;
   height = 300;
-  x = this.levelWidth + 300;
   y = 110;
   speed = 20;
 
@@ -60,6 +59,7 @@ class Endboss extends movableObject {
     this.levelWidth = levelWidth;
     this.damage = damage;
     this.energy = energy;
+    this.x = this.levelWidth + 300;
     this.loadImage(this.IMAGES_ALERT[0]);
     this.loadImages(this.IMAGES_ALERT);
     this.loadImages(this.IMAGES_WALKING);
@@ -110,7 +110,7 @@ class Endboss extends movableObject {
     }, 1000 / 30);
   }
 
-  walkToPlayer(){
+  walkToPlayer(player,step){
     if (!this.jumpingAttack && !this.isAnimating) {
       this.loopAnimation(this.IMAGES_WALKING, 200);
       if (this.x < player.x - 10) this.x += step;

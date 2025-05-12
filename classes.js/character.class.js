@@ -93,18 +93,16 @@ class Character extends movableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_IDLE);
-    this.loadImages(this.IMAGES_IDLE_LONG)
+    this.loadImages(this.IMAGES_IDLE_LONG);
     this.applyGravity();
-    this.xlogger()
+    this.xlogger();
   }
 
-xlogger(){
-  setInterval(() => {
-    console.log(this.x)  
-  }, 1000);
-  ;
-  //levelwidth - 690
-}
+  xlogger() {
+    setInterval(() => {
+      console.log(this.x);
+    }, 1000);
+  }
 
   hit(damage) {
     if (this.isHurt) return;
@@ -151,24 +149,22 @@ xlogger(){
     const bossIsEntering = this.world.level.boss?.movingIn;
     const now = Date.now();
     const timeSinceLastMove = now - this.lastMovementTime;
-    if (bossIsEntering) {
-      this.playAnimation(this.IMAGES_IDLE);
-    } else if (this.isAboveGround()) {
-      this.playAnimation(this.IMAGES_JUMPING);
-    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-      this.playAnimation(this.IMAGES_WALKING);
-    } else if (timeSinceLastMove >= this.idleThreshold) {
-      this.playAnimation(this.IMAGES_IDLE_LONG);
-    } else {
-      this.playAnimation(this.IMAGES_IDLE);
-    }
+    this.playAnimation(
+      bossIsEntering
+        ? this.IMAGES_IDLE
+        : this.isAboveGround()
+        ? this.IMAGES_JUMPING
+        : this.world.keyboard.RIGHT || this.world.keyboard.LEFT
+        ? this.IMAGES_WALKING
+        : timeSinceLastMove >= this.idleThreshold
+        ? this.IMAGES_IDLE_LONG
+        : this.IMAGES_IDLE
+    );
   }
 
   handleInput() {
     if (this.isDeadState || this.world?.level?.boss?.movingIn) return;
-  
     let moved = false;
-  
     if (this.world.keyboard.RIGHT && this.x < this.world.level.levelWidth - this.width) {
       this.moveRight();
       moved = true;
@@ -182,20 +178,17 @@ xlogger(){
       this.jump();
       moved = true;
     }
-  
     if (moved) this.resetMovementTimer();
-  
-    let camLimit = this.world.level.levelWidth - this.world.canvas.width;
+    const camLimit = this.world.level.levelWidth - this.world.canvas.width;
     this.setLevelWidth(camLimit);
   }
 
   resetMovementTimer() {
-    return this.lastMovementTime = Date.now();
+    return (this.lastMovementTime = Date.now());
   }
 
   setLevelWidth(camLimit) {
     const boss = this.world.level.boss;
-  
     if (boss?.movingIn) {
       this.world.camera_x = Math.min(0, -(this.x - 25));
     } else {
