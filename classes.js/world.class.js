@@ -32,6 +32,7 @@ class World {
     this.endbossBar = new Statusbar("endboss", this.level.boss);
     this.draw();
     this.run();
+    this.bottleSpawnCount = 0;
   }
 
   setWorld() {
@@ -39,14 +40,21 @@ class World {
     this.character.animate();
   }
 
+  spawnNewBottle() {
+  if (this.bottleSpawnCount >= this.maxBottles) return;
+  const x = 300 + Math.random() * (this.level.levelWidth - 600);
+  const y = 370;
+  const newBottle = new CollectableItem(x, y, 'bottle');
+  this.collectableItems.push(newBottle);
+  this.bottleSpawnCount++;
+}
+
   checkCollectableItems() {
     this.collectableItems.forEach((item) => {
       if (!item.collected && this.character.isColliding(item)) {
         item.collect(this.character);
       }
     });
-
-    // Entferne eingesammelte Items aus dem Array
     this.collectableItems = this.collectableItems.filter(
       (item) => !item.markedForDeletion
     );
@@ -58,7 +66,7 @@ class World {
     if (
       this.keyboard.SPACE &&
       now - this.lastBottleThrowTime >= 1000 &&
-      this.character.bottles > 0 // ❗ Nur wenn Flaschen vorhanden sind
+      this.character.bottles > 0 
     ) {
       this.character.resetMovementTimer();
       let bottle = new ThrowableObject(
@@ -66,7 +74,7 @@ class World {
         this.character.y + 100
       );
       this.throwableObject.push(bottle);
-      this.character.bottles--; // ❗ Eine Flasche wird verbraucht
+      this.character.bottles--; 
       this.lastBottleThrowTime = now;
     }
   }
@@ -121,16 +129,21 @@ class World {
 
   bottleHitEnemy() {
     this.throwableObject.forEach((bottle) => {
-      this.enemies.forEach((enemy) => {
-        if (
-          !bottle.isSplashing && // Flasche splasht gerade nicht
-          !enemy.markedForDeletion && // Gegner ist noch aktiv
-          bottle.isColliding(enemy) // Es findet eine Kollision statt
-        ) {
-          enemy.hit(this.character.damage); // Gegner bekommt Schaden
-          bottle.splash(); // Flasche spielt Splash-Animation
-        }
-      });
+      // Flasche fliegt noch? Prüfe Kollision
+      if (!bottle.isSplashing) {
+        this.enemies.forEach((enemy) => {
+          if (!enemy.markedForDeletion && bottle.isColliding(enemy)) {
+            enemy.hit(this.character.damage);   // Gegner bekommt Schaden
+            bottle.splash();                    // Flasche explodiert sofort
+          }
+        });
+      }
+  
+      // Flasche ist gesplasht? Dann ggf. respawnen
+      if (bottle.isSplashing && !bottle.respawnHandled) {
+        this.spawnNewBottle();
+        bottle.respawnHandled = true;
+      }
     });
   }
 
@@ -147,7 +160,7 @@ class World {
     this.addObjectsToMap(this.throwableObject);
     this.addToMap(this.character);
 
-    this.addObjectsToMap(this.collectableItems); // 🟡 Coins & Bottles hier zeichnen
+    this.addObjectsToMap(this.collectableItems);
 
     this.ctx.translate(-this.camera_x, 0);
     this.healthBar.draw(this.ctx);

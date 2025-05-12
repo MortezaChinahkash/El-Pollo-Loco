@@ -9,6 +9,7 @@ class ThrowableObject extends movableObject {
     right: 30
   };
   isSplashing = false 
+  respawnHandled = false;
 
   IMAGES_BOTTLE_ROTATION = [
     "img/img_pollo_locco/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
