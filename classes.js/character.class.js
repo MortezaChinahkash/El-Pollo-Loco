@@ -9,7 +9,7 @@ class Character extends movableObject {
   isHurt = false;
   isDeadState = false;
   lastMovementTime = Date.now();
-  idleThreshold = 5000;
+  idleThreshold = 10000;
 
   IMAGES_IDLE_LONG = [
     "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-11.png",
@@ -96,7 +96,16 @@ class Character extends movableObject {
     this.loadImages(this.IMAGES_IDLE_LONG);
     this.animate();
     this.applyGravity();
+    this.xlogger()
   }
+
+xlogger(){
+  setInterval(() => {
+    console.log(this.x)  
+  }, 1000);
+  ;
+  //levelwidth - 690
+}
 
   hit(damage) {
     if (this.isHurt) return;
@@ -140,10 +149,16 @@ class Character extends movableObject {
 
   charAnimations() {
     if (this.isHurt || this.isDeadState) return;
-    if (!this.world || !this.world.keyboard) return;
+  
+    const bossIsEntering = this.world.level.boss?.movingIn;
+  
     const now = Date.now();
     const timeSinceLastMove = now - this.lastMovementTime;
-    if (this.isAboveGround()) {
+  
+    if (bossIsEntering) {
+      // Wenn Boss reinläuft: Nur Idle-Animation
+      this.playAnimation(this.IMAGES_IDLE);
+    } else if (this.isAboveGround()) {
       this.playAnimation(this.IMAGES_JUMPING);
     } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       this.playAnimation(this.IMAGES_WALKING);
@@ -155,16 +170,12 @@ class Character extends movableObject {
   }
 
   handleInput() {
-    if (this.isDeadState) return;
-    if (!this.world || !this.world.keyboard || !this.world.level || !this.world.canvas) return;
-
+    if (this.isDeadState || this.world?.level?.boss?.movingIn) return; // ❗ blockiert während Boss reinläuft
+  
     let moved = false;
-    if (
-      this.world.keyboard.RIGHT &&
-      this.x < this.world.level.levelWidth - this.width
-    ) {
+  
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.levelWidth - this.width) {
       this.moveRight();
-      this.otherDirection = false;
       moved = true;
     }
     if (this.world.keyboard.LEFT && this.x > 0) {
@@ -176,10 +187,9 @@ class Character extends movableObject {
       this.jump();
       moved = true;
     }
-    if (moved) {
-      this.resetMovementTimer();
-    }
-
+  
+    if (moved) this.resetMovementTimer();
+  
     let camLimit = this.world.level.levelWidth - this.world.canvas.width;
     this.setLevelWidth(camLimit);
   }
@@ -189,7 +199,13 @@ class Character extends movableObject {
   }
 
   setLevelWidth(camLimit) {
-    this.world.camera_x = Math.min(25, -(this.x - 25));
-    this.world.camera_x = Math.max(this.world.camera_x, -camLimit);
+    const boss = this.world.level.boss;
+  
+    if (boss?.movingIn) {
+      this.world.camera_x = Math.min(0, -(this.x - 25));
+    } else {
+      this.world.camera_x = Math.min(25, -(this.x - 25));
+      this.world.camera_x = Math.max(this.world.camera_x, -camLimit);
+    }
   }
 }

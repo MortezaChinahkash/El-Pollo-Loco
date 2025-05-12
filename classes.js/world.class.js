@@ -20,6 +20,7 @@ class World {
     this.enemies = level.enemies;
     this.clouds = level.clouds;
     this.backgroundObjects = level.backgroundObjects;
+    this.END_BOSS_TRIGGER_X = this.level.levelWidth - 690;
     this.setWorld();
     this.healthBar = new Statusbar("health", this.character);
     this.coinBar = new Statusbar("coins", this.character);
@@ -29,19 +30,21 @@ class World {
     this.run();
   }
 
-
   setWorld() {
     this.character.world = this;
   }
 
   checkThrowObjects() {
     const now = Date.now();
-  
+    if (this.character.world.level.boss?.movingIn) return;
     if (this.keyboard.SPACE && now - this.lastBottleThrowTime >= 1000) {
       this.character.resetMovementTimer();
-      let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+      let bottle = new ThrowableObject(
+        this.character.x + 100,
+        this.character.y + 100
+      );
       this.throwableObject.push(bottle);
-      this.lastBottleThrowTime = now; 
+      this.lastBottleThrowTime = now;
     }
   }
 
@@ -50,12 +53,20 @@ class World {
       this.checkCollision();
       this.checkThrowObjects();
       this.bottleHitEnemy();
-  
+      this.activateBoss();
       this.throwableObject = this.throwableObject.filter(obj => !obj.markedForDeletion);
-    this.enemies = this.enemies.filter(enemy => !enemy.markedForDeletion);
-  }, 50);
-}
+      this.enemies = this.enemies.filter(enemy => !enemy.markedForDeletion);
+    }, 10);
+  }
 
+  activateBoss() {
+    const boss = this.level.enemies.find((e) => e instanceof Endboss);
+  
+    if (boss && !boss.activated && this.character.x >= this.END_BOSS_TRIGGER_X) {
+      console.log("Boss aktiviert!");
+      boss.activate();
+    }
+  }
 
   checkCollision() {
     if (this.character.isDeadState || this.character.isHurt) return;
@@ -82,12 +93,12 @@ class World {
     this.throwableObject.forEach((bottle) => {
       this.enemies.forEach((enemy) => {
         if (
-          !bottle.isSplashing &&                     // Flasche splasht gerade nicht
-          !enemy.markedForDeletion &&                // Gegner ist noch aktiv
-          bottle.isColliding(enemy)                  // Es findet eine Kollision statt
+          !bottle.isSplashing && // Flasche splasht gerade nicht
+          !enemy.markedForDeletion && // Gegner ist noch aktiv
+          bottle.isColliding(enemy) // Es findet eine Kollision statt
         ) {
-          enemy.hit(this.character.damage);          // Gegner bekommt Schaden
-          bottle.splash();                           // Flasche spielt Splash-Animation
+          enemy.hit(this.character.damage); // Gegner bekommt Schaden
+          bottle.splash(); // Flasche spielt Splash-Animation
         }
       });
     });
