@@ -13,6 +13,24 @@ class Endboss extends movableObject {
       right: 20,
     };
   
+    IMAGES_WALKING =[
+      "img/img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G1.png",
+      "img/img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G2.png",
+      "img/img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G3.png",
+      "img/img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G4.png",
+    ]
+
+    IMAGES_ATTACK =[
+      "img/img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G13.png",
+      "img/img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G14.png",
+      "img/img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G15.png",
+      "img/img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G16.png",
+      "img/img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G17.png",
+      "img/img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G18.png",
+      "img/img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G19.png",
+      "img/img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G20.png",
+    ]
+
     IMAGES_ALERT = [
       "img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png",
       "img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G6.png",
@@ -67,7 +85,7 @@ class Endboss extends movableObject {
     }
   
     startAlert() {
-      if (this.alertInterval) return; // Verhindere mehrfach
+      if (this.alertInterval) return; 
       this.alertInterval = setInterval(() => {
         if (!this.isDead() && !this.isDying) {
           this.playAnimation(this.IMAGES_ALERT);
