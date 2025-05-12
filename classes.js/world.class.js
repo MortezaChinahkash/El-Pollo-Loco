@@ -121,7 +121,8 @@ class World {
     });
     if (!jumpedOnEnemy) {
       const enemy = this.enemies.find((e) => this.character.isColliding(e));
-      if (enemy) {
+    
+      if (enemy && !(enemy instanceof Chicken && this.character.isJumpingOn(enemy))) {
         this.character.hit(enemy.damage);
       }
     }
@@ -129,22 +130,23 @@ class World {
 
   bottleHitEnemy() {
     this.throwableObject.forEach((bottle) => {
-      // Flasche fliegt noch? Prüfe Kollision
       if (!bottle.isSplashing) {
         this.enemies.forEach((enemy) => {
           if (!enemy.markedForDeletion && bottle.isColliding(enemy)) {
-            enemy.hit(this.character.damage);   // Gegner bekommt Schaden
-            bottle.splash();                    // Flasche explodiert sofort
+            enemy.hit(this.character.damage);  
+            bottle.splash();                   
           }
         });
       }
-  
-      // Flasche ist gesplasht? Dann ggf. respawnen
-      if (bottle.isSplashing && !bottle.respawnHandled) {
-        this.spawnNewBottle();
-        bottle.respawnHandled = true;
-      }
+      this.respawnAfterSplash(bottle)
     });
+  }
+
+  respawnAfterSplash(bottle){
+    if (bottle.isSplashing && !bottle.respawnHandled) {
+      this.spawnNewBottle();
+      bottle.respawnHandled = true;
+    }
   }
 
   draw() {

@@ -1,4 +1,11 @@
 class CollectableItem extends movableObject {
+
+  offset = {
+    top: 15,
+    bottom: 5,
+    left: 20,
+    right: 10,
+  };
     constructor(x, y, type) {
       super();
       this.x = x;
@@ -12,7 +19,13 @@ class CollectableItem extends movableObject {
       this.loadImage(this.getImagePath());
   
       if (this.type === 'coin') {
-        this.startFloating(); // ✨ Animation für Coin
+        this.startFloating(); 
+        this.offset = {
+          top: 30,
+          bottom:30,
+          left:30,
+          right:30
+        }
       }
     }
   

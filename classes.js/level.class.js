@@ -93,18 +93,14 @@ class Level {
   generateCollectables() {
     const coinCount = Math.min(10, Math.floor(this.levelWidth / 400));
     const bottleCount = Math.ceil((200 + this.levelNumber * 50) / 100) + 2;
-
-    // ➕ Coins an verschiedenen Höhen schwebend
     for (let i = 0; i < coinCount; i++) {
       const x = 300 + Math.random() * (this.levelWidth - 600);
-      const y = 250 + Math.random() * 50; // schweben zwischen 250 und 300
+      const y = 250 + Math.random() * 50;
       this.collectableItems.push(new CollectableItem(x, y, "coin"));
     }
-
-    // ➕ Bottles am Boden verteilt
     for (let i = 0; i < bottleCount; i++) {
       const x = 300 + Math.random() * (this.levelWidth - 600);
-      const y = 370; // Bodenhöhe
+      const y = 370;
       this.collectableItems.push(new CollectableItem(x, y, "bottle"));
     }
   }

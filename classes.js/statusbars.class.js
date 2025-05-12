@@ -1,14 +1,14 @@
 class Statusbar extends DrawableObject {
   percentage = 100;
   type;
-  maxValue = 100; // z. B. Anzahl aller Flaschen auf der Map
+  maxValue = 100; 
   IMAGES = {};
 
   constructor(type, linkedObject = null, maxValue = 100) {
     super();
     this.type = type;
     this.maxValue = maxValue;
-    this.initImages(); // ✅ stellt sicher, dass IMAGES geladen sind
+    this.initImages(); 
     this.loadImages(this.IMAGES[type]);
     this.setPercentage(100);
 
