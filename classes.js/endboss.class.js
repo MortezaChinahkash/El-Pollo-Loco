@@ -123,7 +123,7 @@ class Endboss extends movableObject {
       this.jumpingAttack = true;
       this.speedY = 20;
       const direction = player.x < this.x ? -1 : 1;
-      this.x += direction * 50;
+      this.x += direction * 70;
       this.playFullAnimationOnce(this.IMAGES_ATTACK, () => {
         this.jumpingAttack = false;
       }, 140);

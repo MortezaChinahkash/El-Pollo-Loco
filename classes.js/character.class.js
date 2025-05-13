@@ -11,6 +11,7 @@ class Character extends movableObject {
   lastMovementTime = Date.now();
   idleThreshold = 10000;
   invulnerable = false;
+  hasFullyDied = false;
 
   IMAGES_IDLE_LONG = [
     "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-11.png",
@@ -131,19 +132,20 @@ logger() {
   }
 
   playDeadSequence() {
-    this.isDeadState = true;
-    this.currentImage = 0;
-    let interval = setInterval(() => {
-      if (this.currentImage < this.IMAGES_DEAD.length) {
-        let path = this.IMAGES_DEAD[this.currentImage];
-        this.img = this.imageCache[path];
-        this.currentImage++;
-      } else {
-        clearInterval(interval);
-        this.currentImage--;
-      }
-    }, 100);
-  }
+  this.isDeadState = true;
+  this.currentImage = 0;
+  let interval = setInterval(() => {
+    if (this.currentImage < this.IMAGES_DEAD.length) {
+      let path = this.IMAGES_DEAD[this.currentImage];
+      this.img = this.imageCache[path];
+      this.currentImage++;
+    } else {
+      clearInterval(interval);
+      this.currentImage--;
+      this.hasFullyDied = true; 
+    }
+  }, 100);
+}
 
   animate() {
     setInterval(() => this.handleInput(), 1000 / 60);

@@ -10,6 +10,8 @@ class World {
   level;
   throwableObject = [];
   lastBottleThrowTime = 0;
+  gameWon = false;
+  gameOver = false;
 
   constructor(canvas, keyboard, level) {
     this.ctx = canvas.getContext("2d");
@@ -29,7 +31,11 @@ class World {
     this.healthBar = new Statusbar("health", this.character);
     this.coinBar = new Statusbar("coins", this.character, 10);
     this.bottleBar = new Statusbar("bottles", this.character, this.maxBottles);
-    this.endbossBar = new Statusbar("endboss", this.level.boss, this.level.boss.energy);
+    this.endbossBar = new Statusbar(
+      "endboss",
+      this.level.boss,
+      this.level.boss.energy
+    );
     this.level.boss.world = this;
     this.draw();
     this.run();
@@ -99,6 +105,12 @@ class World {
         (obj) => !obj.markedForDeletion
       );
       this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion);
+      if (this.character.hasFullyDied && !this.gameOver) {
+        this.showGameOverScreen();
+      }
+      if (this.level.boss.markedForDeletion && !this.gameWon) {
+        this.showWinScreen();
+      }
     }, 1000 / 60);
   }
 
@@ -114,26 +126,33 @@ class World {
   }
 
   checkCollision() {
-  if (this.character.isDeadState || this.character.isHurt) return;
+    if (this.character.isDeadState || this.character.isHurt) return;
 
-  this.enemies.forEach((enemy) => {
-    if (this.character.isColliding(enemy)) {
-      if (this.character.isJumpingOn(enemy)) {
-        // Von oben getroffen → Gegner bekommt Schaden, Spieler nicht
-        enemy.hit(this.character.damage);
+    this.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy)) {
+        if (this.character.isJumpingOn(enemy)) {
+          // Von oben getroffen → Gegner bekommt Schaden, Spieler nicht
+          enemy.hit(this.character.damage);
 
-        // Rückstoß
-        this.character.speedY = 15;
+          // Rückstoß
+          this.character.speedY = 15;
 
-        // Spieler etwas höher setzen, damit er nicht "klebt" oder durchfällt
-        this.character.y = enemy.y - this.character.height + enemy.offset.top;
-      } else {
-        // Seitliche Kollision → Schaden an Spieler
-        this.character.hit(enemy.damage);
+          // Position leicht nach oben korrigieren, um Durchfallen zu vermeiden
+          this.character.y = enemy.y - this.character.height + enemy.offset.top;
+        } else {
+          // KEIN Schaden durch Endboss, wenn dieser stirbt oder tot ist
+          const isEndboss = enemy instanceof Endboss;
+          const isBossDyingOrDead =
+            isEndboss && (enemy.isDying || enemy.isDead());
+
+          if (!isBossDyingOrDead) {
+            // Seitliche Kollision → Schaden an Spieler
+            this.character.hit(enemy.damage);
+          }
+        }
       }
-    }
-  });
-}
+    });
+  }
 
   bottleHitEnemy() {
     this.throwableObject.forEach((bottle) => {
@@ -157,6 +176,7 @@ class World {
   }
 
   draw() {
+    if (this.gameWon || this.gameOver) return;
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
     this.drawBackgroundAndGameElements();
@@ -181,10 +201,13 @@ class World {
   }
 
   drawHUDElements() {
-    this.healthBar.draw(this.ctx);
-    this.coinBar.draw(this.ctx);
-    this.bottleBar.draw(this.ctx);
-  }
+  this.healthBar.draw(this.ctx);
+  this.coinBar.draw(this.ctx);
+  this.bottleBar.draw(this.ctx);
+  this.ctx.font = "30px Arial";
+  this.ctx.fillStyle = "#ffffff"; // weißer Text
+  this.ctx.fillText("Level " + this.level.levelNumber, 40, 90);
+} 
 
   addObjectsToMap(objects) {
     objects.forEach((o) => this.addToMap(o));
@@ -210,4 +233,45 @@ class World {
     mo.x = mo.x * -1;
     this.ctx.restore();
   }
+
+  showWinScreen() {
+    this.gameWon = true;
+    const img = new Image();
+    img.src = "img/img_pollo_locco/img/You won, you lost/You won A.png";
+
+    img.onload = () => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+      this.showRestartButton();
+      this.showNextLevelButton();
+    };
+  }
+
+  showGameOverScreen() {
+    this.gameOver = true;
+    const img = new Image();
+    img.src = "img/img_pollo_locco/img/You won, you lost/Game Over.png";
+
+    img.onload = () => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+      this.showRestartButton();
+    };
+  }
+
+  showRestartButton() {
+    const btn = document.getElementById("restartBtn");
+    btn.style.display = "block";
+    btn.onclick = () => {
+      init(currentLevel.levelWidth, currentLevel.levelNumber);
+    };
+  }
+
+  showNextLevelButton() {
+    const btn = document.getElementById("nextLevelBtn");
+    btn.style.display = "block";
+    btn.onclick = () => {
+  init(currentLevel.levelWidth + 2000, currentLevel.levelNumber + 1);
+};
+}
 }
