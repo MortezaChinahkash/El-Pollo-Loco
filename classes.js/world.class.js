@@ -29,7 +29,7 @@ class World {
     this.healthBar = new Statusbar("health", this.character);
     this.coinBar = new Statusbar("coins", this.character, 10);
     this.bottleBar = new Statusbar("bottles", this.character, this.maxBottles);
-    this.endbossBar = new Statusbar("endboss", this.level.boss);
+    this.endbossBar = new Statusbar("endboss", this.level.boss, this.level.boss.energy);
     this.level.boss.world = this;
     this.draw();
     this.run();

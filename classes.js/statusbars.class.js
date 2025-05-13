@@ -5,22 +5,20 @@ class Statusbar extends DrawableObject {
   IMAGES = {};
 
   constructor(type, linkedObject = null, maxValue = 100) {
-    super();
-    this.type = type;
-    this.maxValue = maxValue;
-    this.initImages(); 
-    this.loadImages(this.IMAGES[type]);
-    this.setPercentage(100);
-
-    this.x = this.getInitialX();
-    this.y = this.getInitialY();
-    this.width = 200;
-    this.height = 60;
-
-    if (linkedObject) {
-      this.startSyncWithObject(linkedObject);
-    }
+  super();
+  this.type = type;
+  this.maxValue = maxValue;
+  this.initImages();
+  this.loadImages(this.IMAGES[type]);
+  this.setPercentage(maxValue);
+  this.x = this.getInitialX();
+  this.y = this.getInitialY();
+  this.width = 200;
+  this.height = 60;
+  if (linkedObject) {
+    this.startSyncWithObject(linkedObject);
   }
+}
 
   initImages() {
     this.IMAGES = {
@@ -60,24 +58,32 @@ class Statusbar extends DrawableObject {
   }
 
   startSyncWithObject(obj) {
-    setInterval(() => {
-      let value = 0;
-      if (this.type === "health" || this.type === "endboss") {
-        value = obj.energy;
-      } else if (this.type === "coins") {
-        value = obj.coins;
-      } else if (this.type === "bottles") {
-        value = obj.bottles;
-      }
+  setInterval(() => {
+    const value = this.getLinkedValue(obj);
+    this.setPercentage(value);
 
-      this.setPercentage(value);
+    if (this.type === "endboss") {
+      this.updateEndbossBarPosition(obj);
+    }
+  }, 100);
+}
 
-      if (this.type === "endboss") {
-        this.x = obj.x + obj.width / 2 - this.width / 2;
-        this.y = obj.y - 30;
-      }
-    }, 100);
+getLinkedValue(obj) {
+  let value = 0;
+  if (this.type === "health" || this.type === "endboss") {
+    value = obj.energy;
+  } else if (this.type === "coins") {
+    value = obj.coins;
+  } else if (this.type === "bottles") {
+    value = obj.bottles;
   }
+  return value;
+}
+
+updateEndbossBarPosition(obj) {
+  this.x = obj.x + obj.width / 2 - this.width / 2;
+  this.y = obj.y - 30;
+}
 
   setPercentage(value) {
     const percent = Math.min(100, Math.round((value / this.maxValue) * 100));
