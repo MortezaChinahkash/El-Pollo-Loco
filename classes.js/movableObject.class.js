@@ -24,13 +24,15 @@ class movableObject extends DrawableObject {
   }
 
   isColliding(mo) {
-    return (
-      this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-      this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
-      this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-      this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
-    );
-  }
+  const buffer = 5; // ← 5 Pixel Puffer, kannst du anpassen
+
+  return (
+    this.x + this.width - this.offset.right > mo.x + mo.offset.left + buffer &&
+    this.x + this.offset.left < mo.x + mo.width - mo.offset.right - buffer &&
+    this.y + this.height - this.offset.bottom > mo.y + mo.offset.top + buffer &&
+    this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom - buffer
+  );
+}
 
   hit(damage) {
     this.energy -= damage;

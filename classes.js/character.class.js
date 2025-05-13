@@ -10,6 +10,7 @@ class Character extends movableObject {
   isDeadState = false;
   lastMovementTime = Date.now();
   idleThreshold = 10000;
+  invulnerable = false;
 
   IMAGES_IDLE_LONG = [
     "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-11.png",
@@ -95,12 +96,17 @@ class Character extends movableObject {
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_IDLE_LONG);
     this.applyGravity();
-    this.xlogger();
+    this.logger();
   }
 
-  xlogger() {
+logger() {
     setInterval(() => {
-      console.log(this.x);
+      if (this.world) {
+        console.log("Character position:", this.x, this.y);
+        console.log("Character energy:", this.energy);
+        console.log("Character coins:", this.coins);
+        console.log("Character bottles:", this.bottles);
+      }
     }, 1000);
   }
 
@@ -120,7 +126,7 @@ class Character extends movableObject {
   isJumpingOn(enemy) {
     return (
       this.speedY < 0 &&
-      this.y + this.height - this.offset.bottom < enemy.y + enemy.height / 2
+      this.y + this.height - this.offset.bottom < enemy.y + enemy.height 
     );
   }
 

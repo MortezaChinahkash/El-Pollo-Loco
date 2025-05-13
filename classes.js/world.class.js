@@ -21,7 +21,9 @@ class World {
     this.clouds = level.clouds;
     this.backgroundObjects = level.backgroundObjects;
     this.collectableItems = level.collectableItems || [];
-    this.maxBottles = this.collectableItems.filter((i) => i.type === "bottle").length;
+    this.maxBottles = this.collectableItems.filter(
+      (i) => i.type === "bottle"
+    ).length;
     this.END_BOSS_TRIGGER_X = this.level.levelWidth - 690;
     this.setWorld();
     this.healthBar = new Statusbar("health", this.character);
@@ -40,13 +42,13 @@ class World {
   }
 
   spawnNewBottle() {
-  if (this.bottleSpawnCount >= this.maxBottles) return;
-  const x = 300 + Math.random() * (this.level.levelWidth - 600);
-  const y = 370;
-  const newBottle = new CollectableItem(x, y, 'bottle');
-  this.collectableItems.push(newBottle);
-  this.bottleSpawnCount++;
-}
+    if (this.bottleSpawnCount >= this.maxBottles) return;
+    const x = 300 + Math.random() * (this.level.levelWidth - 600);
+    const y = 370;
+    const newBottle = new CollectableItem(x, y, "bottle");
+    this.collectableItems.push(newBottle);
+    this.bottleSpawnCount++;
+  }
 
   checkCollectableItems() {
     this.collectableItems.forEach((item) => {
@@ -62,22 +64,28 @@ class World {
   checkThrowObjects() {
     const now = Date.now();
     if (this.character.world.level.boss?.movingIn) return;
-    this.checkInventory(now)
-    {
-      this.character.bottles--; 
+    this.checkInventory(now);
+  }
+
+  checkInventory(now) {
+    if (
+      this.keyboard.SPACE &&
+      now - this.lastBottleThrowTime >= 1000 &&
+      this.character.bottles > 0
+    ) {
+      this.createNewBottle();
+      this.character.bottles--;
       this.lastBottleThrowTime = now;
     }
   }
 
-  checkInventory(now){
-    if (this.keyboard.SPACE && now - this.lastBottleThrowTime >= 1000 && this.character.bottles > 0 )
-       {this.createNewBottle()}
-  }
-
-  createNewBottle(){
+  createNewBottle() {
     this.character.resetMovementTimer();
-      let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-      this.throwableObject.push(bottle);
+    const bottle = new ThrowableObject(
+      this.character.x + 100,
+      this.character.y + 100
+    );
+    this.throwableObject.push(bottle);
   }
 
   run() {
@@ -91,7 +99,7 @@ class World {
         (obj) => !obj.markedForDeletion
       );
       this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion);
-    }, 10);
+    }, 1000 / 60);
   }
 
   activateBoss() {
@@ -101,48 +109,47 @@ class World {
       !boss.activated &&
       this.character.x >= this.END_BOSS_TRIGGER_X
     ) {
-      console.log("Boss aktiviert!");
       boss.activate();
     }
   }
 
   checkCollision() {
-    if (this.character.isDeadState || this.character.isHurt) return;
-    let jumpedOnEnemy = false;
-    this.enemies.forEach((enemy) => {
-      if (
-        this.character.isColliding(enemy) &&
-        this.character.isJumpingOn(enemy)
-      ) {
+  if (this.character.isDeadState || this.character.isHurt) return;
+
+  this.enemies.forEach((enemy) => {
+    if (this.character.isColliding(enemy)) {
+      if (this.character.isJumpingOn(enemy)) {
+        // Von oben getroffen → Gegner bekommt Schaden, Spieler nicht
         enemy.hit(this.character.damage);
+
+        // Rückstoß
         this.character.speedY = 15;
-        jumpedOnEnemy = true;
-      }
-    });
-    if (!jumpedOnEnemy) {
-      const enemy = this.enemies.find((e) => this.character.isColliding(e));
-    
-      if (enemy && !(enemy instanceof Chicken && this.character.isJumpingOn(enemy))) {
+
+        // Spieler etwas höher setzen, damit er nicht "klebt" oder durchfällt
+        this.character.y = enemy.y - this.character.height + enemy.offset.top;
+      } else {
+        // Seitliche Kollision → Schaden an Spieler
         this.character.hit(enemy.damage);
       }
     }
-  }
+  });
+}
 
   bottleHitEnemy() {
     this.throwableObject.forEach((bottle) => {
       if (!bottle.isSplashing) {
         this.enemies.forEach((enemy) => {
           if (!enemy.markedForDeletion && bottle.isColliding(enemy)) {
-            enemy.hit(this.character.damage);  
-            bottle.splash();                   
+            enemy.hit(this.character.damage);
+            bottle.splash();
           }
         });
       }
-      this.respawnAfterSplash(bottle)
+      this.respawnAfterSplash(bottle);
     });
   }
 
-  respawnAfterSplash(bottle){
+  respawnAfterSplash(bottle) {
     if (bottle.isSplashing && !bottle.respawnHandled) {
       this.spawnNewBottle();
       bottle.respawnHandled = true;
@@ -155,13 +162,15 @@ class World {
     this.drawBackgroundAndGameElements();
     this.ctx.translate(-this.camera_x, 0);
     this.drawHUDElements();
-    this.ctx.translate(this.camera_x, 0);
-    this.endbossBar.draw(this.ctx);
-    this.ctx.translate(-this.camera_x, 0);
+    if (!this.level.boss.markedForDeletion) {
+      this.ctx.translate(this.camera_x, 0);
+      this.endbossBar.draw(this.ctx);
+      this.ctx.translate(-this.camera_x, 0);
+    }
     requestAnimationFrame(() => this.draw());
   }
 
-  drawBackgroundAndGameElements(){
+  drawBackgroundAndGameElements() {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.clouds);
     let sortedEnemies = [...this.enemies].sort((a, b) => a.y - b.y);
@@ -171,7 +180,7 @@ class World {
     this.addObjectsToMap(this.collectableItems);
   }
 
-  drawHUDElements(){
+  drawHUDElements() {
     this.healthBar.draw(this.ctx);
     this.coinBar.draw(this.ctx);
     this.bottleBar.draw(this.ctx);
