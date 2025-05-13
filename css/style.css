@@ -1,68 +1,163 @@
-body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    background-image: url(../img/ChatGPT\ Image\ 5.\ Mai\ 2025\,\ 14_01_04.png);
-    background-size: cover;
-    background-position: center;
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-image: url(../img/ChatGPT\ Image\ 5.\ Mai\ 2025\,\ 14_01_04.png);
+  background-size: cover;
+  background-position: center;
 }
 
-canvas{
-    background-color: black;
-    box-shadow: 1px 1px 50px 15px
+canvas {
+  background-color: black;
+  box-shadow: 1px 1px 50px 15px;
 }
 #loading-screen {
-    text-align: center;
-    width: 780px;
-    height: 480px;
-    background-image: url(../img/img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png);
-    background-size: cover;
-    background-position: center;
-    color: rgb(0, 0, 0);
-    display: flex;
+  text-align: center;
+  width: 780px;
+  height: 480px;
+  background-image: url(../img/img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png);
+  background-size: cover;
+  background-position: center;
+  color: rgb(0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  font-family: sans-serif;
+  z-index: 999;
+  position: relative;
+}
+
+.intro-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  padding: 20px 10px;
+  background-color: rgba(0, 0, 0, 0.6); /* Schwarzer transparenter Hintergrund */
+  border-radius: 10px;
+  margin-bottom: 60px;
+  max-width: 90%;
+}
+
+#restartBtn {
+  display: none;
+  padding: 20px 40px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: #e29247;
+  border-radius: 10px;
+  z-index: 1000;
+}
+#nextLevelBtn {
+  display: none;
+  padding: 20px 40px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: #e29247;
+  border-radius: 10px;
+  z-index: 1000;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  width: 720px;
+  height: 100px;
+}
+#mobile-controls button {
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  background-color: rgba(255,255,255,0.2);
+  border: none;
+  border-radius: 50%;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  body {
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    font-family: sans-serif;
-    z-index: 999;
-  }
-  .intro-text{
-    font-size: 24px;
-    font-weight: bold;
-    color: #000000;
-    text-shadow: 2px 2px 2px  rgb(255, 255, 255);
-    margin-bottom: -200px;
-    text-align: center;
+    justify-content: flex-start;
   }
 
-  #restartBtn{
-    display: none;
-        padding: 20px 40px;
-        font-size: 24px;
-        font-weight: bold;
-        background-color: #e29247;
-        border-radius: 10px;
-        z-index: 1000;
+  canvas {
+    width: 100vw;
+    height: auto;
+    max-height: 100vh;
+    aspect-ratio: 3 / 2;
   }
-  #nextLevelBtn{
-    display: none;
-        padding: 20px 40px;
-        font-size: 24px;
-        font-weight: bold;
-        background-color: #e29247;
-        border-radius: 10px;
-        z-index: 1000;
-  }
+
   .button-container {
-    display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
     align-items: center;
-    gap: 20px;
-    width: 720px;
-    height: 100px;
-
+    margin-top: 10px;
   }
+   #loading-screen {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .intro-text {
+    font-size: 18px;
+    margin-bottom: 100px;
+  }
+
+  #restartBtn,
+  #nextLevelBtn {
+    width: 80%;
+    font-size: 20px;
+    padding: 15px 30px;
+  }
+
+  #mobile-controls {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    justify-content: space-around;
+    padding: 0 10px;
+    z-index: 1000;
+  }
+
+  #mobile-controls button {
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
+  }
+}
+@media screen and (orientation: portrait) and (max-width: 768px) {
+  body::before {
+    content: "Bitte drehe dein Gerät ins Querformat";
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    font-size: 24px;
+    font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+  }
+
+  canvas,
+  #mobile-controls,
+  .button-container,
+  #loading-screen,
+  #restartBtn,
+  #nextLevelBtn {
+    display: none !important;
+  }
+}
