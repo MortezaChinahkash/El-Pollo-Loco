@@ -24,21 +24,42 @@
   </head>
   <body>
     <div id="loading-screen">
-      <div class="intro-text"><h1>Drücke eine beliebige Taste, um das Spiel zu starten</h1></div>
+      <div class="intro-text">
+        <h1>Drücke eine beliebige Taste, um das Spiel zu starten</h1>
+      </div>
     </div>
-
-    <canvas id="canvas" width="720" height="480" style="display: none">
-      
-    </canvas>
+    <div id="helpOverlay">
+      <div class="help-content">
+        <h2>Steuerung</h2>
+        <ul>
+          <li>◀️ ▶️ – Bewegen</li>
+          <li>⬆️ – Springen</li>
+          <li>🧴 (Leertaste) – Flasche werfen</li>
+        </ul>
+        <button id="closeHelp">Schließen</button>
+      </div>
+    </div>
+   <div id="canvas-container">
+  <canvas id="canvas" width="720" height="480" style="display: none"></canvas>
+  <div id="overlay-buttons">
+    <button id="muteBtn">🔇</button>
+    <button id="fullscreenBtn">⛶</button>
+    <button id="helpBtn">🎮</button>
+  </div>
+</div>
     <div class="button-container">
       <button id="restartBtn">Restart</button>
       <button id="nextLevelBtn">Next Level</button>
     </div>
-    <div id="mobile-controls" style="position: absolute; bottom: 20px; width: 100%; display: flex; justify-content: space-between; padding: 0 20px; z-index: 1000;">
-  <button id="btn-left">◀️</button>
-  <button id="btn-jump">⬆️</button>
-  <button id="btn-right">▶️</button>
-  <button id="btn-throw">🧴</button>
-</div>
+    <div id="mobile-controls">
+      <div class="left-controls">
+        <button id="btn-jump">⬆️</button>
+        <button id="btn-throw">🧴</button>
+      </div>
+      <div class="right-controls">
+        <button id="btn-left">◀️</button>
+        <button id="btn-right">▶️</button>
+      </div>
+    </div>
   </body>
 </html>

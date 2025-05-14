@@ -217,7 +217,7 @@ class World {
     if (mo.otherDirection) this.flipImage(mo);
     if (mo.img) {
       mo.draw(this.ctx);
-      mo.drawCollisionFrame(this.ctx);
+      // mo.drawCollisionFrame(this.ctx);
     }
     if (mo.otherDirection) this.flipImageBack(mo);
   }

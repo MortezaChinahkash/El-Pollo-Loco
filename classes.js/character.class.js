@@ -97,18 +97,6 @@ class Character extends movableObject {
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_IDLE_LONG);
     this.applyGravity();
-    this.logger();
-  }
-
-logger() {
-    setInterval(() => {
-      if (this.world) {
-        console.log("Character position:", this.x, this.y);
-        console.log("Character energy:", this.energy);
-        console.log("Character coins:", this.coins);
-        console.log("Character bottles:", this.bottles);
-      }
-    }, 1000);
   }
 
   hit(damage) {

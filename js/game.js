@@ -11,6 +11,8 @@ function init(levelWidth = 5000, levelNumber = 1) {
   initializeGameWorld(currentLevel);
   setupAudio();
   setupInput();
+  setupOverlayButtons();
+  document.getElementById("overlay-buttons").style.display = "flex";
 }
 
 function setupUI() {
@@ -22,6 +24,58 @@ function setupUI() {
   const nextBtn = document.getElementById("nextLevelBtn");
   if (restartBtn) restartBtn.style.display = "none";
   if (nextBtn) nextBtn.style.display = "none";
+}
+
+function setupOverlayButtons() {
+  setupMuteButton();
+  setupFullscreenButton();
+  setupHelpButton();
+}
+
+function setupMuteButton() {
+  const muteBtn = document.getElementById("muteBtn");
+  muteBtn.addEventListener("click", () => {
+    if (soundManager) {
+      soundManager.toggleMute();
+      muteBtn.textContent = soundManager.isMuted ? "🔊" : "🔇";
+    }
+  });
+}
+
+function setupFullscreenButton() {
+  const fullscreenBtn = document.getElementById("fullscreenBtn");
+  fullscreenBtn.addEventListener("click", () => {
+    const elem = document.documentElement;
+    if (!document.fullscreenElement) {
+      elem.requestFullscreen().catch(err =>
+        alert("Vollbild-Modus fehlgeschlagen")
+      );
+    } else {
+      document.exitFullscreen();
+    }
+  });
+}
+
+function setupHelpButton() {
+  const helpBtn = document.getElementById("helpBtn");
+  const helpOverlay = document.getElementById("helpOverlay");
+  const closeHelp = document.getElementById("closeHelp");
+  const helpContent = document.querySelector(".help-content");
+
+  helpBtn.addEventListener("click", () => {
+    helpOverlay.style.display = "flex";
+  });
+
+  closeHelp.addEventListener("click", () => {
+    helpOverlay.style.display = "none";
+  });
+
+  helpOverlay.addEventListener("click", (event) => {
+    // Wenn außerhalb der .help-content geklickt wurde
+    if (!helpContent.contains(event.target)) {
+      helpOverlay.style.display = "none";
+    }
+  });
 }
 
 function initializeLevel(levelWidth, levelNumber) {
@@ -38,6 +92,11 @@ function setupInput() {
 }
 
 function setupAudio() {
+  if (soundManager) {
+    soundManager.pauseMusic(); // Alte Musik stoppen
+    soundManager = null;       // Alte Instanz löschen
+  }
+
   soundManager = new SoundManager();
   soundManager.loadSound(
     "background",
@@ -54,6 +113,16 @@ function touchDetection() {
     document.getElementById("mobile-controls").style.display = "none";
   }
 }
+
+window.addEventListener(
+  "touchstart",
+  () => {
+    if (!world) {
+      init();
+    }
+  },
+  { once: true }
+);
 
 window.addEventListener(
   "keydown",
