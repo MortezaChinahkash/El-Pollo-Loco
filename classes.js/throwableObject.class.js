@@ -55,26 +55,26 @@ class ThrowableObject extends movableObject {
   }
 
   throw() {
-  this.speedY = 15;
-  this.applyGravity();
-  this.animateRotation();
+    this.speedY = 15;
+    this.applyGravity();
+    this.animateRotation();
 
-  if (!soundManager.isMuted) {
-    const sound = soundManager.sounds["throw_fly"];
-    if (sound) {
-      this.flySoundInstance = sound.cloneNode();
-      this.flySoundInstance.loop = true; // Optional, wenn du möchtest, dass es durchgehend klingt
-      this.flySoundInstance.volume = 0.3;
-      this.flySoundInstance.play();
+    if (!soundManager.isMuted) {
+      const sound = soundManager.sounds["throw_fly"];
+      if (sound) {
+        this.flySoundInstance = sound.cloneNode();
+        this.flySoundInstance.loop = true;
+        this.flySoundInstance.volume = 0.3;
+        this.flySoundInstance.play();
+      }
     }
+
+    this.moveXInterval = setInterval(() => {
+      if (!this.isSplashing) {
+        this.x += 5;
+      }
+    }, 20);
   }
-
-  this.moveXInterval = setInterval(() => {
-    if (!this.isSplashing) {
-      this.x += 5;
-    }
-  }, 20);
-}
 
   animateRotation() {
     this.rotationInterval = setInterval(() => {
@@ -83,30 +83,26 @@ class ThrowableObject extends movableObject {
   }
 
   splash() {
-  if (this.isSplashing) return;
-  this.isSplashing = true;
+    if (this.isSplashing) return;
+    this.isSplashing = true;
+    clearInterval(this.gravityInterval);
+    clearInterval(this.rotationInterval);
+    this.speedY = 0;
+    this.speedX = 0;
 
-  clearInterval(this.gravityInterval);
-  clearInterval(this.rotationInterval);
-  this.speedY = 0;
-  this.speedX = 0;
+    if (this.flySoundInstance) {
+      this.flySoundInstance.pause();
+      this.flySoundInstance.currentTime = 0;
+      this.flySoundInstance = null;
+    }
 
-  // ❌ Flug-Sound stoppen
-  if (this.flySoundInstance) {
-    this.flySoundInstance.pause();
-    this.flySoundInstance.currentTime = 0;
-    this.flySoundInstance = null;
+    if (!soundManager.isMuted) {
+      soundManager.playSound("throw_splash", 0.4);
+    }
+
+    this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
+    setTimeout(() => this.fadeOutAndRemove(), 1000);
   }
-
-  // 💥 Splash-Sound abspielen
-  if (!soundManager.isMuted) {
-    soundManager.playSound("throw_splash", 0.4);
-  }
-
-  this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
-  setTimeout(() => this.fadeOutAndRemove(), 1000);
-}
-  
 
   draw(ctx) {
     if (this.img && this.opacity > 0) {
@@ -118,23 +114,22 @@ class ThrowableObject extends movableObject {
     }
   }
 
-  fadeOutAndRemove() { 
-    const targetY = 370;  
+  fadeOutAndRemove() {
+    const targetY = 370;
     const fallSpeed = 0.5;
     const fadeSpeed = 0.02;
-  
+
     const fallInterval = setInterval(() => {
       if (this.y < targetY) {
         this.y += fallSpeed;
       } else {
-        clearInterval(fallInterval); 
+        clearInterval(fallInterval);
       }
     }, 1000 / 25);
-  
+
     setTimeout(() => {
       const fadeInterval = setInterval(() => {
         this.opacity -= fadeSpeed;
-  
         if (this.opacity <= 0) {
           this.opacity = 0;
           clearInterval(fadeInterval);
@@ -143,5 +138,4 @@ class ThrowableObject extends movableObject {
       }, 1000 / 25);
     }, 1000);
   }
-  
 }

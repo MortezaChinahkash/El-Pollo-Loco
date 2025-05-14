@@ -12,6 +12,13 @@ class Character extends movableObject {
   idleThreshold = 10000;
   invulnerable = false;
   hasFullyDied = false;
+  lastHurtSoundTime = 0;
+  hurtSoundCooldown = 1000;
+  lastJumpSoundTime = 0;
+  jumpSoundCooldown = 500;
+  hasPlayedOrale = false;
+  runningSoundInstance = null;
+  isRunningSoundPlaying = false;
 
   IMAGES_IDLE_LONG = [
     "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-11.png",
@@ -99,41 +106,65 @@ class Character extends movableObject {
     this.applyGravity();
   }
 
-  hit(damage) {
+  hit(damage, source = null) {
     if (this.isHurt) return;
+
     this.energy -= damage;
     if (this.energy < 0) this.energy = 0;
     this.isHurt = true;
     this.resetMovementTimer();
+
+    const now = Date.now();
+    if (
+      typeof soundManager !== "undefined" &&
+      now - this.lastHurtSoundTime >= this.hurtSoundCooldown
+    ) {
+      soundManager.playSound("hurt", 0.3);
+      this.lastHurtSoundTime = now;
+    }
+
+    if (
+      typeof soundManager !== "undefined" &&
+      source instanceof Endboss &&
+      now - this.lastBossHitSoundTime >= this.ayDiosMioCooldown
+    ) {
+      soundManager.playSound("ay_dios_mio", 0.4);
+      this.lastBossHitSoundTime = now;
+    }
+
     this.playHurtAnimation();
     if (this.isDead()) {
       this.playDeadSequence();
     }
+
+    this.stopRunningSound();
+
     setTimeout(() => (this.isHurt = false), 1000);
   }
 
   isJumpingOn(enemy) {
     return (
       this.speedY < 0 &&
-      this.y + this.height - this.offset.bottom < enemy.y + enemy.height 
+      this.y + this.height - this.offset.bottom < enemy.y + enemy.height
     );
   }
 
   playDeadSequence() {
-  this.isDeadState = true;
-  this.currentImage = 0;
-  let interval = setInterval(() => {
-    if (this.currentImage < this.IMAGES_DEAD.length) {
-      let path = this.IMAGES_DEAD[this.currentImage];
-      this.img = this.imageCache[path];
-      this.currentImage++;
-    } else {
-      clearInterval(interval);
-      this.currentImage--;
-      this.hasFullyDied = true; 
-    }
-  }, 100);
-}
+    this.isDeadState = true;
+    this.currentImage = 0;
+    let interval = setInterval(() => {
+      if (this.currentImage < this.IMAGES_DEAD.length) {
+        let path = this.IMAGES_DEAD[this.currentImage];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+      } else {
+        clearInterval(interval);
+        this.currentImage--;
+        this.hasFullyDied = true;
+      }
+    }, 100);
+    this.stopRunningSound();
+  }
 
   animate() {
     setInterval(() => this.handleInput(), 1000 / 60);
@@ -141,7 +172,11 @@ class Character extends movableObject {
   }
 
   charAnimations() {
-    if (this.isHurt || this.isDeadState) return;
+    if (this.isHurt || this.isDeadState) {
+      this.stopRunningSound(); // 🛑 Stoppt den Sound bei Schaden oder Tod zuverlässig
+      return;
+    }
+
     const bossIsEntering = this.world.level.boss?.movingIn;
     const now = Date.now();
     const timeSinceLastMove = now - this.lastMovementTime;
@@ -161,7 +196,15 @@ class Character extends movableObject {
   handleInput() {
     if (this.isDeadState || this.world?.level?.boss?.movingIn) return;
     let moved = false;
-    if (this.world.keyboard.RIGHT && this.x < this.world.level.levelWidth - this.width) {
+    const isRunning =
+      (this.world.keyboard.RIGHT &&
+        this.x < this.world.level.levelWidth - this.width) ||
+      (this.world.keyboard.LEFT && this.x > 0);
+
+    if (
+      this.world.keyboard.RIGHT &&
+      this.x < this.world.level.levelWidth - this.width
+    ) {
       this.moveRight();
       moved = true;
     }
@@ -174,9 +217,87 @@ class Character extends movableObject {
       this.jump();
       moved = true;
     }
-    if (moved) this.resetMovementTimer();
+    if (moved) {
+      this.resetMovementTimer();
+
+      if (!this.hasPlayedOrale && typeof soundManager !== "undefined") {
+        soundManager.playSound("orale", 0.1);
+        this.hasPlayedOrale = true;
+      }
+    }
+
+    const isActuallyRunning =
+      moved && !this.isAboveGround() && !this.isHurt && !this.isDeadState;
+
+    if (
+      isActuallyRunning &&
+      !this.isAboveGround() &&
+      !this.isHurt &&
+      !this.isDeadState
+    ) {
+      this.startRunningSound();
+    } else {
+      this.stopRunningSound();
+    }
     const camLimit = this.world.level.levelWidth - this.world.canvas.width;
     this.setLevelWidth(camLimit);
+  }
+
+  startRunningSound() {
+    if (
+      !this.runningSoundInstance &&
+      !this.isRunningSoundPlaying &&
+      typeof soundManager !== "undefined" &&
+      !soundManager.isMuted
+    ) {
+      const sound = soundManager.sounds["running"];
+      if (sound) {
+        const instance = sound.cloneNode();
+        instance.loop = true;
+        instance.volume = 0.25;
+        this.isRunningSoundPlaying = true;
+        instance
+          .play()
+          .then(() => {
+            this.runningSoundInstance = instance;
+          })
+          .catch((e) => {
+            console.warn("❗ Laufgeräusch konnte nicht gestartet werden:", e);
+            this.isRunningSoundPlaying = false;
+          });
+      }
+    }
+  }
+
+  stopRunningSound() {
+    if (this.runningSoundInstance) {
+      try {
+        this.runningSoundInstance.pause();
+      } catch (e) {
+        console.warn("❗ Fehler beim Stoppen des Laufgeräuschs:", e);
+      }
+      this.runningSoundInstance = null;
+    }
+    this.isRunningSoundPlaying = false;
+  }
+
+  jump() {
+    this.speedY = 20;
+
+    const now = Date.now();
+    if (
+      typeof soundManager !== "undefined" &&
+      !soundManager.isMuted &&
+      now - this.lastJumpSoundTime >= this.jumpSoundCooldown
+    ) {
+      const audio = soundManager.sounds["jump"]?.cloneNode();
+      if (audio) {
+        audio.currentTime = 0.3;
+        audio.volume = 0.1;
+        audio.play();
+        this.lastJumpSoundTime = now;
+      }
+    }
   }
 
   resetMovementTimer() {

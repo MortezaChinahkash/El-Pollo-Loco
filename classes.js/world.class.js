@@ -115,15 +115,20 @@ class World {
   }
 
   activateBoss() {
-    const boss = this.level.enemies.find((e) => e instanceof Endboss);
-    if (
-      boss &&
-      !boss.activated &&
-      this.character.x >= this.END_BOSS_TRIGGER_X
-    ) {
-      boss.activate();
+  const boss = this.level.enemies.find((e) => e instanceof Endboss);
+  if (
+    boss &&
+    !boss.activated &&
+    this.character.x >= this.END_BOSS_TRIGGER_X
+  ) {
+    boss.activate();
+
+    // 🎵 Ay Dios Mio Sound beim ersten Erscheinen
+    if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
+      soundManager.playSound("ay_dios_mio", 0.3);
     }
   }
+}
 
   checkCollision() {
     if (this.character.isDeadState || this.character.isHurt) return;
@@ -131,15 +136,17 @@ class World {
     this.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
         if (this.character.isJumpingOn(enemy)) {
-          // Von oben getroffen → Gegner bekommt Schaden, Spieler nicht
-          enemy.hit(this.character.damage);
+  enemy.hit(this.character.damage);
 
-          // Rückstoß
-          this.character.speedY = 15;
+  // ✅ Sprung-Sound beim Draufspringen auf Gegner
+  if (!(enemy instanceof Endboss) && typeof soundManager !== "undefined") {
+    soundManager.playSound("jump_on_enemy", 0.3);
+  }
 
-          // Position leicht nach oben korrigieren, um Durchfallen zu vermeiden
-          this.character.y = enemy.y - this.character.height + enemy.offset.top;
-        } else {
+  this.character.speedY = 15;
+  this.character.y = enemy.y - this.character.height + enemy.offset.top;
+}
+ else {
           // KEIN Schaden durch Endboss, wenn dieser stirbt oder tot ist
           const isEndboss = enemy instanceof Endboss;
           const isBossDyingOrDead =
@@ -240,30 +247,40 @@ class World {
     this.ctx.restore();
   }
 
-  showWinScreen() {
-    this.gameWon = true;
-    const img = new Image();
-    img.src = "img/img_pollo_locco/img/You won, you lost/You won A.png";
+ showWinScreen() {
+  this.gameWon = true;
+  const img = new Image();
+  img.src = "img/img_pollo_locco/img/You won, you lost/You won A.png";
 
-    img.onload = () => {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
-      this.showRestartButton();
-      this.showNextLevelButton();
-    };
+  // 🎵 Sound abspielen, wenn Spiel gewonnen wurde
+  if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
+    soundManager.playSound("won", 0.4);
   }
+
+  img.onload = () => {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+    this.showRestartButton();
+    this.showNextLevelButton();
+  };
+ }
 
   showGameOverScreen() {
-    this.gameOver = true;
-    const img = new Image();
-    img.src = "img/img_pollo_locco/img/You won, you lost/Game Over.png";
+  this.gameOver = true;
+  const img = new Image();
+  img.src = "img/img_pollo_locco/img/You won, you lost/Game Over.png";
 
-    img.onload = () => {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
-      this.showRestartButton();
-    };
+  // 🎵 Game Over Sound abspielen
+  if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
+    soundManager.playSound("lost", 0.4);
   }
+
+  img.onload = () => {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+    this.showRestartButton();
+  };
+}
 
   showRestartButton() {
     const btn = document.getElementById("restartBtn");
