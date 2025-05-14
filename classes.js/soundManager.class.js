@@ -18,6 +18,13 @@ class SoundManager {
     this.sounds[name] = audio;
   }
 
+  stopAll() {
+    for (const audio of Object.values(this.sounds)) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  }
+
   playSound(name, volume = 1.0) {
     const sound = this.sounds[name];
     if (this.isMuted) return;
@@ -39,7 +46,7 @@ class SoundManager {
 
     this.music = music;
     this.music.volume = volume;
-    this.music.currentTime = 0;
+    this.music.currentTime = 1;
     if (!this.isMuted) this.music.play();
   }
 

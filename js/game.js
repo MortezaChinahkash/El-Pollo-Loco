@@ -34,17 +34,23 @@ function setupOverlayButtons() {
 
 function setupMuteButton() {
   const muteBtn = document.getElementById("muteBtn");
-  muteBtn.addEventListener("click", () => {
+
+  muteBtn.onclick = () => {
     if (soundManager) {
       soundManager.toggleMute();
+
+      // 🔒 Zustand speichern
+      localStorage.setItem("soundMuted", soundManager.isMuted ? "true" : "false");
+
+      // Icon aktualisieren
       muteBtn.textContent = soundManager.isMuted ? "🔊" : "🔇";
     }
-  });
+  };
 }
 
 function setupFullscreenButton() {
   const fullscreenBtn = document.getElementById("fullscreenBtn");
-  fullscreenBtn.addEventListener("click", () => {
+  fullscreenBtn.onclick = () => {
     const elem = document.documentElement;
     if (!document.fullscreenElement) {
       elem.requestFullscreen().catch(err =>
@@ -53,7 +59,7 @@ function setupFullscreenButton() {
     } else {
       document.exitFullscreen();
     }
-  });
+  };
 }
 
 function setupHelpButton() {
@@ -71,7 +77,6 @@ function setupHelpButton() {
   });
 
   helpOverlay.addEventListener("click", (event) => {
-    // Wenn außerhalb der .help-content geklickt wurde
     if (!helpContent.contains(event.target)) {
       helpOverlay.style.display = "none";
     }
@@ -92,13 +97,36 @@ function setupInput() {
 }
 
 function setupAudio() {
-  soundManager = new SoundManager();
+  if (!soundManager) {
+    soundManager = new SoundManager();
+  }
+  soundManager.stopAll();
   soundManager.loadSound(
     "background",
     "audio/flamenco-guitar-duo-flamenco-spanish-guitar-music-1614.mp3",
     true
   );
-  soundManager.playMusic("background", 0.2);
+  loadMuteStateFromLocalStorage();
+} 
+
+function loadMuteStateFromLocalStorage() {
+  const isMuted = localStorage.getItem("soundMuted") === "true";
+  soundManager.isMuted = isMuted;
+  refreshMuteButton(isMuted);
+  startMusicWhenNotMuted(isMuted);
+}
+
+function refreshMuteButton(isMuted) {
+  const muteBtn = document.getElementById("muteBtn");
+  if (muteBtn) {
+    muteBtn.textContent = isMuted ? "🔊" : "🔇";
+  }
+}
+
+function startMusicWhenNotMuted(isMuted) {
+  if (!isMuted) {
+    soundManager.playMusic("background", 0.1);
+  }
 }
 
 function touchDetection() {
@@ -114,6 +142,8 @@ window.addEventListener(
   () => {
     if (!world) {
       init();
+      // Musik erst hier starten
+      soundManager.playMusic("background", 0.1);
     }
   },
   { once: true }
@@ -124,6 +154,8 @@ window.addEventListener(
   () => {
     if (!world) {
       init();
+      // Musik erst hier starten
+      soundManager.playMusic("background", 0.1);
     }
   },
   { once: true }
