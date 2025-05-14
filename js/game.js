@@ -92,11 +92,6 @@ function setupInput() {
 }
 
 function setupAudio() {
-  if (soundManager) {
-    soundManager.pauseMusic(); // Alte Musik stoppen
-    soundManager = null;       // Alte Instanz löschen
-  }
-
   soundManager = new SoundManager();
   soundManager.loadSound(
     "background",
@@ -156,29 +151,29 @@ function createLevel(levelWidth, levelNumber) {
 function setupMobileControls() {
   document
     .getElementById("btn-left")
-    .addEventListener("touchstart", () => (keyboard.LEFT = true));
+    .addEventListener("touchstart", () => (keyboard.LEFT = true), { passive: true });
   document
     .getElementById("btn-left")
-    .addEventListener("touchend", () => (keyboard.LEFT = false));
+    .addEventListener("touchend", () => (keyboard.LEFT = false), { passive: true });
 
   document
     .getElementById("btn-right")
-    .addEventListener("touchstart", () => (keyboard.RIGHT = true));
+    .addEventListener("touchstart", () => (keyboard.RIGHT = true), { passive: true });
   document
     .getElementById("btn-right")
-    .addEventListener("touchend", () => (keyboard.RIGHT = false));
+    .addEventListener("touchend", () => (keyboard.RIGHT = false), { passive: true });
 
   document
     .getElementById("btn-jump")
-    .addEventListener("touchstart", () => (keyboard.UP = true));
+    .addEventListener("touchstart", () => (keyboard.UP = true), { passive: true });
   document
     .getElementById("btn-jump")
-    .addEventListener("touchend", () => (keyboard.UP = false));
+    .addEventListener("touchend", () => (keyboard.UP = false), { passive: true });
 
   document
     .getElementById("btn-throw")
-    .addEventListener("touchstart", () => (keyboard.SPACE = true));
+    .addEventListener("touchstart", () => (keyboard.SPACE = true), { passive: true });
   document
     .getElementById("btn-throw")
-    .addEventListener("touchend", () => (keyboard.SPACE = false));
+    .addEventListener("touchend", () => (keyboard.SPACE = false), { passive: true });
 }

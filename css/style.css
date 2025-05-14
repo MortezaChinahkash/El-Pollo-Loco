@@ -148,6 +148,7 @@ canvas {
 }
 #mobile-controls button {
   display: none;
+  user-select: none;
   width: 60px;
   height: 60px;
   font-size: 24px;
@@ -157,15 +158,12 @@ canvas {
   color: white;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   body {
     flex-direction: column;
     justify-content: flex-start;
   }
 
-  #fullscreenBtn {
-    display: none;
-  }
   #helpBtn {
     display: none;
   }
@@ -235,7 +233,7 @@ canvas {
     color: white;
   }
 }
-@media screen and (orientation: portrait) and (max-width: 768px) {
+@media screen and (orientation: portrait) and (max-width: 900px) {
   body::before {
     content: "Bitte drehe dein Gerät ins Querformat";
     position: fixed;
