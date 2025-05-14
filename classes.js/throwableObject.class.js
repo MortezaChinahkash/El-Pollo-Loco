@@ -10,6 +10,7 @@ class ThrowableObject extends movableObject {
   };
   isSplashing = false 
   respawnHandled = false;
+  flySoundInstance = null;
 
   IMAGES_BOTTLE_ROTATION = [
     "img/img_pollo_locco/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
@@ -54,16 +55,26 @@ class ThrowableObject extends movableObject {
   }
 
   throw() {
-    this.speedY = 15;
-    this.applyGravity();
-    this.animateRotation();
-  
-    this.moveXInterval = setInterval(() => {
-      if (!this.isSplashing) {
-        this.x += 5;
-      }
-    }, 20);
+  this.speedY = 15;
+  this.applyGravity();
+  this.animateRotation();
+
+  if (!soundManager.isMuted) {
+    const sound = soundManager.sounds["throw_fly"];
+    if (sound) {
+      this.flySoundInstance = sound.cloneNode();
+      this.flySoundInstance.loop = true; // Optional, wenn du möchtest, dass es durchgehend klingt
+      this.flySoundInstance.volume = 0.3;
+      this.flySoundInstance.play();
+    }
   }
+
+  this.moveXInterval = setInterval(() => {
+    if (!this.isSplashing) {
+      this.x += 5;
+    }
+  }, 20);
+}
 
   animateRotation() {
     this.rotationInterval = setInterval(() => {
@@ -72,17 +83,29 @@ class ThrowableObject extends movableObject {
   }
 
   splash() {
-    if (this.isSplashing) return;
-    this.isSplashing = true;
-    clearInterval(this.gravityInterval);
-    clearInterval(this.rotationInterval);
-    this.speedY = 0;
-    this.speedX = 0;
-  
-    this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
-  
-    setTimeout(() => this.fadeOutAndRemove(), 1000);
+  if (this.isSplashing) return;
+  this.isSplashing = true;
+
+  clearInterval(this.gravityInterval);
+  clearInterval(this.rotationInterval);
+  this.speedY = 0;
+  this.speedX = 0;
+
+  // ❌ Flug-Sound stoppen
+  if (this.flySoundInstance) {
+    this.flySoundInstance.pause();
+    this.flySoundInstance.currentTime = 0;
+    this.flySoundInstance = null;
   }
+
+  // 💥 Splash-Sound abspielen
+  if (!soundManager.isMuted) {
+    soundManager.playSound("throw_splash", 0.4);
+  }
+
+  this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
+  setTimeout(() => this.fadeOutAndRemove(), 1000);
+}
   
 
   draw(ctx) {

@@ -2,7 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let soundManager;
-
+let muteStateAlreadyLoaded = false;
 let currentLevel;
 
 function init(levelWidth = 5000, levelNumber = 1) {
@@ -40,7 +40,10 @@ function setupMuteButton() {
       soundManager.toggleMute();
 
       // 🔒 Zustand speichern
-      localStorage.setItem("soundMuted", soundManager.isMuted ? "true" : "false");
+      localStorage.setItem(
+        "soundMuted",
+        soundManager.isMuted ? "true" : "false"
+      );
 
       // Icon aktualisieren
       muteBtn.textContent = soundManager.isMuted ? "🔊" : "🔇";
@@ -53,9 +56,9 @@ function setupFullscreenButton() {
   fullscreenBtn.onclick = () => {
     const elem = document.documentElement;
     if (!document.fullscreenElement) {
-      elem.requestFullscreen().catch(err =>
-        alert("Vollbild-Modus fehlgeschlagen")
-      );
+      elem
+        .requestFullscreen()
+        .catch((err) => alert("Vollbild-Modus fehlgeschlagen"));
     } else {
       document.exitFullscreen();
     }
@@ -99,21 +102,43 @@ function setupInput() {
 function setupAudio() {
   if (!soundManager) {
     soundManager = new SoundManager();
+
+    if (!muteStateAlreadyLoaded) {
+      const isMuted = localStorage.getItem("soundMuted") === "true";
+      soundManager.isMuted = isMuted;
+      muteStateAlreadyLoaded = true;
+    }
   }
+
   soundManager.stopAll();
   soundManager.loadSound(
     "background",
     "audio/flamenco-guitar-duo-flamenco-spanish-guitar-music-1614.mp3",
     true
   );
-  loadMuteStateFromLocalStorage();
-} 
+  soundManager.loadSound("coin", "audio/coin-recieved-230517.mp3");
+  soundManager.loadSound("bottle", "audio/glass-bottle-clink-90671.mp3");
+  soundManager.loadSound("throw_fly", "audio/flying-blade-103343.mp3");
+soundManager.loadSound("throw_splash", "audio/bottle-break-39916.mp3");
+soundManager.loadSound("bottle_hit_boss", "audio/bottle-hit-boss.mp3");
+
+  refreshMuteButton(soundManager.isMuted);
+
+  // 👉 Wichtig: Musik wird immer nur gestartet, wenn gerade **nicht gemutet**
+  if (!soundManager.isMuted) {
+    soundManager.playMusic("background", 0.1);
+  }
+}
 
 function loadMuteStateFromLocalStorage() {
+  if (muteStateAlreadyLoaded) return;
+
   const isMuted = localStorage.getItem("soundMuted") === "true";
   soundManager.isMuted = isMuted;
   refreshMuteButton(isMuted);
   startMusicWhenNotMuted(isMuted);
+
+  muteStateAlreadyLoaded = true; 
 }
 
 function refreshMuteButton(isMuted) {
@@ -183,29 +208,45 @@ function createLevel(levelWidth, levelNumber) {
 function setupMobileControls() {
   document
     .getElementById("btn-left")
-    .addEventListener("touchstart", () => (keyboard.LEFT = true), { passive: true });
+    .addEventListener("touchstart", () => (keyboard.LEFT = true), {
+      passive: true,
+    });
   document
     .getElementById("btn-left")
-    .addEventListener("touchend", () => (keyboard.LEFT = false), { passive: true });
+    .addEventListener("touchend", () => (keyboard.LEFT = false), {
+      passive: true,
+    });
 
   document
     .getElementById("btn-right")
-    .addEventListener("touchstart", () => (keyboard.RIGHT = true), { passive: true });
+    .addEventListener("touchstart", () => (keyboard.RIGHT = true), {
+      passive: true,
+    });
   document
     .getElementById("btn-right")
-    .addEventListener("touchend", () => (keyboard.RIGHT = false), { passive: true });
+    .addEventListener("touchend", () => (keyboard.RIGHT = false), {
+      passive: true,
+    });
 
   document
     .getElementById("btn-jump")
-    .addEventListener("touchstart", () => (keyboard.UP = true), { passive: true });
+    .addEventListener("touchstart", () => (keyboard.UP = true), {
+      passive: true,
+    });
   document
     .getElementById("btn-jump")
-    .addEventListener("touchend", () => (keyboard.UP = false), { passive: true });
+    .addEventListener("touchend", () => (keyboard.UP = false), {
+      passive: true,
+    });
 
   document
     .getElementById("btn-throw")
-    .addEventListener("touchstart", () => (keyboard.SPACE = true), { passive: true });
+    .addEventListener("touchstart", () => (keyboard.SPACE = true), {
+      passive: true,
+    });
   document
     .getElementById("btn-throw")
-    .addEventListener("touchend", () => (keyboard.SPACE = false), { passive: true });
+    .addEventListener("touchend", () => (keyboard.SPACE = false), {
+      passive: true,
+    });
 }

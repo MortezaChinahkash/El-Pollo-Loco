@@ -48,14 +48,21 @@ class CollectableItem extends movableObject {
     }
   
     collect(character) {
-      if (this.collected) return;
-      this.collected = true;
-  
-      if (this.type === 'coin') character.coins++;
-      if (this.type === 'bottle') character.bottles++;
-  
-      this.markedForDeletion = true;
-    }
+  if (this.collected) return;
+  this.collected = true;
+
+  if (this.type === 'coin') {
+    character.coins++;
+    soundManager?.playSound("coin", 0.1);
+  }
+
+  if (this.type === 'bottle') {
+    character.bottles++;
+    soundManager?.playSound("bottle", 0.1);
+  }
+
+  this.markedForDeletion = true;
+}
   
     draw(ctx) {
       if (!this.img || this.collected) return;

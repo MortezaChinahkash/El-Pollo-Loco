@@ -160,6 +160,12 @@ class World {
         this.enemies.forEach((enemy) => {
           if (!enemy.markedForDeletion && bottle.isColliding(enemy)) {
             enemy.hit(this.character.damage);
+
+            // 🎯 Wenn Boss getroffen → Sound abspielen
+            if (enemy instanceof Endboss && !soundManager.isMuted) {
+              soundManager.playSound("bottle_hit_boss", 0.5);
+            }
+
             bottle.splash();
           }
         });
@@ -201,13 +207,13 @@ class World {
   }
 
   drawHUDElements() {
-  this.healthBar.draw(this.ctx);
-  this.coinBar.draw(this.ctx);
-  this.bottleBar.draw(this.ctx);
-  this.ctx.font = "30px Arial";
-  this.ctx.fillStyle = "#ffffff"; // weißer Text
-  this.ctx.fillText("Level " + this.level.levelNumber, 40, 90);
-} 
+    this.healthBar.draw(this.ctx);
+    this.coinBar.draw(this.ctx);
+    this.bottleBar.draw(this.ctx);
+    this.ctx.font = "30px Arial";
+    this.ctx.fillStyle = "#ffffff"; // weißer Text
+    this.ctx.fillText("Level " + this.level.levelNumber, 40, 90);
+  }
 
   addObjectsToMap(objects) {
     objects.forEach((o) => this.addToMap(o));
@@ -271,7 +277,7 @@ class World {
     const btn = document.getElementById("nextLevelBtn");
     btn.style.display = "block";
     btn.onclick = () => {
-  init(currentLevel.levelWidth + 2000, currentLevel.levelNumber + 1);
-};
-}
+      init(currentLevel.levelWidth + 2000, currentLevel.levelNumber + 1);
+    };
+  }
 }
