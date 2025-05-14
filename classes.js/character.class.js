@@ -106,15 +106,25 @@ class Character extends movableObject {
     this.applyGravity();
   }
 
-  hit(damage, source = null) {
-    if (this.isHurt) return;
-
-    this.energy -= damage;
-    if (this.energy < 0) this.energy = 0;
-    this.isHurt = true;
-    this.resetMovementTimer();
-
+  hit(damage) {
+    if (this.isHurt) return; // Wenn bereits verletzt, ignorieren
+    this.energy -= damage; // Energie reduzieren
+    if (this.energy < 0) this.energy = 0; // Nicht unter 0 gehen lassen
+    this.isHurt = true; // Zustand setzen
+    this.resetMovementTimer(); // Bewegungstimer zurücksetzen
     const now = Date.now();
+    this.playHurtSoundWithCooldown(now); // Hurt-Sound abspielen
+    this.playSoundWhenMeetingEndboss(now);
+    this.playHurtAnimation(); // Verletzungs-Animation starten
+    if (this.isDead()) {
+      this.playDeadSequence(); // Todes-Sequenz starten
+    }
+    this.stopRunningSound(); // Laufgeräusch beenden
+    // Nach 1 Sekunde wieder verwundbar
+    setTimeout(() => (this.isHurt = false), 1000);
+  }
+
+  playHurtSoundWithCooldown(now) {
     if (
       typeof soundManager !== "undefined" &&
       now - this.lastHurtSoundTime >= this.hurtSoundCooldown
@@ -122,7 +132,9 @@ class Character extends movableObject {
       soundManager.playSound("hurt", 0.3);
       this.lastHurtSoundTime = now;
     }
+  }
 
+  playSoundWhenMeetingEndboss(now) {
     if (
       typeof soundManager !== "undefined" &&
       source instanceof Endboss &&
@@ -131,15 +143,6 @@ class Character extends movableObject {
       soundManager.playSound("ay_dios_mio", 0.4);
       this.lastBossHitSoundTime = now;
     }
-
-    this.playHurtAnimation();
-    if (this.isDead()) {
-      this.playDeadSequence();
-    }
-
-    this.stopRunningSound();
-
-    setTimeout(() => (this.isHurt = false), 1000);
   }
 
   isJumpingOn(enemy) {
@@ -150,20 +153,28 @@ class Character extends movableObject {
   }
 
   playDeadSequence() {
-    this.isDeadState = true;
-    this.currentImage = 0;
+    this.isDeadState = true; // Zustand tot setzen
+    this.currentImage = 0; // Startbild setzen
     let interval = setInterval(() => {
       if (this.currentImage < this.IMAGES_DEAD.length) {
-        let path = this.IMAGES_DEAD[this.currentImage];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        this.animateDeadSequence();
       } else {
-        clearInterval(interval);
-        this.currentImage--;
-        this.hasFullyDied = true;
+        this.endDeadSequence(interval); // Animation beenden
       }
     }, 100);
-    this.stopRunningSound();
+    this.stopRunningSound(); // Laufgeräusch beenden
+  }
+
+  animateDeadSequence() {
+    let path = this.IMAGES_DEAD[this.currentImage];
+    this.img = this.imageCache[path];
+    this.currentImage++;
+  }
+
+  endDeadSequence(interval) {
+    clearInterval(interval);
+    this.currentImage--; // Letztes Bild behalten
+    this.hasFullyDied = true; // Totenzustand abschließen
   }
 
   animate() {
@@ -173,101 +184,115 @@ class Character extends movableObject {
 
   charAnimations() {
     if (this.isHurt || this.isDeadState) {
-      this.stopRunningSound(); // 🛑 Stoppt den Sound bei Schaden oder Tod zuverlässig
+      this.stopRunningSound(); // Kein Sound, wenn verletzt oder tot
       return;
     }
-
     const bossIsEntering = this.world.level.boss?.movingIn;
     const now = Date.now();
     const timeSinceLastMove = now - this.lastMovementTime;
+    this.pickAnimationDueToSituation(bossIsEntering, timeSinceLastMove); // Animation auswählen je nach Zustand
+  }
+
+  pickAnimationDueToSituation(bossIsEntering, timeSinceLastMove) {
     this.playAnimation(
       bossIsEntering
-        ? this.IMAGES_IDLE
+        ? this.IMAGES_IDLE // Boss-Einmarsch: Idle
         : this.isAboveGround()
-        ? this.IMAGES_JUMPING
+        ? this.IMAGES_JUMPING // In der Luft: Springen
         : this.world.keyboard.RIGHT || this.world.keyboard.LEFT
-        ? this.IMAGES_WALKING
+        ? this.IMAGES_WALKING // Bewegt sich: Laufen
         : timeSinceLastMove >= this.idleThreshold
-        ? this.IMAGES_IDLE_LONG
-        : this.IMAGES_IDLE
+        ? this.IMAGES_IDLE_LONG // Lange Inaktivität
+        : this.IMAGES_IDLE // Normales Idle
     );
   }
 
   handleInput() {
-    if (this.isDeadState || this.world?.level?.boss?.movingIn) return;
+    if (this.isDeadState || this.world?.level?.boss?.movingIn) return; // Eingabe ignorieren, wenn Charakter tot ist oder Boss gerade einläuft
     let moved = false;
-    const isRunning =
-      (this.world.keyboard.RIGHT &&
-        this.x < this.world.level.levelWidth - this.width) ||
-      (this.world.keyboard.LEFT && this.x > 0);
+    if (this.moveRightWhenSpace()) moved = true; // Bewegung nach rechts prüfen und ausführen
+    if (this.moveLeftWhenSpace()) moved = true; // Bewegung nach links prüfen und ausführen
+    if (this.jumpWhenSpace()) moved = true; // Springen prüfen und ausführen
+    if (moved) {
+      // Wenn sich der Charakter bewegt hat:
+      this.resetMovementTimer(); // Idle-Timer zurücksetzen
+      this.playOraleSound(); // "Orale!"-Sound abspielen
+    }
+    this.playRunningSound(); // Laufgeräusch abspielen
+    this.setCamLimit(); // Kamera innerhalb Level-Grenzen halten
+    const camLimit = this.world.level.levelWidth - this.world.canvas.width;
+    this.setLevelWidth(camLimit);
+  }
 
+  moveRightWhenSpace() {
+    // Prüft ob nach rechts gegangen werden kann, führt Bewegung aus, gibt true zurück wenn bewegt
     if (
       this.world.keyboard.RIGHT &&
       this.x < this.world.level.levelWidth - this.width
     ) {
       this.moveRight();
-      moved = true;
+      return true;
     }
+    return false;
+  }
+
+  moveLeftWhenSpace() {
+    // Prüft ob nach links gegangen werden kann, führt Bewegung aus, gibt true zurück wenn bewegt
     if (this.world.keyboard.LEFT && this.x > 0) {
       this.moveLeft();
       this.otherDirection = true;
-      moved = true;
+      return true;
     }
+    return false;
+  }
+
+  jumpWhenSpace() {
+    // Prüft ob ein Sprung möglich ist und führt ihn aus, gibt true zurück wenn gesprungen
     if (this.world.keyboard.UP && !this.isAboveGround()) {
       this.jump();
-      moved = true;
+      return true;
     }
-    if (moved) {
-      this.resetMovementTimer();
+    return false;
+  }
 
-      if (!this.hasPlayedOrale && typeof soundManager !== "undefined") {
-        soundManager.playSound("orale", 0.1);
-        this.hasPlayedOrale = true;
-      }
+  playOraleSound() {
+    if (!this.hasPlayedOrale && typeof soundManager !== "undefined") {
+      soundManager.playSound("orale", 0.1);
+      this.hasPlayedOrale = true;
     }
+  }
 
+  playRunningSound() {
+    // Laufgeräusch abspielen
     const isActuallyRunning =
       moved && !this.isAboveGround() && !this.isHurt && !this.isDeadState;
 
-    if (
-      isActuallyRunning &&
-      !this.isAboveGround() &&
-      !this.isHurt &&
-      !this.isDeadState
-    ) {
+    if (isActuallyRunning) {
       this.startRunningSound();
     } else {
       this.stopRunningSound();
     }
+  }
+
+  setCamLimit() {
+    // Kamera innerhalb Level-Grenzen halten
     const camLimit = this.world.level.levelWidth - this.world.canvas.width;
     this.setLevelWidth(camLimit);
   }
 
   startRunningSound() {
-    if (
-      !this.runningSoundInstance &&
-      !this.isRunningSoundPlaying &&
-      typeof soundManager !== "undefined" &&
-      !soundManager.isMuted
-    ) {
-      const sound = soundManager.sounds["running"];
-      if (sound) {
-        const instance = sound.cloneNode();
-        instance.loop = true;
-        instance.volume = 0.25;
-        this.isRunningSoundPlaying = true;
-        instance
-          .play()
-          .then(() => {
-            this.runningSoundInstance = instance;
-          })
-          .catch((e) => {
-            console.warn("❗ Laufgeräusch konnte nicht gestartet werden:", e);
-            this.isRunningSoundPlaying = false;
-          });
-      }
+  if (!this.runningSoundInstance && !this.isRunningSoundPlaying && typeof soundManager !== "undefined" && !soundManager.isMuted) {
+    const sound = soundManager.sounds["running"];
+    if (sound) {
+      const instance = sound.cloneNode();
+      instance.loop = true;
+      instance.volume = 0.25;
+      this.isRunningSoundPlaying = true;
+
+      instance.play()
     }
   }
+}
 
   stopRunningSound() {
     if (this.runningSoundInstance) {
@@ -283,7 +308,6 @@ class Character extends movableObject {
 
   jump() {
     this.speedY = 20;
-
     const now = Date.now();
     if (
       typeof soundManager !== "undefined" &&
