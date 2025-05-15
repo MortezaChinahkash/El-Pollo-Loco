@@ -174,7 +174,7 @@ function touchDetection() {
 }
 
 window.addEventListener(
-  "touchstart",
+  "touchend",
   () => {
     if (!world) {
       init();

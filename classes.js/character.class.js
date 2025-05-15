@@ -106,7 +106,7 @@ class Character extends movableObject {
     this.applyGravity();
   }
 
-  hit(damage) {
+  hit(damage, source=null) {
     if (this.isHurt) return; // Wenn bereits verletzt, ignorieren
     this.energy -= damage; // Energie reduzieren
     if (this.energy < 0) this.energy = 0; // Nicht unter 0 gehen lassen
@@ -114,7 +114,7 @@ class Character extends movableObject {
     this.resetMovementTimer(); // Bewegungstimer zurücksetzen
     const now = Date.now();
     this.playHurtSoundWithCooldown(now); // Hurt-Sound abspielen
-    this.playSoundWhenMeetingEndboss(now);
+    this.playSoundWhenMeetingEndboss(now, source);
     this.playHurtAnimation(); // Verletzungs-Animation starten
     if (this.isDead()) {
       this.playDeadSequence(); // Todes-Sequenz starten
@@ -134,7 +134,7 @@ class Character extends movableObject {
     }
   }
 
-  playSoundWhenMeetingEndboss(now) {
+  playSoundWhenMeetingEndboss(now, source) {
     if (
       typeof soundManager !== "undefined" &&
       source instanceof Endboss &&
@@ -218,7 +218,7 @@ class Character extends movableObject {
       this.resetMovementTimer(); // Idle-Timer zurücksetzen
       this.playOraleSound(); // "Orale!"-Sound abspielen
     }
-    this.playRunningSound(); // Laufgeräusch abspielen
+   this.playRunningSound(moved);; // Laufgeräusch abspielen
     this.setCamLimit(); // Kamera innerhalb Level-Grenzen halten
     const camLimit = this.world.level.levelWidth - this.world.canvas.width;
     this.setLevelWidth(camLimit);
@@ -262,7 +262,7 @@ class Character extends movableObject {
     }
   }
 
-  playRunningSound() {
+  playRunningSound(moved) {
     // Laufgeräusch abspielen
     const isActuallyRunning =
       moved && !this.isAboveGround() && !this.isHurt && !this.isDeadState;
@@ -281,48 +281,57 @@ class Character extends movableObject {
   }
 
   startRunningSound() {
-  if (!this.runningSoundInstance && !this.isRunningSoundPlaying && typeof soundManager !== "undefined" && !soundManager.isMuted) {
+  if (
+    !this.runningSoundInstance &&
+    !this.isRunningSoundPlaying &&
+    typeof soundManager !== "undefined" &&
+    !soundManager.isMuted
+  ) {
     const sound = soundManager.sounds["running"];
-    if (sound) {
-      const instance = sound.cloneNode();
-      instance.loop = true;
-      instance.volume = 0.25;
-      this.isRunningSoundPlaying = true;
+    if (sound && sound.paused) {
+      this.runningSoundInstance = sound;
+      sound.loop = true;
+      sound.volume = 0.25;
+      sound.currentTime = 0;
 
-      instance.play()
+      sound.play()
+        .then(() => {
+          this.isRunningSoundPlaying = true;
+        })
+        .catch(() => {});
     }
   }
 }
 
   stopRunningSound() {
-    if (this.runningSoundInstance) {
-      try {
-        this.runningSoundInstance.pause();
-      } catch (e) {
-        console.warn("❗ Fehler beim Stoppen des Laufgeräuschs:", e);
-      }
-      this.runningSoundInstance = null;
+  if (this.runningSoundInstance) {
+    if (!this.runningSoundInstance.paused) {
+      this.runningSoundInstance.pause();
     }
-    this.isRunningSoundPlaying = false;
+    this.runningSoundInstance = null;
   }
+  this.isRunningSoundPlaying = false;
+}
 
   jump() {
-    this.speedY = 20;
-    const now = Date.now();
-    if (
-      typeof soundManager !== "undefined" &&
-      !soundManager.isMuted &&
-      now - this.lastJumpSoundTime >= this.jumpSoundCooldown
-    ) {
-      const audio = soundManager.sounds["jump"]?.cloneNode();
-      if (audio) {
-        audio.currentTime = 0.3;
-        audio.volume = 0.1;
-        audio.play();
-        this.lastJumpSoundTime = now;
-      }
+  this.speedY = 20;
+
+  const now = Date.now();
+  if (
+    typeof soundManager !== "undefined" &&
+    !soundManager.isMuted &&
+    now - this.lastJumpSoundTime >= this.jumpSoundCooldown
+  ) {
+    const sound = soundManager.sounds["jump"];
+    if (sound) {
+      sound.pause();
+      sound.currentTime = 0.3;
+      sound.volume = 0.1;
+      sound.play().catch(() => {});
+      this.lastJumpSoundTime = now;
     }
   }
+}
 
   resetMovementTimer() {
     return (this.lastMovementTime = Date.now());
