@@ -8,7 +8,10 @@ class DrawableObject {
     imageCache = [];
     currentImage = 0;
 
-
+  /**
+   * Zeichnet das Objekt auf den Canvas
+   * @param {CanvasRenderingContext2D} ctx - Der Canvas-Rendering-Kontext
+   */
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
