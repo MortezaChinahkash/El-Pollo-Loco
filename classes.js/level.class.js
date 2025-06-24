@@ -85,9 +85,12 @@ class Level {
     const numberOfClouds = Math.floor(this.levelWidth / 700);
     for (let i = 0; i < numberOfClouds; i++) {
       this.clouds.push(new Cloud(this.levelWidth));
-    }
-  }
+    }  }
 
+  /**
+   * Generiert Hühner-Gegner für das Level
+   * Anzahl und Schaden basieren auf Levelgröße und -nummer
+   */
   generateChickens() {
     const minChicken = Math.floor(this.levelWidth / 500);
     const maxChicken = Math.floor(this.levelWidth / 200);
