@@ -6,18 +6,26 @@ class SoundManager {
   constructor() {
     this.sounds = {};
     this.music = null;
-    this.isMuted = false;
-  }
+    this.isMuted = false;  }
 
+  /**
+   * Entsperrt Audio-Wiedergabe nach Benutzerinteraktion
+   * Erforderlich für moderne Browser-Autoplay-Richtlinien
+   */
   unlockAudio() {
     Object.values(this.sounds).forEach((audio) => {
       try {
         audio.muted = false;
         audio.play().then(() => audio.pause()).catch(() => {});
       } catch {}
-    });
-  }
+    });  }
 
+  /**
+   * Lädt eine Audiodatei und fügt sie zur Sounds-Sammlung hinzu
+   * @param {string} name - Name/ID für den Sound
+   * @param {string} path - Pfad zur Audiodatei
+   * @param {boolean} [loop=false] - Ob der Sound in Schleife abgespielt werden soll
+   */
   loadSound(name, path, loop = false) {
     const audio = new Audio(path);
     audio.loop = loop;
