@@ -63,45 +63,63 @@ class Statusbar extends DrawableObject {
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/orange/80.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/orange/100.png",
       ],
-    };
-  }
+    };  }
 
+  /**
+   * Startet die Synchronisation der Statusleiste mit einem verknüpften Objekt
+   * Aktualisiert kontinuierlich die Anzeige basierend auf den Objektwerten
+   * @param {Object} obj - Das Objekt mit dem synchronisiert werden soll
+   */
   startSyncWithObject(obj) {
-  setInterval(() => {
-    const value = this.getLinkedValue(obj);
-    this.setPercentage(value);
+    setInterval(() => {
+      const value = this.getLinkedValue(obj);
+      this.setPercentage(value);
 
-    if (this.type === "endboss") {
-      this.updateEndbossBarPosition(obj);
+      if (this.type === "endboss") {
+        this.updateEndbossBarPosition(obj);
+      }
+    }, 100);  }
+
+  /**
+   * Ermittelt den aktuellen Wert des verknüpften Objekts basierend auf dem Statusleisten-Typ
+   * @param {Object} obj - Das verknüpfte Objekt
+   * @returns {number} Der entsprechende Wert für die Statusleiste
+   */
+  getLinkedValue(obj) {
+    let value = 0;
+    if (this.type === "health" || this.type === "endboss") {
+      value = obj.energy;
+    } else if (this.type === "coins") {
+      value = obj.coins;
+    } else if (this.type === "bottles") {
+      value = obj.bottles;
     }
-  }, 100);
-}
+    return value;  }
 
-getLinkedValue(obj) {
-  let value = 0;
-  if (this.type === "health" || this.type === "endboss") {
-    value = obj.energy;
-  } else if (this.type === "coins") {
-    value = obj.coins;
-  } else if (this.type === "bottles") {
-    value = obj.bottles;
-  }
-  return value;
-}
+  /**
+   * Aktualisiert die Position der Endboss-Statusleiste
+   * Positioniert sie über dem Endboss und zentriert sie
+   * @param {Endboss} obj - Der Endboss dessen Position verfolgt wird
+   */
+  updateEndbossBarPosition(obj) {
+    this.x = obj.x + obj.width / 2 - this.width / 2;
+    this.y = obj.y - 30;  }
 
-updateEndbossBarPosition(obj) {
-  this.x = obj.x + obj.width / 2 - this.width / 2;
-  this.y = obj.y - 30;
-}
-
+  /**
+   * Setzt den Prozentsatz der Statusleiste und aktualisiert das angezeigte Bild
+   * @param {number} value - Der neue Wert für die Statusleiste
+   */
   setPercentage(value) {
     const percent = Math.min(100, Math.round((value / this.maxValue) * 100));
     this.percentage = percent;
     const index = this.resolveImageIndex();
     const path = this.IMAGES[this.type][index];
-    this.img = this.imageCache[path];
-  }
+    this.img = this.imageCache[path];  }
 
+  /**
+   * Ermittelt den Index des anzuzeigenden Bildes basierend auf dem Prozentsatz
+   * @returns {number} Index des entsprechenden Bildes im IMAGES Array
+   */
   resolveImageIndex() {
     if (this.percentage >= 100) return 5;
     if (this.percentage >= 80) return 4;
