@@ -49,9 +49,12 @@ class Level {
       );
       startX += segmentWidth;
       blockIndex++;
-    }
-  }
+    }  }
 
+  /**
+   * Definiert die verfügbaren Hintergrund-Segmente
+   * @returns {Array} Array mit Hintergrund-Konfigurationen für verschiedene Schichten
+   */
   defineBG() {
     return [
       {
