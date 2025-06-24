@@ -18,9 +18,9 @@ function getCachedElement(id) {
 function init(levelWidth = 5000, levelNumber = 1) {
   setupUI();
   currentLevel = initializeLevel(levelWidth, levelNumber);
-  initializeGameWorld(currentLevel);
-  setupAudio();
-  setupInput();  setupOverlayButtons();
+  initializeGameWorld(currentLevel);  setupAudio();
+  setupInput();
+  setupOverlayButtons();
   getCachedElement("overlay-buttons").style.display = "flex";
 }
 
@@ -144,13 +144,19 @@ function setupAudio() {
   sounds.forEach(sound => {
     soundManager.loadSound(sound.key, sound.src, sound.loop || false);
   });
-
   refreshMuteButton(soundManager.isMuted);
 
   // 👉 Wichtig: Musik wird immer nur gestartet, wenn gerade **nicht gemutet**
-  if (!soundManager.isMuted) {
-    soundManager.playMusic("background", 0.2);
-  }
+  // Add timeout to prevent audio interruption errors
+  setTimeout(() => {
+    if (!soundManager.isMuted) {
+      try {
+        soundManager.playMusic("background", 0.2);
+      } catch (error) {
+        console.warn("Audio playback failed:", error);
+      }
+    }
+  }, 200);
 }
 
 function loadMuteStateFromLocalStorage() {
@@ -173,7 +179,11 @@ function refreshMuteButton(isMuted) {
 
 function startMusicWhenNotMuted(isMuted) {
   if (!isMuted) {
-    soundManager.playMusic("background", 0.2);
+    try {
+      soundManager.playMusic("background", 0.2);
+    } catch (error) {
+      console.warn("Audio playback failed:", error);
+    }
   }
 }
 
@@ -190,7 +200,12 @@ window.addEventListener(
   () => {
     if (!world) {
       init();
-      soundManager.playMusic("background", 0.2);
+      // Add delay to prevent audio interruption
+      setTimeout(() => {
+        if (soundManager && !soundManager.isMuted) {
+          soundManager.playMusic("background", 0.2);
+        }
+      }, 100);
     }
   },
   { once: true }
@@ -201,7 +216,12 @@ window.addEventListener(
   () => {
     if (!world) {
       init();
-      soundManager.playMusic("background", 0.2);
+      // Add delay to prevent audio interruption
+      setTimeout(() => {
+        if (soundManager && !soundManager.isMuted) {
+          soundManager.playMusic("background", 0.2);
+        }
+      }, 100);
     }
   },
   { once: true }
