@@ -126,9 +126,12 @@ class Statusbar extends DrawableObject {
     if (this.percentage >= 60) return 3;
     if (this.percentage >= 30) return 2;
     if (this.percentage > 0) return 1;
-    return 0;
-  }
+    return 0;  }
 
+  /**
+   * Ermittelt die initiale X-Position basierend auf dem Statusleisten-Typ
+   * @returns {number} X-Position für die Statusleiste
+   */
   getInitialX() {
     switch (this.type) {
       case "coins":
