@@ -1,4 +1,8 @@
 class SoundManager {
+  /**
+   * Erstellt einen neuen SoundManager zur Verwaltung aller Spiel-Audiodateien
+   * Initialisiert Sounds-Dictionary, Musik-Referenz und Mute-Status
+   */
   constructor() {
     this.sounds = {};
     this.music = null;

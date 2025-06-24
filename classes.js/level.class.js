@@ -100,17 +100,23 @@ class Level {
       const chickenDamage = 1 + this.levelNumber * 0.1;
       const chicken = new Chicken(this.levelWidth, chickenDamage);
       this.enemies.push(chicken);
-    }
-  }
+    }  }
 
+  /**
+   * Generiert den Endboss für das Level
+   * Schaden und Energie werden basierend auf der Levelnummer skaliert
+   */
   generateEndboss() {
     const bossDamage = 5 + this.levelNumber * 1;
     const energy = 200 + this.levelNumber * 50;
     const boss = new Endboss(this.levelWidth, bossDamage, energy);
     this.boss = boss;
-    this.enemies.push(boss);
-  }
+    this.enemies.push(boss);  }
 
+  /**
+   * Generiert sammelbare Objekte (Münzen und Flaschen) für das Level
+   * Anzahl basiert auf Levelgröße und -nummer für ausgewogenes Gameplay
+   */
   generateCollectables() {
     const coinCount = Math.min(10, Math.floor(this.levelWidth / 400));
     const bottleCount = Math.ceil((200 + this.levelNumber * 50) / 100) + 2;
