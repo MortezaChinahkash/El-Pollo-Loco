@@ -75,8 +75,12 @@ class Level {
         first:
           "img/img_pollo_locco/img/5_background/layers/1_first_layer/2.png",
       },
-    ];
-  }
+    ];  }
+  
+  /**
+   * Generiert Wolken für das Level basierend auf der Levelbreite
+   * Erstellt eine angemessene Anzahl von Wolken für die Hintergrundanimation
+   */
   generateClouds() {
     const numberOfClouds = Math.floor(this.levelWidth / 700);
     for (let i = 0; i < numberOfClouds; i++) {
