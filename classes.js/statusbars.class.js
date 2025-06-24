@@ -23,9 +23,12 @@ class Statusbar extends DrawableObject {
     this.height = 60;
     if (linkedObject) {
       this.startSyncWithObject(linkedObject);
-    }
-  }
+    }  }
 
+  /**
+   * Initialisiert die Bildpfade für alle Statusleisten-Typen
+   * Definiert für jeden Typ die entsprechenden Bilder für verschiedene Füllstände
+   */
   initImages() {
     this.IMAGES = {
       health: [
