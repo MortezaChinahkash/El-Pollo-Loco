@@ -13,9 +13,12 @@ class DrawableObject {
    * @param {CanvasRenderingContext2D} ctx - Der Canvas-Rendering-Kontext
    */
   draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  }
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);  }
 
+  /**
+   * Lädt ein einzelnes Bild von einem Pfad
+   * @param {string} path - Pfad zur Bilddatei
+   */
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
