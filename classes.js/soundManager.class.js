@@ -87,9 +87,12 @@ class SoundManager {
    * Pausiert die aktuell abspielende Hintergrundmusik
    */
   pauseMusic() {
-    if (this.music) this.music.pause();
-  }
+    if (this.music) this.music.pause();  }
 
+  /**
+   * Schaltet zwischen Stummschaltung und normaler Wiedergabe um
+   * Speichert den Status im localStorage für Persistenz
+   */
   toggleMute() {
     this.isMuted = !this.isMuted;
     if (this.music) {
@@ -98,13 +101,20 @@ class SoundManager {
         this.music.play().catch(() => {});
       }
     }
-    localStorage.setItem("soundMuted", this.isMuted ? "true" : "false");
-  }
+    localStorage.setItem("soundMuted", this.isMuted ? "true" : "false");  }
 
+  /**
+   * Setzt die Lautstärke der aktuell abspielenden Hintergrundmusik
+   * @param {number} value - Lautstärke zwischen 0.0 und 1.0
+   */
   setMusicVolume(value) {
-    if (this.music) this.music.volume = Math.min(Math.max(value, 0), 1);
-  }
+    if (this.music) this.music.volume = Math.min(Math.max(value, 0), 1);  }
 
+  /**
+   * Setzt die Lautstärke eines spezifischen Sound-Effekts
+   * @param {string} name - Name des Sounds
+   * @param {number} value - Lautstärke zwischen 0.0 und 1.0
+   */
   setEffectVolume(name, value) {
     const sound = this.sounds[name];
     if (sound) sound.volume = Math.min(Math.max(value, 0), 1);
