@@ -22,21 +22,6 @@ canvas {
   position: relative;
 }
 
-#startGameBtn {
-  position: absolute;
-  z-index: 9999;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 24px;
-  padding: 15px 30px;
-  border-radius: 12px;
-  background-color: #e29247;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
 #canvas-container {
   position: relative;
   width: fit-content;
@@ -50,6 +35,7 @@ canvas {
   right: 10px;
   z-index: 1100;
   gap: 10px;
+  cursor: pointer;
 }
 
 #overlay-buttons button {
@@ -148,6 +134,7 @@ canvas {
   background-color: #e29247;
   border-radius: 10px;
   z-index: 1000;
+  cursor: pointer;
 }
 #nextLevelBtn {
   display: none;
@@ -157,6 +144,7 @@ canvas {
   background-color: #e29247;
   border-radius: 10px;
   z-index: 1000;
+  cursor: pointer;
 }
 .button-container {
   display: flex;
@@ -276,7 +264,7 @@ canvas {
     z-index: 2000;
     background-color: rgba(0, 0, 0, 0.9);
     color: white;
-    font-size: 24px;
+    font-size: 16px;
     font-family: sans-serif;
     display: flex;
     align-items: center;
@@ -284,7 +272,6 @@ canvas {
     width: 100vw;
     height: 100vh;
     text-align: center;
-    padding: 20px;
   }
 
   canvas,

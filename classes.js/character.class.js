@@ -19,6 +19,9 @@ class Character extends movableObject {
   hasPlayedOrale = false;
   runningSoundInstance = null;
   isRunningSoundPlaying = false;
+  hasJumpedUp = false;
+hasJumpedDown = false;
+
 
   IMAGES_IDLE_LONG = [
     "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-11.png",
@@ -55,17 +58,20 @@ class Character extends movableObject {
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-26.png",
   ];
 
-  IMAGES_JUMPING = [
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-31.png",
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-32.png",
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-33.png",
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-34.png",
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-35.png",
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-36.png",
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-37.png",
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-38.png",
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-39.png",
-  ];
+  IMAGES_JUMP_UP = [
+  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-31.png",
+  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-32.png",
+  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-33.png",
+  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-34.png",
+  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-35.png",
+];
+
+IMAGES_JUMP_DOWN = [
+  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-36.png",
+  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-37.png",
+  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-38.png",
+  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-39.png",
+];
 
   IMAGES_HURT = [
     "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-41.png",
@@ -98,7 +104,8 @@ class Character extends movableObject {
     this.bottles = 0;
     this.loadImage("img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
-    this.loadImages(this.IMAGES_JUMPING);
+    this.loadImages(this.IMAGES_JUMP_UP);
+this.loadImages(this.IMAGES_JUMP_DOWN);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_IDLE);
@@ -184,28 +191,57 @@ class Character extends movableObject {
 
   charAnimations() {
     if (this.isHurt || this.isDeadState) {
-      this.stopRunningSound(); // Kein Sound, wenn verletzt oder tot
+      this.stopRunningSound();
       return;
     }
+
     const bossIsEntering = this.world.level.boss?.movingIn;
     const now = Date.now();
     const timeSinceLastMove = now - this.lastMovementTime;
-    this.pickAnimationDueToSituation(bossIsEntering, timeSinceLastMove); // Animation auswählen je nach Zustand
+
+    if (bossIsEntering) {
+      this.playAnimation(this.IMAGES_IDLE);
+    } else if (this.isAboveGround()) {
+      this.handleJumpAnimation();
+    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      this.playAnimation(this.IMAGES_WALKING);
+    } else if (timeSinceLastMove >= this.idleThreshold) {
+      this.playAnimation(this.IMAGES_IDLE_LONG);
+    } else {
+      this.playAnimation(this.IMAGES_IDLE);
+    }
+
+    if (!this.isAboveGround()) {
+      this.hasJumpedUp = false;
+      this.hasJumpedDown = false;
+    }
   }
 
-  pickAnimationDueToSituation(bossIsEntering, timeSinceLastMove) {
-    this.playAnimation(
-      bossIsEntering
-        ? this.IMAGES_IDLE // Boss-Einmarsch: Idle
-        : this.isAboveGround()
-        ? this.IMAGES_JUMPING // In der Luft: Springen
-        : this.world.keyboard.RIGHT || this.world.keyboard.LEFT
-        ? this.IMAGES_WALKING // Bewegt sich: Laufen
-        : timeSinceLastMove >= this.idleThreshold
-        ? this.IMAGES_IDLE_LONG // Lange Inaktivität
-        : this.IMAGES_IDLE // Normales Idle
-    );
+  handleJumpAnimation() {
+    if (this.speedY > 0 && !this.hasJumpedUp) {
+      this.playAnimationOnce(this.IMAGES_JUMP_UP);
+      this.hasJumpedUp = true;
+    } else if (this.speedY < 0 && this.hasJumpedUp && !this.hasJumpedDown) {
+      this.playAnimationOnce(this.IMAGES_JUMP_DOWN);
+      this.hasJumpedDown = true;
+    }
   }
+
+  playAnimationOnce(images) {
+    this.currentImage = 0;
+    clearInterval(this.animationInterval);
+
+    this.animationInterval = setInterval(() => {
+      if (this.currentImage < images.length) {
+        let path = images[this.currentImage];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+      } else {
+        clearInterval(this.animationInterval);
+      }
+    }, 100);
+  }
+
 
   handleInput() {
     if (this.isDeadState || this.world?.level?.boss?.movingIn) return; // Eingabe ignorieren, wenn Charakter tot ist oder Boss gerade einläuft

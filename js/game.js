@@ -123,10 +123,10 @@ soundManager.loadSound("throw_splash", "audio/bottle-break-39916.mp3");
 soundManager.loadSound("bottle_hit_boss", "audio/bottle-hit-boss.mp3");
 soundManager.loadSound("hurt", "audio/Hurt.mp3");
 soundManager.loadSound("jump", "audio/Jump.mp3");
-soundManager.loadSound("orale", "audio/orale.mp3");
+soundManager.loadSound("orale", "audio/Orale.mp3");
 soundManager.loadSound("ay_dios_mio", "audio/Ay Dios Mio.mp3");
 soundManager.loadSound("won", "audio/won.mp3");
-soundManager.loadSound("lost", "audio/lost.mp3");
+soundManager.loadSound("lost", "audio/Lost.mp3");
 soundManager.loadSound("running", "audio/running-on-gravel-301880.mp3");
 soundManager.loadSound("jump_on_enemy", "audio/jump-up-245782.mp3");
 soundManager.loadSound("snore", "audio/snoring-8486.mp3");
@@ -178,7 +178,6 @@ window.addEventListener(
   () => {
     if (!world) {
       init();
-      // Musik erst hier starten
       soundManager.playMusic("background", 0.1);
     }
   },
@@ -190,7 +189,6 @@ window.addEventListener(
   () => {
     if (!world) {
       init();
-      // Musik erst hier starten
       soundManager.playMusic("background", 0.1);
     }
   },

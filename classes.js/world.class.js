@@ -138,14 +138,18 @@ class World {
         if (this.character.isJumpingOn(enemy)) {
   enemy.hit(this.character.damage);
 
-  // ✅ Sprung-Sound beim Draufspringen auf Gegner
   if (!(enemy instanceof Endboss) && typeof soundManager !== "undefined") {
     soundManager.playSound("jump_on_enemy", 0.3);
   }
 
+  // Bounce nach oben
   this.character.speedY = 15;
   this.character.y = enemy.y - this.character.height + enemy.offset.top;
-}
+
+  // Exakt dieselbe Jump-Up Animation wie beim Absprung
+  this.character.hasJumpedDown = false;
+  this.character.hasJumpedUp = false;
+  this.character.handleJumpAnimation();}
  else {
           // KEIN Schaden durch Endboss, wenn dieser stirbt oder tot ist
           const isEndboss = enemy instanceof Endboss;
