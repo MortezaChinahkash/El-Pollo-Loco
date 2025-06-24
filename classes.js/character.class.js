@@ -105,16 +105,18 @@ IMAGES_JUMP_DOWN = [
     this.loadImage("img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMP_UP);
-this.loadImages(this.IMAGES_JUMP_DOWN);
+    this.loadImages(this.IMAGES_JUMP_DOWN);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_IDLE_LONG);
     this.applyGravity();
   }
-
   hit(damage, source=null) {
     if (this.isHurt) return; // Wenn bereits verletzt, ignorieren
+    
+    this.stopRunningSound(); // Laufgeräusch sofort stoppen bei Schaden
+    
     this.energy -= damage; // Energie reduzieren
     if (this.energy < 0) this.energy = 0; // Nicht unter 0 gehen lassen
     this.isHurt = true; // Zustand setzen
@@ -126,7 +128,6 @@ this.loadImages(this.IMAGES_JUMP_DOWN);
     if (this.isDead()) {
       this.playDeadSequence(); // Todes-Sequenz starten
     }
-    this.stopRunningSound(); // Laufgeräusch beenden
     // Nach 1 Sekunde wieder verwundbar
     setTimeout(() => (this.isHurt = false), 1000);
   }
@@ -188,7 +189,6 @@ this.loadImages(this.IMAGES_JUMP_DOWN);
     setInterval(() => this.handleInput(), 1000 / 60);
     setInterval(() => this.charAnimations(), 120);
   }
-
   charAnimations() {
     if (this.isHurt || this.isDeadState) {
       this.stopRunningSound();
@@ -200,6 +200,7 @@ this.loadImages(this.IMAGES_JUMP_DOWN);
     const timeSinceLastMove = now - this.lastMovementTime;
 
     if (bossIsEntering) {
+      this.stopRunningSound(); // Laufsound sofort stoppen wenn Boss einläuft
       this.playAnimation(this.IMAGES_IDLE);
     } else if (this.isAboveGround()) {
       this.handleJumpAnimation();
@@ -242,9 +243,11 @@ this.loadImages(this.IMAGES_JUMP_DOWN);
     }, 100);
   }
 
-
   handleInput() {
-    if (this.isDeadState || this.world?.level?.boss?.movingIn) return; // Eingabe ignorieren, wenn Charakter tot ist oder Boss gerade einläuft
+    if (this.isDeadState || this.world?.level?.boss?.movingIn) {
+      this.stopRunningSound(); // Laufsound stoppen wenn Boss einläuft oder Charakter tot ist
+      return; // Eingabe ignorieren, wenn Charakter tot ist oder Boss gerade einläuft
+    }
     let moved = false;
     if (this.moveRightWhenSpace()) moved = true; // Bewegung nach rechts prüfen und ausführen
     if (this.moveLeftWhenSpace()) moved = true; // Bewegung nach links prüfen und ausführen
