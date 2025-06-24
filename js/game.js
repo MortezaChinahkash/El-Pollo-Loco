@@ -132,12 +132,11 @@ soundManager.loadSound("jump_on_enemy", "audio/jump-up-245782.mp3");
 soundManager.loadSound("snore", "audio/snoring-8486.mp3");
 
 
-
   refreshMuteButton(soundManager.isMuted);
 
   // 👉 Wichtig: Musik wird immer nur gestartet, wenn gerade **nicht gemutet**
   if (!soundManager.isMuted) {
-    soundManager.playMusic("background", 0.05);
+    soundManager.playMusic("background", 0.2);
   }
 }
 
@@ -161,7 +160,7 @@ function refreshMuteButton(isMuted) {
 
 function startMusicWhenNotMuted(isMuted) {
   if (!isMuted) {
-    soundManager.playMusic("background", 0.1);
+    soundManager.playMusic("background", 0.2);
   }
 }
 
@@ -178,7 +177,7 @@ window.addEventListener(
   () => {
     if (!world) {
       init();
-      soundManager.playMusic("background", 0.1);
+      soundManager.playMusic("background", 0.2);
     }
   },
   { once: true }
@@ -189,7 +188,7 @@ window.addEventListener(
   () => {
     if (!world) {
       init();
-      soundManager.playMusic("background", 0.1);
+      soundManager.playMusic("background", 0.2);
     }
   },
   { once: true }
