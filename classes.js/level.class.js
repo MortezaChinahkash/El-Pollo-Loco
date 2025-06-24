@@ -24,9 +24,12 @@ class Level {
     this.generateClouds();
     this.generateChickens();
     this.generateEndboss();
-    this.generateCollectables();
-  }
+    this.generateCollectables();  }
 
+  /**
+   * Generiert die Hintergrundobjekte für das gesamte Level
+   * Erstellt mehrere Schichten von Hintergrundbildern über die gesamte Levelbreite
+   */
   generateBackground() {
     const backgrounds = this.defineBG();
     const segmentWidth = 719;
