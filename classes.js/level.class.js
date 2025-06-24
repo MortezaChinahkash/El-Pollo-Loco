@@ -5,6 +5,14 @@ class Level {
   levelWidth;
   levelNumber;
 
+  /**
+   * Erstellt ein neues Level mit allen Spielelementen
+   * @param {Array} enemies - Array für Gegner
+   * @param {Array} clouds - Array für Wolken
+   * @param {Array} backgroundObjects - Array für Hintergrundobjekte
+   * @param {number} levelWidth - Breite des Levels
+   * @param {number} levelNumber - Nummer des Levels für Schwierigkeitsanpassung
+   */
   constructor(enemies, clouds, backgroundObjects, levelWidth, levelNumber) {
     this.enemies = enemies;
     this.clouds = clouds;
