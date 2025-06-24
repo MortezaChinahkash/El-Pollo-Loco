@@ -140,9 +140,12 @@ class Statusbar extends DrawableObject {
         return 460;
       default:
         return 40;
-    }
-  }
+    }  }
 
+  /**
+   * Gibt die initiale Y-Position für alle Statusleisten zurück
+   * @returns {number} Y-Position (immer 0, da alle oben angezeigt werden)
+   */
   getInitialY() {
     return 0;
   }
