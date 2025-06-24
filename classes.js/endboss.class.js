@@ -1,3 +1,7 @@
+/**
+ * Endboss-Klasse für den Hauptgegner des Spiels
+ * Erweitert movableObject um komplexe KI, Angriffsverhalten und Animationen
+ */
 class Endboss extends movableObject {
   isDeadState = false;
   isDying = false;
@@ -51,9 +55,14 @@ class Endboss extends movableObject {
     "img/img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G23.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G24.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png",
-    "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png",
-  ];
+    "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png",  ];
 
+  /**
+   * Erstellt einen neuen Endboss mit angegebenen Eigenschaften
+   * @param {number} levelWidth - Breite des Levels für Positionierung
+   * @param {number} damage - Schaden den der Boss verursacht
+   * @param {number} energy - Lebenspunkte des Bosses
+   */
   constructor(levelWidth, damage, energy) {
     super();
     this.levelWidth = levelWidth;
@@ -65,9 +74,12 @@ class Endboss extends movableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_DEAD);
-    this.applyGravity();
-  }
+    this.applyGravity();  }
 
+  /**
+   * Aktiviert den Endboss und startet dessen Eingangssequenz
+   * Boss bewegt sich ins Level und beginnt dann mit Angriffen
+   */
   activate() {
     this.activated = true;
     this.movingIn = true;

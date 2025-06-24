@@ -15,12 +15,13 @@ class Character extends movableObject {
   lastHurtSoundTime = 0;
   hurtSoundCooldown = 1000;
   lastJumpSoundTime = 0;
-  jumpSoundCooldown = 500;
-  hasPlayedOrale = false;
+  jumpSoundCooldown = 500;  hasPlayedOrale = false;
   runningSoundInstance = null;
   isRunningSoundPlaying = false;
   hasJumpedUp = false;
-hasJumpedDown = false;
+  hasJumpedDown = false;
+  lastBossHitSoundTime = 0;
+  ayDiosMioCooldown = 2000;
 
 
   IMAGES_IDLE_LONG = [
@@ -92,6 +93,10 @@ IMAGES_JUMP_DOWN = [
   world;
   camera_x = 0;
 
+  /**
+   * Erstellt eine neue Character-Instanz
+   * Initialisiert alle Bilder, Eigenschaften und startet die Schwerkraft
+   */
   constructor() {
     super();
     this.offset = {
@@ -109,9 +114,16 @@ IMAGES_JUMP_DOWN = [
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_IDLE);
-    this.loadImages(this.IMAGES_IDLE_LONG);
-    this.applyGravity();
-  }
+      this.loadImages(this.IMAGES_IDLE_LONG);
+      this.applyGravity();
+    }
+
+  /**
+   * Verarbeitet Schaden am Charakter
+   * Stoppt Laufgeräusche, reduziert Energie und startet Verletzungsanimation
+   * @param {number} damage - Der zu verursachende Schaden
+   * @param {Object} [source=null] - Die Quelle des Schadens (z.B. Endboss)
+   */
   hit(damage, source=null) {
     if (this.isHurt) return; // Wenn bereits verletzt, ignorieren
     
@@ -129,9 +141,13 @@ IMAGES_JUMP_DOWN = [
       this.playDeadSequence(); // Todes-Sequenz starten
     }
     // Nach 1 Sekunde wieder verwundbar
-    setTimeout(() => (this.isHurt = false), 1000);
-  }
+    setTimeout(() => (this.isHurt = false), 1000);  }
 
+  /**
+   * Spielt Verletzungsgeräusch mit Cooldown ab
+   * Verhindert zu häufiges Abspielen des Hurt-Sounds
+   * @param {number} now - Aktueller Zeitstempel
+   */
   playHurtSoundWithCooldown(now) {
     if (
       typeof soundManager !== "undefined" &&
@@ -139,9 +155,13 @@ IMAGES_JUMP_DOWN = [
     ) {
       soundManager.playSound("hurt", 0.3);
       this.lastHurtSoundTime = now;
-    }
-  }
+    }  }
 
+  /**
+   * Spielt speziellen Sound ab, wenn der Charakter vom Endboss getroffen wird
+   * @param {number} now - Aktueller Zeitstempel
+   * @param {Object} source - Die Schadenquelle
+   */
   playSoundWhenMeetingEndboss(now, source) {
     if (
       typeof soundManager !== "undefined" &&
@@ -150,16 +170,23 @@ IMAGES_JUMP_DOWN = [
     ) {
       soundManager.playSound("ay_dios_mio", 0.4);
       this.lastBossHitSoundTime = now;
-    }
-  }
+    }  }
 
+  /**
+   * Prüft ob der Charakter auf einen Gegner springt
+   * @param {Object} enemy - Der Gegner-Objekt
+   * @returns {boolean} True wenn der Charakter auf den Gegner springt
+   */
   isJumpingOn(enemy) {
     return (
       this.speedY < 0 &&
       this.y + this.height - this.offset.bottom < enemy.y + enemy.height
-    );
-  }
+    );  }
 
+  /**
+   * Startet die Todessequenz des Charakters
+   * Setzt Todes-Zustand, startet Animation und stoppt alle Geräusche
+   */
   playDeadSequence() {
     this.isDeadState = true; // Zustand tot setzen
     this.currentImage = 0; // Startbild setzen
@@ -170,25 +197,41 @@ IMAGES_JUMP_DOWN = [
         this.endDeadSequence(interval); // Animation beenden
       }
     }, 100);
-    this.stopRunningSound(); // Laufgeräusch beenden
-  }
+      this.stopRunningSound(); // Laufgeräusch beenden;  
+    }
 
+  /**
+   * Animiert ein einzelnes Bild der Todessequenz
+   * Lädt das nächste Bild aus dem IMAGES_DEAD Array
+   */
   animateDeadSequence() {
     let path = this.IMAGES_DEAD[this.currentImage];
     this.img = this.imageCache[path];
-    this.currentImage++;
-  }
+    this.currentImage++;  }
 
+  /**
+   * Beendet die Todessequenz
+   * Stoppt den Animations-Interval und markiert den Charakter als vollständig tot
+   * @param {number} interval - Der zu stoppende Interval
+   */
   endDeadSequence(interval) {
     clearInterval(interval);
     this.currentImage--; // Letztes Bild behalten
-    this.hasFullyDied = true; // Totenzustand abschließen
+    this.hasFullyDied = true; // Totenzustand abschließen  
   }
 
+  /**
+   * Startet die Hauptanimation des Charakters
+   * Initialisiert Input-Handling und Charakter-Animationen
+   */
   animate() {
     setInterval(() => this.handleInput(), 1000 / 60);
-    setInterval(() => this.charAnimations(), 120);
-  }
+    setInterval(() => this.charAnimations(), 120);  }
+
+  /**
+   * Verwaltet alle Charakter-Animationen basierend auf dem aktuellen Zustand
+   * Stoppt Laufgeräusche bei Verletzung, Boss-Eingang oder Tod
+   */
   charAnimations() {
     if (this.isHurt || this.isDeadState) {
       this.stopRunningSound();
@@ -215,9 +258,12 @@ IMAGES_JUMP_DOWN = [
     if (!this.isAboveGround()) {
       this.hasJumpedUp = false;
       this.hasJumpedDown = false;
-    }
-  }
+    }  }
 
+  /**
+   * Verwaltet Sprunganimationen basierend auf der Sprunggeschwindigkeit
+   * Wechselt zwischen Aufwärts- und Abwärts-Sprunganimationen
+   */
   handleJumpAnimation() {
     if (this.speedY > 0 && !this.hasJumpedUp) {
       this.playAnimationOnce(this.IMAGES_JUMP_UP);
@@ -225,9 +271,13 @@ IMAGES_JUMP_DOWN = [
     } else if (this.speedY < 0 && this.hasJumpedUp && !this.hasJumpedDown) {
       this.playAnimationOnce(this.IMAGES_JUMP_DOWN);
       this.hasJumpedDown = true;
-    }
-  }
+    }  }
 
+  /**
+   * Spielt eine Animation einmalig ab
+   * Verwendet für Sprunganimationen, die nur einmal durchlaufen sollen
+   * @param {string[]} images - Array mit Bildpfaden für die Animation
+   */
   playAnimationOnce(images) {
     this.currentImage = 0;
     clearInterval(this.animationInterval);
@@ -240,9 +290,12 @@ IMAGES_JUMP_DOWN = [
       } else {
         clearInterval(this.animationInterval);
       }
-    }, 100);
-  }
+    }, 100);  }
 
+  /**
+   * Verarbeitet Benutzereingaben und steuert Charakterbewegung
+   * Stoppt Eingaben wenn Charakter tot ist oder Boss einläuft
+   */
   handleInput() {
     if (this.isDeadState || this.world?.level?.boss?.movingIn) {
       this.stopRunningSound(); // Laufsound stoppen wenn Boss einläuft oder Charakter tot ist
@@ -260,9 +313,12 @@ IMAGES_JUMP_DOWN = [
    this.playRunningSound(moved);; // Laufgeräusch abspielen
     this.setCamLimit(); // Kamera innerhalb Level-Grenzen halten
     const camLimit = this.world.level.levelWidth - this.world.canvas.width;
-    this.setLevelWidth(camLimit);
-  }
+    this.setLevelWidth(camLimit);  }
 
+  /**
+   * Bewegt den Charakter nach rechts wenn entsprechende Taste gedrückt wird
+   * @returns {boolean} True wenn Bewegung nach rechts ausgeführt wurde
+   */
   moveRightWhenSpace() {
     // Prüft ob nach rechts gegangen werden kann, führt Bewegung aus, gibt true zurück wenn bewegt
     if (
@@ -272,9 +328,12 @@ IMAGES_JUMP_DOWN = [
       this.moveRight();
       return true;
     }
-    return false;
-  }
+    return false;  }
 
+  /**
+   * Bewegt den Charakter nach links wenn entsprechende Taste gedrückt wird
+   * @returns {boolean} True wenn Bewegung nach links ausgeführt wurde
+   */
   moveLeftWhenSpace() {
     // Prüft ob nach links gegangen werden kann, führt Bewegung aus, gibt true zurück wenn bewegt
     if (this.world.keyboard.LEFT && this.x > 0) {
@@ -282,25 +341,34 @@ IMAGES_JUMP_DOWN = [
       this.otherDirection = true;
       return true;
     }
-    return false;
-  }
+    return false;  }
 
+  /**
+   * Lässt den Charakter springen wenn entsprechende Taste gedrückt wird
+   * @returns {boolean} True wenn Sprung ausgeführt wurde
+   */
   jumpWhenSpace() {
     // Prüft ob ein Sprung möglich ist und führt ihn aus, gibt true zurück wenn gesprungen
     if (this.world.keyboard.UP && !this.isAboveGround()) {
       this.jump();
       return true;
     }
-    return false;
-  }
+    return false;  }
 
+  /**
+   * Spielt den "Orale!" Sound beim ersten Mal ab
+   * Verhindert mehrfaches Abspielen des Sounds
+   */
   playOraleSound() {
     if (!this.hasPlayedOrale && typeof soundManager !== "undefined") {
       soundManager.playSound("orale", 0.1);
       this.hasPlayedOrale = true;
-    }
-  }
+    }  }
 
+  /**
+   * Verwaltet das Abspielen und Stoppen des Laufgeräuschs
+   * @param {boolean} moved - Ob sich der Charakter bewegt hat
+   */
   playRunningSound(moved) {
     // Laufgeräusch abspielen
     const isActuallyRunning =
@@ -310,15 +378,20 @@ IMAGES_JUMP_DOWN = [
       this.startRunningSound();
     } else {
       this.stopRunningSound();
-    }
-  }
+    }  }
 
+  /**
+   * Setzt die Kamera-Grenzen basierend auf der Level-Breite
+   */
   setCamLimit() {
     // Kamera innerhalb Level-Grenzen halten
     const camLimit = this.world.level.levelWidth - this.world.canvas.width;
-    this.setLevelWidth(camLimit);
-  }
+    this.setLevelWidth(camLimit);  }
 
+  /**
+   * Startet das Laufgeräusch wenn es nicht bereits läuft
+   * Erstellt eine neue Audio-Instanz und spielt sie in Schleife ab
+   */
   startRunningSound() {
   if (
     !this.runningSoundInstance &&
@@ -342,6 +415,9 @@ IMAGES_JUMP_DOWN = [
   }
 }
 
+  /**
+   * Stoppt das Laufgeräusch und setzt alle Audio-Referenzen zurück
+   */
   stopRunningSound() {
   if (this.runningSoundInstance) {
     if (!this.runningSoundInstance.paused) {
@@ -352,6 +428,10 @@ IMAGES_JUMP_DOWN = [
   this.isRunningSoundPlaying = false;
 }
 
+  /**
+   * Lässt den Charakter springen und spielt Sprunggeräusch ab
+   * Setzt vertikale Geschwindigkeit und spielt Jump-Sound mit Cooldown
+   */
   jump() {
   this.speedY = 20;
 
@@ -372,10 +452,18 @@ IMAGES_JUMP_DOWN = [
   }
 }
 
+  /**
+   * Setzt den Bewegungstimer zurück auf die aktuelle Zeit
+   * @returns {number} Der aktuelle Zeitstempel
+   */
   resetMovementTimer() {
-    return (this.lastMovementTime = Date.now());
-  }
+    return (this.lastMovementTime = Date.now());  }
 
+  /**
+   * Setzt die Kameraposition basierend auf Charakterposition und Level-Grenzen
+   * Spezielle Behandlung wenn Boss einläuft
+   * @param {number} camLimit - Die maximale Kamera-Position
+   */
   setLevelWidth(camLimit) {
     const boss = this.world.level.boss;
     if (boss?.movingIn) {

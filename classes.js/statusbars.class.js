@@ -4,21 +4,27 @@ class Statusbar extends DrawableObject {
   maxValue = 100; 
   IMAGES = {};
 
+  /**
+   * Erstellt eine neue Statusleiste für verschiedene Spielwerte
+   * @param {string} type - Typ der Statusleiste ('health', 'coins', 'bottles', 'endboss')
+   * @param {Object} [linkedObject=null] - Objekt mit dem die Statusleiste synchronisiert wird
+   * @param {number} [maxValue=100] - Maximaler Wert der Statusleiste
+   */
   constructor(type, linkedObject = null, maxValue = 100) {
-  super();
-  this.type = type;
-  this.maxValue = maxValue;
-  this.initImages();
-  this.loadImages(this.IMAGES[type]);
-  this.setPercentage(maxValue);
-  this.x = this.getInitialX();
-  this.y = this.getInitialY();
-  this.width = 200;
-  this.height = 60;
-  if (linkedObject) {
-    this.startSyncWithObject(linkedObject);
+    super();
+    this.type = type;
+    this.maxValue = maxValue;
+    this.initImages();
+    this.loadImages(this.IMAGES[type]);
+    this.setPercentage(maxValue);
+    this.x = this.getInitialX();
+    this.y = this.getInitialY();
+    this.width = 200;
+    this.height = 60;
+    if (linkedObject) {
+      this.startSyncWithObject(linkedObject);
+    }
   }
-}
 
   initImages() {
     this.IMAGES = {

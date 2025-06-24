@@ -1,3 +1,7 @@
+/**
+ * World-Klasse verwaltet die gesamte Spielwelt und deren Logik
+ * Koordiniert Charaktere, Gegner, Kollisionen und Spielzustände
+ */
 class World {
   character = new Character();
   enemies;
@@ -13,6 +17,12 @@ class World {
   gameWon = false;
   gameOver = false;
 
+  /**
+   * Erstellt eine neue World-Instanz und initialisiert alle Spielelemente
+   * @param {HTMLCanvasElement} canvas - Das Canvas-Element für die Darstellung
+   * @param {Keyboard} keyboard - Das Keyboard-Objekt für Eingaben
+   * @param {Level} level - Das Level-Objekt mit allen Spielelementen
+   */
   constructor(canvas, keyboard, level) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
@@ -39,23 +49,31 @@ class World {
     this.level.boss.world = this;
     this.draw();
     this.run();
-    this.bottleSpawnCount = 0;
-  }
+    this.bottleSpawnCount = 0;  }
 
+  /**
+   * Verbindet den Charakter mit der Welt und startet dessen Animation
+   */
   setWorld() {
     this.character.world = this;
-    this.character.animate();
-  }
+    this.character.animate();  }
 
+  /**
+   * Erstellt eine neue Flasche an zufälliger Position im Level
+   * Begrenzt durch maxBottles-Anzahl
+   */
   spawnNewBottle() {
     if (this.bottleSpawnCount >= this.maxBottles) return;
     const x = 300 + Math.random() * (this.level.levelWidth - 600);
     const y = 370;
     const newBottle = new CollectableItem(x, y, "bottle");
     this.collectableItems.push(newBottle);
-    this.bottleSpawnCount++;
-  }
+    this.bottleSpawnCount++;  }
 
+  /**
+   * Überprüft Kollisionen zwischen Charakter und sammelbare Gegenstände
+   * Entfernt gesammelte Items aus der Liste
+   */
   checkCollectableItems() {
     this.collectableItems.forEach((item) => {
       if (!item.collected && this.character.isColliding(item)) {
@@ -64,15 +82,21 @@ class World {
     });
     this.collectableItems = this.collectableItems.filter(
       (item) => !item.markedForDeletion
-    );
-  }
+    );  }
 
+  /**
+   * Prüft ob neue Flaschen geworfen werden können
+   * Verhindert Werfen während Boss-Eingang
+   */
   checkThrowObjects() {
     const now = Date.now();
     if (this.character.world.level.boss?.movingIn) return;
-    this.checkInventory(now);
-  }
+    this.checkInventory(now);  }
 
+  /**
+   * Überprüft Inventar und ermöglicht Flaschenwerfen mit Cooldown
+   * @param {number} now - Aktueller Zeitstempel
+   */
   checkInventory(now) {
     if (
       this.keyboard.SPACE &&

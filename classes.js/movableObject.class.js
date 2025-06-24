@@ -1,3 +1,7 @@
+/**
+ * Basisklasse für alle beweglichen Objekte im Spiel
+ * Erweitert DrawableObject um Bewegung, Kollision und Physik
+ */
 class movableObject extends DrawableObject {
   speed = 1;
   otherDirection = false;
@@ -9,9 +13,12 @@ class movableObject extends DrawableObject {
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0,
-  };
+    right: 0,  };
 
+  /**
+   * Wendet Schwerkraft auf das Objekt an
+   * Reduziert vertikale Geschwindigkeit kontinuierlich
+   */
   applyGravity() {
     setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
@@ -20,9 +27,14 @@ class movableObject extends DrawableObject {
       } else {
         this.speedY = 0;
       }
-    }, 1000 / 25);
-  }
+    }, 1000 / 25);  }
 
+  /**
+   * Prüft Kollision zwischen diesem und einem anderen beweglichen Objekt
+   * Verwendet Offset-Werte für präzise Kollisionserkennung
+   * @param {movableObject} mo - Das andere bewegliche Objekt
+   * @returns {boolean} True wenn Kollision erkannt wird
+   */
   isColliding(mo) {
   const buffer = 5; // ← 5 Pixel Puffer, kannst du anpassen
 
@@ -34,13 +46,20 @@ class movableObject extends DrawableObject {
   );
 }
 
+  /**
+   * Reduziert die Energie des Objekts um den angegebenen Schaden
+   * @param {number} damage - Der zu verursachende Schaden
+   */
   hit(damage) {
     this.energy -= damage;
     if (this.energy < 0) {
       this.energy = 0;
-    }
-  }
+    }  }
 
+  /**
+   * Prüft ob das Objekt tot ist (Energie = 0)
+   * @returns {boolean} True wenn das Objekt tot ist
+   */
   isDead() {
     return this.energy == 0;
   }
