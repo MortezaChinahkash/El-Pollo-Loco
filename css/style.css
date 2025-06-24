@@ -1,6 +1,14 @@
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   touch-action: manipulation;
-  overscroll-behavior: contain; 
+  overscroll-behavior: contain;
+  /* Hardware acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 body {
@@ -14,12 +22,19 @@ body {
   background-image: url(../img/ChatGPT\ Image\ 5.\ Mai\ 2025\,\ 14_01_04.png);
   background-size: cover;
   background-position: center;
+  /* Optimize background rendering */
+  background-attachment: fixed;
+  will-change: transform;
 }
 
 canvas {
   background-color: black;
   box-shadow: 1px 1px 50px 15px;
   position: relative;
+  /* Hardware acceleration for canvas */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
 }
 
 #canvas-container {

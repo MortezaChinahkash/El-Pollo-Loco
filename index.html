@@ -1,25 +1,31 @@
-<html lang="de">
-  <head>
+<html lang="de">  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <script src="./classes.js/drawableObject.class.js"></script>
-    <script src="./classes.js/movableObject.class.js"></script>
-    <script src="./classes.js/cloud.classes.js"></script>
-    <script src="./classes.js/backgroundobjects.class.js"></script>
-    <script src="./classes.js/chicken.class.js"></script>
-    <script src="./classes.js/character.class.js"></script>
-    <script src="./classes.js/endboss.class.js"></script>
-    <script src="./classes.js/collectableItem.class.js"></script>
-    <script src="./classes.js/level.class.js"></script>
-    <script src="./classes.js/soundManager.class.js"></script>
-    <script src="./classes.js/statusbars.class.js"></script>
-    <script src="./classes.js/throwableObject.class.js"></script>
-    <script src="./classes.js/world.class.js"></script>
-    <script src="./classes.js/keyboard.class.js"></script>
-
-    <script src="./js/game.js"></script>
-    <link rel="shortcut icon" href="./img/cactus-157994_1280.png" type="image/x-icon">
+      <!-- Preload critical resources -->
+    <link rel="preload" href="./css/style.css" as="style">
+    <!-- Remove audio preload as it's not efficiently used and causes warnings -->
+    
+    <!-- Load CSS first for faster rendering -->
     <link rel="stylesheet" href="./css/style.css" />
+    <link rel="shortcut icon" href="./img/cactus-157994_1280.png" type="image/x-icon">
+      <!-- Load scripts with defer for better performance -->
+    <script defer src="./js/performance.config.js"></script>
+    <script defer src="./classes.js/drawableObject.class.js"></script>
+    <script defer src="./classes.js/movableObject.class.js"></script>
+    <script defer src="./classes.js/cloud.classes.js"></script>
+    <script defer src="./classes.js/backgroundobjects.class.js"></script>
+    <script defer src="./classes.js/chicken.class.js"></script>
+    <script defer src="./classes.js/character.class.js"></script>
+    <script defer src="./classes.js/endboss.class.js"></script>
+    <script defer src="./classes.js/collectableItem.class.js"></script>
+    <script defer src="./classes.js/level.class.js"></script>
+    <script defer src="./classes.js/soundManager.class.js"></script>
+    <script defer src="./classes.js/statusbars.class.js"></script>
+    <script defer src="./classes.js/throwableObject.class.js"></script>
+    <script defer src="./classes.js/world.class.js"></script>
+    <script defer src="./classes.js/keyboard.class.js"></script>
+    <script defer src="./js/game.js"></script>
+    
     <title>El Pollo Loco</title>
   </head>
   <body>
