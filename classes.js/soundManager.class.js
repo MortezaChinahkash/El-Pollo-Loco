@@ -29,16 +29,23 @@ class SoundManager {
   loadSound(name, path, loop = false) {
     const audio = new Audio(path);
     audio.loop = loop;
-    this.sounds[name] = audio;
-  }
+    this.sounds[name] = audio;  }
 
+  /**
+   * Stoppt alle aktuell abspielenden Sounds und setzt sie zurück
+   * Nützlich beim Pausieren oder Neustarten des Spiels
+   */
   stopAll() {
     for (const audio of Object.values(this.sounds)) {
       audio.pause();
       audio.currentTime = 0;
-    }
-  }
+    }  }
 
+  /**
+   * Spielt einen Sound-Effekt einmalig ab
+   * @param {string} name - Name des Sounds
+   * @param {number} [volume=1.0] - Lautstärke (0.0 bis 1.0)
+   */
   playSound(name, volume = 1.0) {
     if (this.isMuted) return;
     const sound = this.sounds[name];
@@ -49,9 +56,14 @@ class SoundManager {
       sound.currentTime = 0;
       sound.volume = volume;
       sound.play().catch(() => {});
-    } catch {}
-  }
+    } catch {}  }
 
+  /**
+   * Spielt Hintergrundmusik in Dauerschleife ab
+   * Stoppt vorherige Musik und startet neue
+   * @param {string} name - Name der Musikdatei
+   * @param {number} [volume=0.5] - Lautstärke (0.0 bis 1.0)
+   */
   playMusic(name, volume = 0.5) {
     const music = this.sounds[name];
     if (!music) return;
@@ -69,9 +81,11 @@ class SoundManager {
 
     if (!this.isMuted && this.music.paused) {
       this.music.play().catch(() => {});
-    }
-  }
+    }  }
 
+  /**
+   * Pausiert die aktuell abspielende Hintergrundmusik
+   */
   pauseMusic() {
     if (this.music) this.music.pause();
   }
