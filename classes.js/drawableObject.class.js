@@ -21,9 +21,12 @@ class DrawableObject {
    */
   loadImage(path) {
     this.img = new Image();
-    this.img.src = path;
-  }
+    this.img.src = path;  }
 
+  /**
+   * Lädt mehrere Bilder und speichert sie im imageCache
+   * @param {string[]} arr - Array mit Bildpfaden
+   */
   loadImages(arr) {
     arr.forEach((path) => {
       let img = new Image();
