@@ -31,14 +31,17 @@ function setupUI() {
 
   const restartBtn = getCachedElement("restartBtn");
   const nextBtn = getCachedElement("nextLevelBtn");
+  const homeBtn = getCachedElement("homeBtn");
   if (restartBtn) restartBtn.style.display = "none";
   if (nextBtn) nextBtn.style.display = "none";
+  if (homeBtn) homeBtn.style.display = "none";
 }
 
 function setupOverlayButtons() {
   setupMuteButton();
   setupFullscreenButton();
   setupHelpButton();
+  setupHomeButton();
 }
 
 function setupMuteButton() {
@@ -92,6 +95,15 @@ function setupHelpButton() {
     if (!helpContent.contains(event.target)) {
       helpOverlay.style.display = "none";
     }
+  });
+}
+
+function setupHomeButton() {
+  const homeBtn = getCachedElement("homeBtn");
+  
+  homeBtn.addEventListener("click", () => {
+    // Seite neu laden
+    window.location.reload();
   });
 }
 
@@ -188,13 +200,13 @@ function startMusicWhenNotMuted(isMuted) {
 }
 
 function touchDetection() {
-  // Umfassende Touch-Gerät-Erkennung
+  // Striktere Touch-Gerät-Erkennung - nur für reine Touch-Geräte
   const isTouchDevice = 
-    ("ontouchstart" in window) ||
-    (navigator.maxTouchPoints > 0) ||
-    (navigator.msMaxTouchPoints > 0) ||
-    (window.DocumentTouch && document instanceof DocumentTouch) ||
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    (navigator.maxTouchPoints > 0 && navigator.maxTouchPoints > 1) || // Mehrere Touch-Punkte
+    (navigator.msMaxTouchPoints > 0 && navigator.msMaxTouchPoints > 1) ||
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+    (window.orientation !== undefined) || // Mobile Orientierung
+    (screen.width <= 1024 && "ontouchstart" in window); // Kleine Bildschirme mit Touch
   
   const mobileControls = getCachedElement("mobile-controls");
   

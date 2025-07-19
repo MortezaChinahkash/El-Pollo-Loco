@@ -312,7 +312,9 @@ class World {
 
   showRestartButton() {
     const btn = document.getElementById("restartBtn");
+    const homeBtn = document.getElementById("homeBtn");
     btn.style.display = "block";
+    if (homeBtn) homeBtn.style.display = "block";
     btn.onclick = () => {
       init(currentLevel.levelWidth, currentLevel.levelNumber);
     };
@@ -320,7 +322,9 @@ class World {
 
   showNextLevelButton() {
     const btn = document.getElementById("nextLevelBtn");
+    const homeBtn = document.getElementById("homeBtn");
     btn.style.display = "block";
+    if (homeBtn) homeBtn.style.display = "block";
     btn.onclick = () => {
       init(currentLevel.levelWidth + 2000, currentLevel.levelNumber + 1);
     };

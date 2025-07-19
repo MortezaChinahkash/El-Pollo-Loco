@@ -54,14 +54,23 @@ canvas {
 }
 
 #overlay-buttons button {
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
-  background-color: rgba(0, 0, 0, 0.6);
+  width: 50px;
+  height: 50px;
+  font-size: 22px;
+  background-color: rgba(0, 0, 0, 0.8);
   color: white;
-  border: none;
-  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+#overlay-buttons button:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
 }
 
 #helpOverlay {
@@ -147,20 +156,91 @@ canvas {
   font-size: 24px;
   font-weight: bold;
   background-color: #e29247;
-  border-radius: 10px;
+  color: white;
+  border: 3px solid white;
+  border-radius: 15px;
   z-index: 1000;
   cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
 }
+
+#restartBtn:hover {
+  background-color: #ff6b35;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+}
+
 #nextLevelBtn {
   display: none;
   padding: 20px 40px;
   font-size: 24px;
   font-weight: bold;
-  background-color: #e29247;
-  border-radius: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: 3px solid white;
+  border-radius: 15px;
   z-index: 1000;
   cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
 }
+
+#nextLevelBtn:hover {
+  background-color: #66BB6A;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+}
+
+#homeBtn {
+  display: none;
+  padding: 20px 40px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: #2196F3;
+  color: white;
+  border: 3px solid white;
+  border-radius: 15px;
+  z-index: 1000;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+#homeBtn:hover {
+  background-color: #42A5F5;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+}
+
+/* Home Button für alle Touch/Mobile Kontexte */
+@media (pointer: coarse), (hover: none), (max-width: 900px) {
+  #homeBtn {
+    width: 250px !important;
+    font-size: 20px !important;
+    padding: 15px 30px !important;
+    background-color: #2196F3 !important;
+    color: #ffffff !important;
+    border: white 3px solid !important;
+    border-radius: 25px !important;
+    text-align: center !important;
+    z-index: 2100 !important;
+    pointer-events: auto !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important;
+  }
+  
+  /* Verbesserte Mobile Control Buttons für Touch-Geräte */
+  #mobile-controls button {
+    width: 70px !important;
+    height: 70px !important;
+    font-size: 28px !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    border: 3px solid rgba(255, 255, 255, 0.9) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
+  }
+}
+
 .button-container {
   display: flex;
   justify-content: space-between;
@@ -172,20 +252,43 @@ canvas {
 
 
 #mobile-controls {
-  display: none; /* Wird durch JavaScript bei Touch-Geräten auf flex gesetzt */
+  display: none !important; /* Standardmäßig versteckt auf Desktop */
+}
+
+/* Mobile Controls nur auf Touch-Geräten anzeigen */
+@media (pointer: coarse), (hover: none), (max-width: 1024px) {
+  #mobile-controls {
+    display: none; /* Wird durch JavaScript überschrieben wenn Touch erkannt */
+  }
+}
+
+/* Desktop-spezifisch: Mobile Controls verstecken */
+@media (pointer: fine) and (hover: hover) and (min-width: 1025px) {
+  #mobile-controls {
+    display: none !important;
+  }
 }
 
 #mobile-controls button {
   user-select: none;
-  width: 60px;
-  height: 60px;
-  font-size: 24px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border: none;
+  width: 70px;
+  height: 70px;
+  font-size: 28px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 3px solid rgba(255, 255, 255, 0.9);
   border-radius: 50%;
   color: white;
   margin-left: 20px;
   margin-right: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+}
+
+#mobile-controls button:active {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 /* Regeln für Touch-Geräte (einschließlich iPads) */
