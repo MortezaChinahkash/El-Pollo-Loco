@@ -133,21 +133,81 @@ canvas {
 }
 
 .intro-text {
-  font-size: 12px;
-  font-weight: bold;
-  color: #ffffff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 50px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.start-message {
   text-align: center;
-  padding: 20px 10px;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.6
-  ); 
-  border-radius: 10px;
-  margin-bottom: 60px;
-  max-width: 90%;
-  margin-bottom: -100px;
+  pointer-events: auto;
+  padding: 40px;
+  background: linear-gradient(135deg, 
+    rgba(255, 140, 0, 0.95) 0%, 
+    rgba(255, 69, 0, 0.95) 50%, 
+    rgba(139, 69, 19, 0.95) 100%);
+  border: 4px solid #FFD700;
+  border-radius: 25px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.8),
+    inset 0 2px 10px rgba(255, 255, 255, 0.3);
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.start-message::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, 
+    transparent 30%, 
+    rgba(255, 255, 255, 0.1) 50%, 
+    transparent 70%);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.start-message h1 {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+  margin: 0 0 15px 0;
+  font-family: 'Arial Black', Arial, sans-serif;
+}
+
+.start-message p {
+  font-size: 1.2em;
+  color: #FFFFE0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  margin: 0;
+  font-weight: bold;
+}
+
+/* Desktop-Nachricht standardmäßig anzeigen */
+.desktop-message {
+  display: block;
+}
+
+.mobile-message {
+  display: none;
 }
 
 #restartBtn {
@@ -260,6 +320,29 @@ canvas {
   #mobile-controls {
     display: none; /* Wird durch JavaScript überschrieben wenn Touch erkannt */
   }
+  
+  /* Mobile Startbildschirm-Text */
+  .desktop-message {
+    display: none;
+  }
+  
+  .mobile-message {
+    display: block;
+  }
+  
+  .start-message {
+    max-width: 90%;
+    padding: 30px 20px;
+    margin: 20px auto;
+  }
+  
+  .start-message h1 {
+    font-size: 2em;
+  }
+  
+  .start-message p {
+    font-size: 1.1em;
+  }
 }
 
 /* Desktop-spezifisch: Mobile Controls verstecken */
@@ -362,7 +445,7 @@ canvas {
   }
 
   .intro-text {
-    display: none;
+    display: none !important; /* Touch-Geräte: Intro versteckt während Spiel */
   }
 
   #restartBtn,
