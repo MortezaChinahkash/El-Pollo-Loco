@@ -188,10 +188,22 @@ function startMusicWhenNotMuted(isMuted) {
 }
 
 function touchDetection() {
-  if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
-    getCachedElement("mobile-controls").style.display = "flex";
+  // Umfassende Touch-Gerät-Erkennung
+  const isTouchDevice = 
+    ("ontouchstart" in window) ||
+    (navigator.maxTouchPoints > 0) ||
+    (navigator.msMaxTouchPoints > 0) ||
+    (window.DocumentTouch && document instanceof DocumentTouch) ||
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  const mobileControls = getCachedElement("mobile-controls");
+  
+  if (isTouchDevice) {
+    mobileControls.style.display = "flex";
+    console.log("Touch-Gerät erkannt - Mobile Steuerung aktiviert");
   } else {
-    getCachedElement("mobile-controls").style.display = "none";
+    mobileControls.style.display = "none";
+    console.log("Desktop-Gerät erkannt - Mobile Steuerung deaktiviert");
   }
 }
 
@@ -263,4 +275,16 @@ function setupMobileControls() {
 
   btnThrow.addEventListener("touchstart", () => (keyboard.SPACE = true), { passive: true });
   btnThrow.addEventListener("touchend", () => (keyboard.SPACE = false), { passive: true });
+}
+
+// Touch-Erkennung beim Laden der Seite ausführen
+document.addEventListener('DOMContentLoaded', function() {
+  touchDetection();
+});
+
+// Fallback für den Fall, dass DOMContentLoaded bereits ausgelöst wurde
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', touchDetection);
+} else {
+  touchDetection();
 }

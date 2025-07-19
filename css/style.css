@@ -171,8 +171,11 @@ canvas {
 }
 
 
+#mobile-controls {
+  display: none; /* Wird durch JavaScript bei Touch-Geräten auf flex gesetzt */
+}
+
 #mobile-controls button {
-  display: none;
   user-select: none;
   width: 60px;
   height: 60px;
@@ -185,10 +188,23 @@ canvas {
   margin-right: 20px;
 }
 
-@media (max-width: 900px) {
+/* Regeln für Touch-Geräte (einschließlich iPads) */
+@media (pointer: coarse), (hover: none) {
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
   body {
     flex-direction: column;
     justify-content: flex-start;
+    background-attachment: scroll;
   }
 
   #helpBtn {
@@ -196,10 +212,33 @@ canvas {
   }
 
   canvas {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: none !important;
+    object-fit: fill;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+  }
+
+  #canvas-container {
     width: 100vw;
-    height: auto;
-    max-height: 100vh;
-    aspect-ratio: 3 / 2;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  #overlay-buttons {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1100;
   }
 
   .button-container {
@@ -207,7 +246,134 @@ canvas {
     width: 100%;
     gap: 12px;
     align-items: center;
-    margin-top: -60px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+  }
+
+  #loading-screen {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .intro-text {
+    display: none;
+  }
+
+  #restartBtn,
+  #nextLevelBtn {
+    width: 250px;
+    font-size: 20px;
+    padding: 15px 30px;
+    background-color: #e292478a;
+    color: #ffffff;
+    border: white 2px solid;
+    border-radius: 25px;
+    text-align: center;
+    z-index: 2100;
+    pointer-events: auto;
+  }
+
+  #mobile-controls {
+    display: block;
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin: 10px;
+    z-index: 1000;
+  }
+
+  .left-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .right-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  #mobile-controls button {
+    display: block;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    color: white;
+  }
+}
+
+/* Fallback für ältere Browser und kleinere Bildschirme */
+@media (max-width: 900px) {
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  body {
+    flex-direction: column;
+    justify-content: flex-start;
+    background-attachment: scroll; /* Bessere Performance auf mobilen Geräten */
+  }
+
+  #helpBtn {
+    display: none;
+  }
+
+  canvas {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: none !important;
+    object-fit: fill;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+  }
+
+  #canvas-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  #overlay-buttons {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1100;
+  }
+
+  .button-container {
+    justify-content: space-around;
+    width: 100%;
+    gap: 12px;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 1001;
   }
 
@@ -272,15 +438,49 @@ canvas {
 }
 @media screen and (orientation: portrait) and (max-width: 900px) {
   body::before {
-    content: "Bitte drehe dein Gerät ins Querformat";
+    content: "🔄 Bitte drehe dein Gerät ins Querformat für das beste Spielerlebnis! 📱➡️💻";
     position: fixed;
     top: 0;
     left: 0;
     z-index: 2000;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.95);
     color: white;
-    font-size: 16px;
-    font-family: sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+  }
+
+  canvas,
+  #mobile-controls,
+  .button-container,
+  #loading-screen,
+  #restartBtn,
+  #nextLevelBtn {
+    display: none !important;
+  }
+}
+
+/* Querformat-Hinweis für alle Touch-Geräte im Hochformat */
+@media screen and (orientation: portrait) and (pointer: coarse), 
+       screen and (orientation: portrait) and (hover: none),
+       screen and (orientation: portrait) and (max-width: 900px) {
+  body::before {
+    content: "🔄 Bitte drehe dein Gerät ins Querformat für das beste Spielerlebnis! 📱➡️💻";
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.95);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
