@@ -24,72 +24,6 @@ class Character extends movableObject {
   ayDiosMioCooldown = 2000;
 
 
-  IMAGES_IDLE_LONG = [
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-11.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-12.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-13.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-14.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-15.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-16.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-17.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-18.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-19.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-20.png",
-  ];
-
-  IMAGES_IDLE = [
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-2.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-3.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-4.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-5.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-6.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-7.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-8.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-9.png",
-    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-10.png",
-  ];
-
-  IMAGES_WALKING = [
-    "img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png",
-    "img/img_pollo_locco/img/2_character_pepe/2_walk/W-22.png",
-    "img/img_pollo_locco/img/2_character_pepe/2_walk/W-23.png",
-    "img/img_pollo_locco/img/2_character_pepe/2_walk/W-24.png",
-    "img/img_pollo_locco/img/2_character_pepe/2_walk/W-25.png",
-    "img/img_pollo_locco/img/2_character_pepe/2_walk/W-26.png",
-  ];
-
-  IMAGES_JUMP_UP = [
-  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-31.png",
-  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-32.png",
-  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-33.png",
-  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-34.png",
-  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-35.png",
-];
-
-IMAGES_JUMP_DOWN = [
-  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-36.png",
-  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-37.png",
-  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-38.png",
-  "img/img_pollo_locco/img/2_character_pepe/3_jump/J-39.png",
-];
-
-  IMAGES_HURT = [
-    "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-41.png",
-    "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-42.png",
-    "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-43.png",
-  ];
-
-  IMAGES_DEAD = [
-    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-51.png",
-    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-52.png",
-    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-53.png",
-    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-54.png",
-    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-55.png",
-    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-56.png",
-    "img/img_pollo_locco/img/2_character_pepe/5_dead/D-57.png",
-  ];
-
   world;
   camera_x = 0;
 
@@ -99,6 +33,7 @@ IMAGES_JUMP_DOWN = [
    */
   constructor() {
     super();
+    this.initializeImageArrays();
     this.offset = {
       top: 120,
       bottom: 10,
@@ -114,34 +49,75 @@ IMAGES_JUMP_DOWN = [
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_IDLE);
-      this.loadImages(this.IMAGES_IDLE_LONG);
-      this.applyGravity();
-    }
+    this.loadImages(this.IMAGES_IDLE_LONG);
+    this.applyGravity();
+  }
+
+  /**
+   * Initialisiert alle Bild-Arrays von der CharacterImages-Klasse
+   */
+  initializeImageArrays() {
+    this.IMAGES_IDLE_LONG = CharacterImages.IMAGES_IDLE_LONG;
+    this.IMAGES_IDLE = CharacterImages.IMAGES_IDLE;
+    this.IMAGES_WALKING = CharacterImages.IMAGES_WALKING;
+    this.IMAGES_JUMP_UP = CharacterImages.IMAGES_JUMP_UP;
+    this.IMAGES_JUMP_DOWN = CharacterImages.IMAGES_JUMP_DOWN;
+    this.IMAGES_HURT = CharacterImages.IMAGES_HURT;
+    this.IMAGES_DEAD = CharacterImages.IMAGES_DEAD;
+  }
 
   /**
    * Verarbeitet Schaden am Charakter
-   * Stoppt Laufgeräusche, reduziert Energie und startet Verletzungsanimation
    * @param {number} damage - Der zu verursachende Schaden
    * @param {Object} [source=null] - Die Quelle des Schadens (z.B. Endboss)
    */
   hit(damage, source=null) {
-    if (this.isHurt) return; // Wenn bereits verletzt, ignorieren
+    if (this.isHurt) return;
     
-    this.stopRunningSound(); // Laufgeräusch sofort stoppen bei Schaden
-    
-    this.energy -= damage; // Energie reduzieren
-    if (this.energy < 0) this.energy = 0; // Nicht unter 0 gehen lassen
-    this.isHurt = true; // Zustand setzen
-    this.resetMovementTimer(); // Bewegungstimer zurücksetzen
-    const now = Date.now();
-    this.playHurtSoundWithCooldown(now); // Hurt-Sound abspielen
+    this.processHitDamage(damage);
+    this.handleHitEffects();
+    this.playHitSounds(Date.now(), source);
+    this.checkForDeath();
+  }
+
+  /**
+   * Verarbeitet den Schadenswert
+   * @param {number} damage - Schadenswert
+   */
+  processHitDamage(damage) {
+    this.stopRunningSound();
+    this.energy -= damage;
+    if (this.energy < 0) this.energy = 0;
+  }
+
+  /**
+   * Behandelt Treffer-Effekte
+   */
+  handleHitEffects() {
+    this.isHurt = true;
+    this.resetMovementTimer();
+    this.playHurtAnimation();
+    setTimeout(() => (this.isHurt = false), 1000);
+  }
+
+  /**
+   * Spielt Treffer-Sounds ab
+   * @param {number} now - Aktueller Zeitstempel
+   * @param {Object} source - Schadenquelle
+   */
+  playHitSounds(now, source) {
+    this.playHurtSoundWithCooldown(now);
     this.playSoundWhenMeetingEndboss(now, source);
-    this.playHurtAnimation(); // Verletzungs-Animation starten
+  }
+
+  /**
+   * Prüft auf Tod und startet Sequenz
+   */
+  checkForDeath() {
     if (this.isDead()) {
-      this.playDeadSequence(); // Todes-Sequenz starten
+      this.playDeadSequence();
     }
-    // Nach 1 Sekunde wieder verwundbar
-    setTimeout(() => (this.isHurt = false), 1000);  }
+  }
 
   /**
    * Spielt Verletzungsgeräusch mit Cooldown ab
@@ -229,36 +205,81 @@ IMAGES_JUMP_DOWN = [
     setInterval(() => this.charAnimations(), 120);  }
 
   /**
-   * Verwaltet alle Charakter-Animationen basierend auf dem aktuellen Zustand
-   * Stoppt Laufgeräusche bei Verletzung, Boss-Eingang oder Tod
+   * Verwaltet Character-Animationen
    */
   charAnimations() {
-    if (this.isHurt || this.isDeadState) {
+    if (this.shouldStopAnimations()) {
       this.stopRunningSound();
       return;
     }
 
-    const bossIsEntering = this.world.level.boss?.movingIn;
-    const now = Date.now();
-    const timeSinceLastMove = now - this.lastMovementTime;
+    this.handleMovementAnimations();
+    this.resetJumpFlagsIfGrounded();
+  }
 
+  /**
+   * Prüft ob Animationen gestoppt werden sollen
+   * @returns {boolean} True wenn Animationen stoppen sollen
+   */
+  shouldStopAnimations() {
+    return this.isHurt || this.isDeadState;
+  }
+
+  /**
+   * Behandelt Bewegungsanimationen
+   */
+  handleMovementAnimations() {
+    const bossIsEntering = this.world.level.boss?.movingIn;
+    
     if (bossIsEntering) {
-      this.stopRunningSound(); // Laufsound sofort stoppen wenn Boss einläuft
-      this.playAnimation(this.IMAGES_IDLE);
+      this.handleBossEnteringAnimation();
     } else if (this.isAboveGround()) {
       this.handleJumpAnimation();
-    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+    } else if (this.isMoving()) {
       this.playAnimation(this.IMAGES_WALKING);
-    } else if (timeSinceLastMove >= this.idleThreshold) {
+    } else {
+      this.handleIdleAnimation();
+    }
+  }
+
+  /**
+   * Behandelt Animation während Boss-Eingang
+   */
+  handleBossEnteringAnimation() {
+    this.stopRunningSound();
+    this.playAnimation(this.IMAGES_IDLE);
+  }
+
+  /**
+   * Prüft ob Character sich bewegt
+   * @returns {boolean} True wenn Character sich bewegt
+   */
+  isMoving() {
+    return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
+  }
+
+  /**
+   * Behandelt Idle-Animationen
+   */
+  handleIdleAnimation() {
+    const timeSinceLastMove = Date.now() - this.lastMovementTime;
+    
+    if (timeSinceLastMove >= this.idleThreshold) {
       this.playAnimation(this.IMAGES_IDLE_LONG);
     } else {
       this.playAnimation(this.IMAGES_IDLE);
     }
+  }
 
+  /**
+   * Setzt Sprung-Flags zurück wenn am Boden
+   */
+  resetJumpFlagsIfGrounded() {
     if (!this.isAboveGround()) {
       this.hasJumpedUp = false;
       this.hasJumpedDown = false;
-    }  }
+    }
+  }
 
   /**
    * Verwaltet Sprunganimationen basierend auf der Sprunggeschwindigkeit
@@ -293,27 +314,52 @@ IMAGES_JUMP_DOWN = [
     }, 100);  }
 
   /**
-   * Verarbeitet Benutzereingaben und steuert Charakterbewegung
-   * Stoppt Eingaben wenn Charakter tot ist oder Boss einläuft
+   * Verarbeitet Benutzereingaben
    */
   handleInput() {
-    if (this.isDeadState || this.world?.level?.boss?.movingIn) {
-      this.stopRunningSound(); // Laufsound stoppen wenn Boss einläuft oder Charakter tot ist
-      return; // Eingabe ignorieren, wenn Charakter tot ist oder Boss gerade einläuft
+    if (this.shouldIgnoreInput()) {
+      this.stopRunningSound();
+      return;
     }
+    
+    const moved = this.processMovementInput();
+    this.handleMovementEffects(moved);
+    this.setCamLimit();
+  }
+
+  /**
+   * Prüft ob Eingaben ignoriert werden sollen
+   * @returns {boolean} True wenn Eingaben ignoriert werden sollen
+   */
+  shouldIgnoreInput() {
+    return this.isDeadState || this.world?.level?.boss?.movingIn;
+  }
+
+  /**
+   * Verarbeitet alle Bewegungseingaben
+   * @returns {boolean} True wenn Bewegung stattgefunden hat
+   */
+  processMovementInput() {
     let moved = false;
-    if (this.moveRightWhenSpace()) moved = true; // Bewegung nach rechts prüfen und ausführen
-    if (this.moveLeftWhenSpace()) moved = true; // Bewegung nach links prüfen und ausführen
-    if (this.jumpWhenSpace()) moved = true; // Springen prüfen und ausführen
+    
+    if (this.moveRightWhenSpace()) moved = true;
+    if (this.moveLeftWhenSpace()) moved = true;
+    if (this.jumpWhenSpace()) moved = true;
+    
+    return moved;
+  }
+
+  /**
+   * Behandelt Effekte bei Bewegung
+   * @param {boolean} moved - Ob Bewegung stattgefunden hat
+   */
+  handleMovementEffects(moved) {
     if (moved) {
-      // Wenn sich der Charakter bewegt hat:
-      this.resetMovementTimer(); // Idle-Timer zurücksetzen
-      this.playOraleSound(); // "Orale!"-Sound abspielen
+      this.resetMovementTimer();
+      this.playOraleSound();
     }
-   this.playRunningSound(moved);; // Laufgeräusch abspielen
-    this.setCamLimit(); // Kamera innerhalb Level-Grenzen halten
-    const camLimit = this.world.level.levelWidth - this.world.canvas.width;
-    this.setLevelWidth(camLimit);  }
+    this.playRunningSound(moved);
+  }
 
   /**
    * Bewegt den Charakter nach rechts wenn entsprechende Taste gedrückt wird
@@ -389,31 +435,58 @@ IMAGES_JUMP_DOWN = [
     this.setLevelWidth(camLimit);  }
 
   /**
-   * Startet das Laufgeräusch wenn es nicht bereits läuft
-   * Erstellt eine neue Audio-Instanz und spielt sie in Schleife ab
+   * Startet das Laufgeräusch
    */
   startRunningSound() {
-  if (
-    !this.runningSoundInstance &&
-    !this.isRunningSoundPlaying &&
-    typeof soundManager !== "undefined" &&
-    !soundManager.isMuted
-  ) {
-    const sound = soundManager.sounds["running"];
-    if (sound && sound.paused) {
-      this.runningSoundInstance = sound;
-      sound.loop = true;
-      sound.volume = 0.25;
-      sound.currentTime = 0;
-
-      sound.play()
-        .then(() => {
-          this.isRunningSoundPlaying = true;
-        })
-        .catch(() => {});
+    if (this.canStartRunningSound()) {
+      this.initializeRunningSound();
     }
   }
-}
+
+  /**
+   * Prüft ob Laufgeräusch gestartet werden kann
+   * @returns {boolean} True wenn Sound gestartet werden kann
+   */
+  canStartRunningSound() {
+    return !this.runningSoundInstance && 
+           !this.isRunningSoundPlaying && 
+           typeof soundManager !== "undefined" && 
+           !soundManager.isMuted;
+  }
+
+  /**
+   * Initialisiert das Laufgeräusch
+   */
+  initializeRunningSound() {
+    const sound = soundManager.sounds["running"];
+    if (sound && sound.paused) {
+      this.setupRunningSoundProperties(sound);
+      this.playRunningSoundWithCallback(sound);
+    }
+  }
+
+  /**
+   * Setzt Sound-Eigenschaften
+   * @param {Object} sound - Sound-Objekt
+   */
+  setupRunningSoundProperties(sound) {
+    this.runningSoundInstance = sound;
+    sound.loop = true;
+    sound.volume = 0.25;
+    sound.currentTime = 0;
+  }
+
+  /**
+   * Spielt Sound ab mit Callback
+   * @param {Object} sound - Sound-Objekt
+   */
+  playRunningSoundWithCallback(sound) {
+    sound.play()
+      .then(() => {
+        this.isRunningSoundPlaying = true;
+      })
+      .catch(() => {});
+  }
 
   /**
    * Stoppt das Laufgeräusch und setzt alle Audio-Referenzen zurück
@@ -432,25 +505,65 @@ IMAGES_JUMP_DOWN = [
    * Lässt den Charakter springen und spielt Sprunggeräusch ab
    * Setzt vertikale Geschwindigkeit und spielt Jump-Sound mit Cooldown
    */
+  /**
+   * Führt einen Sprung aus
+   */
   jump() {
-  this.speedY = 20;
+    this.executeJumpMechanics();
+    this.playJumpSoundWithCooldown();
+  }
 
-  const now = Date.now();
-  if (
-    typeof soundManager !== "undefined" &&
-    !soundManager.isMuted &&
-    now - this.lastJumpSoundTime >= this.jumpSoundCooldown
-  ) {
-    const sound = soundManager.sounds["jump"];
-    if (sound) {
-      sound.pause();
-      sound.currentTime = 0.3;
-      sound.volume = 0.1;
-      sound.play().catch(() => {});
-      this.lastJumpSoundTime = now;
+  /**
+   * Führt die Sprungmechanik aus
+   */
+  executeJumpMechanics() {
+    this.speedY = 20;
+  }
+
+  /**
+   * Spielt Sprunggeräusch mit Cooldown ab
+   */
+  playJumpSoundWithCooldown() {
+    const now = Date.now();
+    if (this.shouldPlayJumpSound(now)) {
+      this.playJumpSoundWithSettings(now);
     }
   }
-}
+
+  /**
+   * Prüft ob Sprunggeräusch abgespielt werden soll
+   * @param {number} now - Aktueller Zeitstempel
+   * @returns {boolean} True wenn Sound abgespielt werden soll
+   */
+  shouldPlayJumpSound(now) {
+    return typeof soundManager !== "undefined" &&
+           !soundManager.isMuted &&
+           now - this.lastJumpSoundTime >= this.jumpSoundCooldown;
+  }
+
+  /**
+   * Spielt Sprunggeräusch mit Einstellungen ab
+   * @param {number} now - Aktueller Zeitstempel
+   */
+  playJumpSoundWithSettings(now) {
+    const sound = soundManager.sounds["jump"];
+    if (sound) {
+      this.configureAndPlayJumpSound(sound, now);
+    }
+  }
+
+  /**
+   * Konfiguriert und spielt Sprunggeräusch ab
+   * @param {Object} sound - Sound-Objekt
+   * @param {number} now - Aktueller Zeitstempel
+   */
+  configureAndPlayJumpSound(sound, now) {
+    sound.pause();
+    sound.currentTime = 0.3;
+    sound.volume = 0.1;
+    sound.play().catch(() => {});
+    this.lastJumpSoundTime = now;
+  }
 
   /**
    * Setzt den Bewegungstimer zurück auf die aktuelle Zeit
