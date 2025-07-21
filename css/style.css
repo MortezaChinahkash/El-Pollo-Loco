@@ -25,6 +25,9 @@ body {
   /* Optimize background rendering */
   background-attachment: fixed;
   will-change: transform;
+  /* Reserviere Platz für Desktop Welcome Message um Layout-Shift zu vermeiden */
+  padding-top: 120px;
+  box-sizing: border-box;
 }
 
 canvas {
@@ -210,14 +213,17 @@ canvas {
   display: none;
 }
 
-/* Desktop Willkommensnachricht - oberhalb vom Loading Screen */
+/* Desktop Willkommensnachricht - weit oben positioniert um Layout-Shift zu vermeiden */
 .desktop-welcome {
-  position: relative;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
   z-index: 1000;
+  margin: 0;
 }
 
 /* Mobile Willkommensnachricht - auf dem Loading Screen */
@@ -384,6 +390,17 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
   #mobile-controls {
     display: none !important;
   }
+  
+  /* Desktop Welcome Message weit oben positionieren */
+  .desktop-welcome {
+    position: absolute;
+    top: 20px;
+  }
+  
+  /* Stelle sicher, dass body padding-top auf Desktop hat */
+  body {
+    padding-top: 120px !important;
+  }
 }
 
 #mobile-controls button {
@@ -425,6 +442,8 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
     flex-direction: column;
     justify-content: flex-start;
     background-attachment: scroll;
+    /* Entferne padding-top für Touch-Geräte */
+    padding-top: 0 !important;
   }
 
   #helpBtn {
@@ -563,6 +582,8 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
     flex-direction: column;
     justify-content: flex-start;
     background-attachment: scroll; /* Bessere Performance auf mobilen Geräten */
+    /* Entferne padding-top für kleinere Bildschirme */
+    padding-top: 0 !important;
   }
 
   #helpBtn {
