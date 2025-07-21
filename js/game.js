@@ -38,17 +38,26 @@ function setupUI() {
     introText.style.display = "none";
   }
 
-  // Mobile Controls anzeigen, wenn Touch-Gerät erkannt wurde
-  const isTouchDevice = 
-    "ontouchstart" in window ||
-    navigator.maxTouchPoints > 0 ||
-    navigator.msMaxTouchPoints > 0 ||
-    (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+  // Mobile Controls nur während aktivem Spiel anzeigen
+  showMobileControlsForGameplay();
+  
+  // Zusätzliche Überprüfung: Falls Touch-Detection fehlschlägt, überprüfe erneut
+  setTimeout(() => {
+    const mobileControls = getCachedElement("mobile-controls");
+    const isDisplayed = window.getComputedStyle(mobileControls).display !== "none";
     
-  const mobileControls = getCachedElement("mobile-controls");
-  if (isTouchDevice && mobileControls) {
-    mobileControls.style.display = "flex";
-  }
+    // Nur bei Touch-Geräten nachträglich aktivieren, auf Desktop niemals
+    if (!isDisplayed && isTouchDeviceDetected()) {
+      console.log("Backup: Mobile Controls werden nachträglich aktiviert");
+      mobileControls.style.setProperty("display", "flex", "important");
+      mobileControls.style.setProperty("visibility", "visible", "important");
+    } else if (isDisplayed && !isTouchDeviceDetected()) {
+      // Sicherheit: Falls Mobile Controls auf Desktop angezeigt werden, verstecken
+      console.log("Sicherheit: Mobile Controls auf Desktop versteckt");
+      mobileControls.style.setProperty("display", "none", "important");
+      mobileControls.style.setProperty("visibility", "hidden", "important");
+    }
+  }, 100);
 
   const restartBtn = getCachedElement("restartBtn");
   const nextBtn = getCachedElement("nextLevelBtn");
@@ -170,11 +179,10 @@ function initializeGameWorld(currentLevel) {
 function setupInput() {
   touchDetection();
   setupMobileControls();
-  // Explizit Mobile Controls für Touch-Geräte aktivieren
-  showMobileControlsIfTouch();
+  // Mobile Controls werden in setupUI() aktiviert, nicht hier
 }
 
-function showMobileControlsIfTouch() {
+function showMobileControlsForGameplay() {
   const isTouchDevice = 
     "ontouchstart" in window ||
     navigator.maxTouchPoints > 0 ||
@@ -182,11 +190,85 @@ function showMobileControlsIfTouch() {
     (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
     
   const mobileControls = getCachedElement("mobile-controls");
+  
+  // Nur auf Touch-Geräten anzeigen, auf Desktop IMMER versteckt lassen
   if (isTouchDevice && mobileControls) {
-    mobileControls.style.display = "flex";
-    mobileControls.style.visibility = "visible";
+    // Explizite CSS-Übersteuerung für Touch-Geräte
+    mobileControls.style.setProperty("display", "flex", "important");
+    mobileControls.style.setProperty("visibility", "visible", "important");
+    mobileControls.style.setProperty("position", "fixed", "important");
+    mobileControls.style.setProperty("bottom", "10px", "important");
+    mobileControls.style.setProperty("z-index", "1000", "important");
+    
+    console.log("Mobile Controls aktiviert für Touch-Gerät");
+  } else {
+    // Desktop: Mobile Controls explizit verstecken
+    if (mobileControls) {
+      mobileControls.style.setProperty("display", "none", "important");
+      mobileControls.style.setProperty("visibility", "hidden", "important");
+    }
+    console.log("Desktop-Gerät erkannt - Mobile Controls bleiben versteckt");
   }
 }
+
+function hideMobileControls() {
+  const mobileControls = getCachedElement("mobile-controls");
+  if (mobileControls) {
+    mobileControls.style.display = "none";
+    mobileControls.style.visibility = "hidden";
+  }
+}
+
+function isTouchDeviceDetected() {
+  // Verbesserte Touch-Detection mit mehreren Prüfungen
+  const hasTouchScreen = "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0;
+    
+  const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  const hasCoarsePointer = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+  
+  const hasOrientation = window.orientation !== undefined;
+  
+  // Nur als Touch-Gerät erkennen wenn mindestens 2 Kriterien erfüllt sind
+  const touchIndicators = [hasTouchScreen, isMobileUserAgent, hasCoarsePointer, hasOrientation];
+  const touchCount = touchIndicators.filter(Boolean).length;
+  
+  return touchCount >= 2 || (hasTouchScreen && isMobileUserAgent);
+}
+
+// Notfall-Funktion: Mobile Controls manuell einblenden
+function forceMobileControls() {
+  const mobileControls = document.getElementById("mobile-controls");
+  
+  if (!isTouchDeviceDetected()) {
+    console.warn("⚠️ Warnung: Mobile Controls sollten nicht auf Desktop-Geräten aktiviert werden!");
+    console.log("Touch-Device-Detection:", {
+      ontouchstart: "ontouchstart" in window,
+      maxTouchPoints: navigator.maxTouchPoints,
+      userAgent: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+      coarsePointer: window.matchMedia && window.matchMedia("(pointer: coarse)").matches,
+      orientation: window.orientation !== undefined
+    });
+  }
+  
+  if (mobileControls) {
+    mobileControls.style.setProperty("display", "flex", "important");
+    mobileControls.style.setProperty("visibility", "visible", "important");
+    mobileControls.style.setProperty("position", "fixed", "important");
+    mobileControls.style.setProperty("bottom", "10px", "important");
+    mobileControls.style.setProperty("z-index", "1000", "important");
+    mobileControls.style.setProperty("width", "100%", "important");
+    mobileControls.style.setProperty("justify-content", "space-between", "important");
+    console.log("Mobile Controls manuell aktiviert!");
+    return true;
+  }
+  return false;
+}
+
+// Globale Verfügbarkeit für Debugging
+window.forceMobileControls = forceMobileControls;
 
 function setupAudio() {
   if (!soundManager) {
@@ -283,7 +365,7 @@ function touchDetection() {
     // Touch-Gerät: Desktop verstecken, Mobile anzeigen
     if (desktopWelcome) desktopWelcome.style.display = "none";
     if (mobileWelcome) mobileWelcome.style.display = "flex";
-    if (mobileControls) mobileControls.style.display = "flex";
+    // Mobile Controls NICHT hier anzeigen - nur im aktiven Spiel
   } else {
     // Desktop: Desktop anzeigen, Mobile verstecken
     if (desktopWelcome) desktopWelcome.style.display = "flex";

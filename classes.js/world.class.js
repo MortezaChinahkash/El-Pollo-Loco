@@ -277,6 +277,13 @@ class World {
 
  showWinScreen() {
   this.gameWon = true;
+  
+  // Mobile Controls verstecken bei Win Screen
+  const mobileControls = document.getElementById("mobile-controls");
+  if (mobileControls) {
+    mobileControls.style.display = "none";
+  }
+  
   const img = new Image();
   img.src = "img/img_pollo_locco/img/You won, you lost/You won A.png";
 
@@ -295,6 +302,13 @@ class World {
 
   showGameOverScreen() {
   this.gameOver = true;
+  
+  // Mobile Controls verstecken bei Game Over Screen
+  const mobileControls = document.getElementById("mobile-controls");
+  if (mobileControls) {
+    mobileControls.style.display = "none";
+  }
+  
   const img = new Image();
   img.src = "img/img_pollo_locco/img/You won, you lost/Game Over.png";
 

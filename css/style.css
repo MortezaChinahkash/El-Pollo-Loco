@@ -359,7 +359,7 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
 
 
 #mobile-controls {
-  display: none !important; /* Standardmäßig versteckt auf Desktop */
+  display: none; /* Standardmäßig versteckt, wird durch JavaScript überschrieben */
 }
 
 /* Mobile Controls nur auf Touch-Geräten anzeigen */
@@ -389,6 +389,7 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
 @media (pointer: fine) and (hover: hover) and (min-width: 1025px) {
   #mobile-controls {
     display: none !important;
+    visibility: hidden !important;
   }
   
   /* Desktop Welcome Message weit oben positionieren */
@@ -528,7 +529,7 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
   }
 
   #mobile-controls {
-    display: flex !important;
+    display: none; /* Standardmäßig versteckt, wird durch JavaScript aktiviert */
     position: fixed;
     bottom: 10px;
     width: 100%;
@@ -668,7 +669,7 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
   }
 
   #mobile-controls {
-    display: flex !important;
+    display: none; /* Standardmäßig versteckt, wird durch JavaScript aktiviert */
     position: fixed;
     bottom: 10px;
     width: 100%;
