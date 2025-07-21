@@ -18,7 +18,7 @@ class Endboss extends movableObject {
   width = 250;
   height = 300;
   y = 110;
-  speed = 20;
+  speed = 25; // Reduziert von 35 auf 25 für bessere Balance
 
   IMAGES_WALKING = [
     "img/img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -98,12 +98,12 @@ class Endboss extends movableObject {
   startAlert() {
     this.alertInterval = setInterval(() => {
       if (!this.isDead() && !this.isDying && !this.jumpingAttack && !this.isAnimating) {
-        this.loopAnimation(this.IMAGES_ALERT, 200);
+        this.loopAnimation(this.IMAGES_ALERT, 160); // Erhöht von 120 auf 160 für langsamere Alert-Animation
       } else if (this.isDead() || this.isDying) {
         clearInterval(this.alertInterval);
         this.playDeathAnimation();
       }
-    }, 500);
+    }, 400); // Erhöht von 300 auf 400 für weniger häufige Alert-Checks
   }
 
   startAttackLoop() {
@@ -115,30 +115,30 @@ class Endboss extends movableObject {
       const player = this.world?.character;
       if (!player) return;
       const distanceToPlayer = Math.abs(this.x - player.x);
-      const step = 3;
+      const step = 5; // Reduziert von 8 auf 5 für moderatere Geschwindigkeit
       this.otherDirection = player.x < this.x;
       this.walkToPlayer(player, step);
       this.handleJumpAttack(player, distanceToPlayer);
-    }, 1000 / 30);
+    }, 1000 / 45); // Reduziert von 60 auf 45 FPS für weniger aggressive Angriffe
   }
 
   walkToPlayer(player,step){
     if (!this.jumpingAttack && !this.isAnimating) {
-      this.loopAnimation(this.IMAGES_WALKING, 200);
+      this.loopAnimation(this.IMAGES_WALKING, 180); // Erhöht von 150 auf 180 für langsamere Animation
       if (this.x < player.x - 10) this.x += step;
       else if (this.x > player.x + 10) this.x -= step;
     }
   }
 
   handleJumpAttack(player, distanceToPlayer) {
-    if (distanceToPlayer < 150 && !this.jumpingAttack && !this.isAboveGround()) {
+    if (distanceToPlayer < 180 && !this.jumpingAttack && !this.isAboveGround()) {
       this.jumpingAttack = true;
-      this.speedY = 20;
+      this.speedY = 25;
       const direction = player.x < this.x ? -1 : 1;
-      this.x += direction * 70;
+      this.x += direction * 120; // Erhöht von 75 auf 120 für weitere Sprünge um den Character zu treffen
       this.playFullAnimationOnce(this.IMAGES_ATTACK, () => {
         this.jumpingAttack = false;
-      }, 140);
+      }, 120);
     }
   }
 
