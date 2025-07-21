@@ -27,6 +27,7 @@ body {
   will-change: transform;
   /* Reserviere Platz für Desktop Welcome Message um Layout-Shift zu vermeiden */
   padding-top: 120px;
+  padding-bottom: 60px; /* Platz für den Footer */
   box-sizing: border-box;
 }
 
@@ -782,7 +783,26 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
 }
 
 .footer-content {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.footer-info p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  text-align: left;
 }
 
 #impressum-link {
@@ -806,14 +826,37 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
 /* Desktop spezifische Footer Anpassungen */
 @media (pointer: fine) and (hover: hover) and (min-width: 1025px) {
   #game-footer {
-    position: relative;
-    margin-top: 20px;
+    position: fixed;
+    bottom: 0;
+    margin-top: 0;
     background: rgba(0, 0, 0, 0.05);
   }
   
   #impressum-link {
     font-size: 14px;
     padding: 8px 20px;
+  }
+  
+  .footer-info p {
+    font-size: 12px;
+  }
+}
+
+/* Responsive Footer für kleinere Bildschirme */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+  }
+  
+  .footer-info {
+    align-items: center;
+    order: 2;
+  }
+  
+  #impressum-link {
+    order: 1;
   }
 }
 
