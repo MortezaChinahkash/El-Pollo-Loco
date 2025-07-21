@@ -123,7 +123,7 @@ canvas {
   width: 780px;
   height: 480px;
   background-image: url(../img/img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png);
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
   color: rgb(0, 0, 0);
   display: flex;
