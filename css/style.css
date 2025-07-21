@@ -210,6 +210,47 @@ canvas {
   display: none;
 }
 
+/* Desktop Willkommensnachricht - oberhalb vom Loading Screen */
+.desktop-welcome {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  z-index: 1000;
+}
+
+/* Mobile Willkommensnachricht - auf dem Loading Screen */
+.mobile-welcome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none; /* Standardmäßig versteckt */
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 30px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Verstecke Willkommensnachrichten wenn Canvas sichtbar ist */
+canvas[style*="display: block"] ~ * .desktop-welcome,
+canvas[style*="display: block"] ~ .desktop-welcome,
+body:has(canvas[style*="display: block"]) .desktop-welcome,
+body:has(canvas[style*="display: block"]) .mobile-welcome {
+  display: none !important;
+}
+
+.mobile-welcome .start-message {
+  pointer-events: auto;
+  max-width: 90%;
+  padding: 20px 15px;
+  margin: 10px auto;
+  font-size: 0.9em; /* Kleinere Schrift für Mobile */
+}
+
 #restartBtn {
   display: none;
   padding: 20px 40px;
@@ -321,14 +362,7 @@ canvas {
     display: none; /* Wird durch JavaScript überschrieben wenn Touch erkannt */
   }
   
-  /* Mobile Startbildschirm-Text */
-  .desktop-message {
-    display: none;
-  }
-  
-  .mobile-message {
-    display: block;
-  }
+  /* Mobile Startbildschirm-Text wird jetzt durch JavaScript gesteuert */
   
   .start-message {
     max-width: 90%;
@@ -444,8 +478,22 @@ canvas {
     height: 100vh;
   }
 
-  .intro-text {
-    display: none !important; /* Touch-Geräte: Intro versteckt während Spiel */
+  /* Desktop-Intro wird durch JavaScript gesteuert - CSS überschreibt nicht */
+  
+  /* Mobile-Intro wird durch JavaScript gesteuert - CSS überschreibt nicht */
+
+  .start-message {
+    max-width: 90%;
+    padding: 20px 15px; /* Kleinere Padding auf Touch-Geräten */
+    margin: 10px auto;
+  }
+
+  .start-message h1 {
+    font-size: 1.8em; /* Kleinere Schrift auf Touch-Geräten */
+  }
+
+  .start-message p {
+    font-size: 1em; /* Kleinere Schrift auf Touch-Geräten */
   }
 
   #restartBtn,
@@ -569,8 +617,22 @@ canvas {
     aspect-ratio: 3 / 2;
   }
 
-  .intro-text {
-    display: none;
+  /* Desktop-Intro wird durch JavaScript gesteuert - CSS überschreibt nicht */
+  
+  /* Mobile-Intro wird durch JavaScript gesteuert - CSS überschreibt nicht */
+
+  .start-message {
+    max-width: 90%;
+    padding: 20px 15px; /* Kleinere Padding auf Touch-Geräten */
+    margin: 10px auto;
+  }
+
+  .start-message h1 {
+    font-size: 1.8em; /* Kleinere Schrift auf Touch-Geräten */
+  }
+
+  .start-message p {
+    font-size: 1em; /* Kleinere Schrift auf Touch-Geräten */
   }
 
   #restartBtn,
