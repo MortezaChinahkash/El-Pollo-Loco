@@ -412,8 +412,6 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
   border: 3px solid rgba(255, 255, 255, 0.9);
   border-radius: 50%;
   color: white;
-  margin-left: 20px;
-  margin-right: 20px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
   transition: all 0.2s ease;
 }
@@ -530,13 +528,12 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
   }
 
   #mobile-controls {
-    display: block;
+    display: flex !important;
     position: fixed;
     bottom: 10px;
     width: 100%;
-    display: flex;
+    padding: 0 20px; /* Padding hinzugefügt für Touch-Geräte */
     justify-content: space-between;
-    padding: 0 20px;
     margin: 10px;
     z-index: 1000;
   }
@@ -671,13 +668,11 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
   }
 
   #mobile-controls {
-    display: block;
+    display: flex !important;
     position: fixed;
     bottom: 10px;
     width: 100%;
-    display: flex;
     justify-content: space-between;
-    padding: 0 20px;
     margin: 10px;
     z-index: 1000;
   }
@@ -767,3 +762,4 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
     display: none !important;
   }
 }
+

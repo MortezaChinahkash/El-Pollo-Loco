@@ -38,6 +38,18 @@ function setupUI() {
     introText.style.display = "none";
   }
 
+  // Mobile Controls anzeigen, wenn Touch-Gerät erkannt wurde
+  const isTouchDevice = 
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0 ||
+    (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+    
+  const mobileControls = getCachedElement("mobile-controls");
+  if (isTouchDevice && mobileControls) {
+    mobileControls.style.display = "flex";
+  }
+
   const restartBtn = getCachedElement("restartBtn");
   const nextBtn = getCachedElement("nextLevelBtn");
   const homeBtn = getCachedElement("homeBtn");
@@ -158,6 +170,22 @@ function initializeGameWorld(currentLevel) {
 function setupInput() {
   touchDetection();
   setupMobileControls();
+  // Explizit Mobile Controls für Touch-Geräte aktivieren
+  showMobileControlsIfTouch();
+}
+
+function showMobileControlsIfTouch() {
+  const isTouchDevice = 
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0 ||
+    (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+    
+  const mobileControls = getCachedElement("mobile-controls");
+  if (isTouchDevice && mobileControls) {
+    mobileControls.style.display = "flex";
+    mobileControls.style.visibility = "visible";
+  }
 }
 
 function setupAudio() {
