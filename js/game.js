@@ -58,26 +58,21 @@ function hideWelcomeMessages() {
   
   if (desktopWelcome) {
     desktopWelcome.style.display = "none";
-    console.log("Desktop Welcome (ID) versteckt beim Spielstart");
   }
   if (mobileWelcome) {
     mobileWelcome.style.display = "none";
-    console.log("Mobile Welcome (ID) versteckt beim Spielstart");
   }
   if (desktopWelcomeClass) {
     desktopWelcomeClass.style.display = "none";
-    console.log("Desktop Welcome (Class) versteckt beim Spielstart");
   }
   if (mobileWelcomeClass) {
     mobileWelcomeClass.style.display = "none";
-    console.log("Mobile Welcome (Class) versteckt beim Spielstart");
   }
   
   // Sicherheit: Alle Start-Nachrichten verstecken
   allStartMessages.forEach((message, index) => {
     if (message.parentElement && (message.parentElement.id === 'desktop-welcome' || message.parentElement.id === 'mobile-welcome' || message.parentElement.classList.contains('desktop-welcome') || message.parentElement.classList.contains('mobile-welcome'))) {
       message.parentElement.style.display = "none";
-      console.log(`Start Message ${index + 1} versteckt`);
     }
   });
 }
@@ -256,20 +251,16 @@ function touchDetection() {
   const mobileWelcome = document.getElementById("mobile-welcome");
   const mobileControls = document.getElementById("mobile-controls");
   
-  console.log("Touch-Detection:", isTouchDevice);
-  
   if (isTouchDevice) {
     // Touch-Gerät: Desktop verstecken, Mobile anzeigen
     if (desktopWelcome) desktopWelcome.style.display = "none";
     if (mobileWelcome) mobileWelcome.style.display = "flex";
     if (mobileControls) mobileControls.style.display = "flex";
-    console.log("Touch-Gerät: Mobile Welcome aktiviert");
   } else {
     // Desktop: Desktop anzeigen, Mobile verstecken
     if (desktopWelcome) desktopWelcome.style.display = "flex";
     if (mobileWelcome) mobileWelcome.style.display = "none";
     if (mobileControls) mobileControls.style.display = "none";
-    console.log("Desktop: Desktop Welcome aktiviert");
   }
 }
 
