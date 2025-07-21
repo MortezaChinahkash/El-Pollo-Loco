@@ -171,9 +171,9 @@ class World {
   this.character.y = enemy.y - this.character.height + enemy.offset.top;
 
   // Exakt dieselbe Jump-Up Animation wie beim Absprung
-  this.character.hasJumpedDown = false;
-  this.character.hasJumpedUp = false;
-  this.character.handleJumpAnimation();}
+  this.character.animationManager.hasJumpedDown = false;
+  this.character.animationManager.hasJumpedUp = false;
+  this.character.animationManager.handleJumpAnimation();}
  else {
           // KEIN Schaden durch Endboss, wenn dieser stirbt oder tot ist
           const isEndboss = enemy instanceof Endboss;
