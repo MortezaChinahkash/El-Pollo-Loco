@@ -767,3 +767,67 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
   }
 }
 
+/* Footer Styles */
+#game-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 0;
+}
+
+.footer-content {
+  text-align: center;
+}
+
+#impressum-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  transition: all 0.3s ease;
+  padding: 5px 15px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+#impressum-link:hover {
+  color: #FFD700;
+  background: rgba(255, 215, 0, 0.1);
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Desktop spezifische Footer Anpassungen */
+@media (pointer: fine) and (hover: hover) and (min-width: 1025px) {
+  #game-footer {
+    position: relative;
+    margin-top: 20px;
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  #impressum-link {
+    font-size: 14px;
+    padding: 8px 20px;
+  }
+}
+
+/* Touch-Geräte: Footer verstecken wenn Spiel aktiv ist */
+@media (pointer: coarse), (hover: none) {
+  body:has(canvas[style*="display: block"]) #game-footer {
+    display: none;
+  }
+}
+
+/* Kleinere Bildschirme: Footer verstecken wenn Spiel aktiv ist */
+@media (max-width: 900px) {
+  body:has(canvas[style*="display: block"]) #game-footer {
+    display: none;
+  }
+}
+
