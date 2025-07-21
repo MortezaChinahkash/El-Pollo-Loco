@@ -234,11 +234,11 @@ class World {
   drawBackgroundAndGameElements() {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.clouds);
+    this.addObjectsToMap(this.collectableItems); // Flaschen auf dem Boden zuerst
+    this.addObjectsToMap(this.throwableObject); // Geworfene Flaschen zuerst
     let sortedEnemies = [...this.enemies].sort((a, b) => a.y - b.y);
-    this.addObjectsToMap(sortedEnemies);
-    this.addObjectsToMap(this.throwableObject);
+    this.addObjectsToMap(sortedEnemies); // Enemies über den Flaschen
     this.addToMap(this.character);
-    this.addObjectsToMap(this.collectableItems);
   }
 
   drawHUDElements() {
