@@ -485,9 +485,9 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
     gap: 12px;
     align-items: center;
     position: fixed;
-    top: 50%;
+    bottom: 10px;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     z-index: 1001;
   }
 
@@ -624,9 +624,9 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
     gap: 12px;
     align-items: center;
     position: fixed;
-    top: 50%;
+    bottom: 80px;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     z-index: 1001;
   }
 
