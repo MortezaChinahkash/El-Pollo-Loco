@@ -51,7 +51,7 @@ class World {
     this.run();
     this.bottleSpawnCount = 0;  }
   /**
-   * Verbindet den Charakter mit der Welt und startet dessen Animation
+   * Connects the character to the world and starts its animation
    */
   setWorld() {
     this.character.world = this;
