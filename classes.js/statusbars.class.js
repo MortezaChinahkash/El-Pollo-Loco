@@ -38,8 +38,8 @@ class Statusbar extends DrawableObject {
   }
 
   /**
-   * Liefert die Bildpfade für die Gesundheits-Statusleiste
-   * @returns {Object} Gesundheitsleisten-Bildpfade
+   * Returns the image paths for the health status bar
+   * @returns {Object} Health bar image paths
    */
   getHealthBarImages() {
     return {
