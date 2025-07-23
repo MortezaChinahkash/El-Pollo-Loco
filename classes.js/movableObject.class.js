@@ -28,6 +28,7 @@ class movableObject extends DrawableObject {
         this.speedY = 0;
       }
     }, 1000 / 25);  }
+    
   /**
    * Checks collision between this and another movable object
    * Uses offset values for precise collision detection

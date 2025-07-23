@@ -12,8 +12,8 @@ def analyze_method_length(file_path):
         
         lines = content.split('\n')
         long_methods = []
-        
-        i = 0
+            if len(all_long_methods) == 0:
+        no_methods_msg = "No methods longer than 14 lines found!"       i = 0
         while i < len(lines):
             line = lines[i]
             stripped = line.strip()
@@ -29,6 +29,13 @@ def analyze_method_length(file_path):
                 stripped.startswith('constructor') or  # Skip constructors
                 'interface' in stripped or
                 'enum' in stripped or
+                'console.log' in stripped or  # Skip console statements
+                'console.warn' in stripped or
+                'console.error' in stripped or
+                stripped.startswith('return ') or  # Skip simple return statements
+                stripped.startswith('throw ') or   # Skip throw statements
+                stripped.startswith('break') or    # Skip break statements
+                stripped.startswith('continue') or # Skip continue statements
                 (stripped.startswith('class ') and '{' in stripped)):
                 i += 1
                 continue
@@ -54,16 +61,25 @@ def is_method_declaration(stripped, lines, i):
     if stripped.startswith('constructor'):
         return False
     
+    # Skip variable declarations without function
+    if (stripped.startswith('const ') or stripped.startswith('let ') or stripped.startswith('var ')) and '=' in stripped and '=>' not in stripped and 'function' not in stripped:
+        return False
+    
     # JavaScript function declarations
     if (stripped.startswith('function ') and '(' in stripped):
         return True
     
-    # Arrow functions (const funcName = () => {)
+    # Arrow functions (const funcName = () => {, let funcName = () => {, var funcName = () => {)
     if ('=' in stripped and '=>' in stripped and '(' in stripped):
         return True
     
-    # Method declarations in classes/objects
-    if ('(' in stripped and ')' in stripped and '{' in stripped):
+    # Function expressions (const funcName = function() {)
+    if ('=' in stripped and 'function' in stripped and '(' in stripped):
+        return True
+    
+    # Method declarations in classes/objects - more precise detection
+    method_pattern = re.match(r'^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*\([^)]*\)\s*\{', stripped)
+    if method_pattern:
         return True
     
     # Method declarations spanning multiple lines
@@ -71,14 +87,26 @@ def is_method_declaration(stripped, lines, i):
         i + 1 < len(lines) and lines[i + 1].strip() == '{'):
         return True
     
-    # Async functions
+    # Async functions and methods
     if stripped.startswith('async ') and '(' in stripped:
         return True
     
-    # Event handlers and callbacks
+    # Static methods
+    if stripped.startswith('static ') and '(' in stripped:
+        return True
+    
+    # Getter and setter methods
+    if (stripped.startswith('get ') or stripped.startswith('set ')) and '(' in stripped:
+        return True
+    
+    # Event handlers and callbacks - skip inline handlers
     if ('addEventListener' in stripped or 'onclick' in stripped or 
         'onload' in stripped or 'ontouchstart' in stripped):
-        return False  # Skip inline handlers
+        return False
+    
+    # Object method shorthand (methodName() {)
+    if re.match(r'^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*\([^)]*\)\s*\{', stripped):
+        return True
     
     return False
 
@@ -116,16 +144,22 @@ def analyze_method_from_line(lines, start_line, file_path):
             total_lines += 1
             
             # Count actual code lines (not empty, not comments, not just braces)
+            # Be more lenient with what counts as a code line
             if (method_started and stripped and 
                 not stripped.startswith('//') and 
                 not stripped.startswith('*') and 
                 not stripped.startswith('/*') and
+                not stripped.startswith('*/') and
                 stripped != '{' and 
                 stripped != '}'):
                 code_lines += 1
             
-            # Method ends when brace count returns to 0
+            # Method ends when brace count returns to 0 after starting
             if method_started and brace_count <= 0:
+                # Debug output for methods > 10 lines
+                if code_lines > 10:
+                    print(f"DEBUG: Found method '{method_name}' with {code_lines} code lines, {total_lines} total lines")
+                
                 return {
                     'file': file_path,
                     'method_name': method_name,
@@ -141,6 +175,7 @@ def analyze_method_from_line(lines, start_line, file_path):
         return None
         
     except Exception as e:
+        print(f"Error analyzing method at line {start_line}: {e}")
         return None
 
 def extract_method_name(method_line):
@@ -160,18 +195,33 @@ def extract_method_name(method_line):
     if arrow_match:
         return arrow_match.group(1)
     
-    # Object method or class method (methodName() {)
-    method_match = re.search(r'(\w+)\s*\([^)]*\)\s*{', method_line)
-    if method_match:
-        return method_match.group(1)
+    # Function expressions (const funcName = function() {)
+    func_expr_match = re.search(r'(?:const|let|var)\s+(\w+)\s*=\s*function', method_line)
+    if func_expr_match:
+        return func_expr_match.group(1)
     
-    # Async functions
+    # Static methods
+    static_match = re.search(r'static\s+(\w+)\s*\(', method_line)
+    if static_match:
+        return static_match.group(1)
+    
+    # Async functions and methods
     async_match = re.search(r'async\s+(?:function\s+)?(\w+)\s*\(', method_line)
     if async_match:
         return async_match.group(1)
     
+    # Getter and setter methods
+    getter_setter_match = re.search(r'(?:get|set)\s+(\w+)\s*\(', method_line)
+    if getter_setter_match:
+        return getter_setter_match.group(1)
+    
+    # Object method or class method (methodName() {)
+    method_match = re.search(r'^\s*(\w+)\s*\([^)]*\)\s*{', method_line)
+    if method_match:
+        return method_match.group(1)
+    
     # Method declarations without immediate opening brace
-    simple_match = re.search(r'(\w+)\s*\([^)]*\)', method_line)
+    simple_match = re.search(r'^\s*(\w+)\s*\([^)]*\)', method_line)
     if simple_match:
         return simple_match.group(1)
     
@@ -191,12 +241,13 @@ def scan_all_ts_files():
     all_files = ts_files + js_files
     
     # Filter out node_modules and other unwanted directories
-    excluded_dirs = ['node_modules', '.git', 'dist', 'build', '.angular', 'coverage']
+    excluded_dirs = ['node_modules', '.git', 'dist', 'build', '.angular', 'coverage', 'backups', '__pycache__']
     files = []
     for file_path in all_files:
         # Check if file contains any excluded directory in its path
         should_exclude = any(excluded_dir in file_path for excluded_dir in excluded_dirs)
-        if not should_exclude:
+        # Also exclude Python files from this analysis and ensure it's actually a file, not a directory
+        if not should_exclude and not file_path.endswith('.py') and os.path.isfile(file_path):
             files.append(file_path)
     
     ts_files_filtered = [f for f in files if f.endswith('.ts')]
@@ -253,9 +304,7 @@ def scan_all_ts_files():
                 output_lines.append(method_info)
                 output_lines.append(details)
                 output_lines.append(declaration)
-                output_lines.append("")
-    
-    # Sort by code lines (longest first)
+                output_lines.append("")    # Sort by code lines (longest first)
     all_long_methods.sort(key=lambda x: x['code_lines'], reverse=True)
     
     top_section = "=" * 80
@@ -300,7 +349,7 @@ def scan_all_ts_files():
     output_lines.append(total_methods)
     
     if len(all_long_methods) == 0:
-        no_methods_msg = "No methods longer than 14 lines found!"
+        no_methods_msg = "No methods longer than 12 lines found!"
         print(no_methods_msg)
         output_lines.append(no_methods_msg)
     else:

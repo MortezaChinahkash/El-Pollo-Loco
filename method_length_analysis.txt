@@ -1,0 +1,60 @@
+METHOD LENGTH ANALYSIS REPORT
+Generated: 23.07.2025 15:50
+================================================================================
+Analyzing 22 TypeScript/JavaScript files for methods > 12 lines...
+Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
+TypeScript files: 0
+JavaScript files: 22
+Excluded directories: node_modules, .git, dist, build, .angular, coverage, backups, __pycache__
+NOTE: Constructors are excluded from analysis (allowed to be > 12 lines)
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
+--------------------------------------------------------------------------------
+  Method: startAttackLoop (Line 110-124)
+     Code lines: 13 | Total lines: 15
+     Declaration: startAttackLoop() {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\soundManager.class.js
+--------------------------------------------------------------------------------
+  Method: playMusic (Line 61-75)
+     Code lines: 14 | Total lines: 15
+     Declaration: playMusic(name, volume = 0.5) {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
+--------------------------------------------------------------------------------
+  Method: showGameOverScreen (Line 403-419)
+     Code lines: 14 | Total lines: 17
+     Declaration: showGameOverScreen() {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
+--------------------------------------------------------------------------------
+  Method: setupMobileControls (Line 484-497)
+     Code lines: 13 | Total lines: 14
+     Declaration: function setupMobileControls() {...
+
+================================================================================
+=== TOP 10 LONGEST METHODS ===
+================================================================================
+ 1. playMusic (14 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\soundManager.class.js
+    Line: 61-75
+
+ 2. showGameOverScreen (14 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
+    Line: 403-419
+
+ 3. startAttackLoop (13 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
+    Line: 110-124
+
+ 4. setupMobileControls (13 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
+    Line: 484-497
+
+=== SUMMARY ===
+Files analyzed: 22
+Files with long methods: 4
+Total methods > 12 lines: 4
+Average length: 13.5 lines
+Longest method: playMusic (14 lines)
+Consider refactoring methods longer than 20-25 lines
