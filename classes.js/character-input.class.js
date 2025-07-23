@@ -82,7 +82,7 @@ class CharacterInputManager {
   }
 
   /**
-   * Lässt Character springen
+   * Makes character jump
    */
   jumpWhenSpace() {
     if (this.character.world.keyboard.UP && !this.character.isAboveGround()) {
