@@ -299,8 +299,8 @@ class World {
   }
 
   /**
-   * Zeichnet HUD-Elemente wie Statusbalken und Level-Anzeige
-   * Wird außerhalb der Kamera-Translation gerendert
+   * Draws HUD elements like status bars and level display
+   * Rendered outside camera translation
    */
   drawHUDElements() {
     this.healthBar.draw(this.ctx);
