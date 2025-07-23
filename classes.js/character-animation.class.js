@@ -79,7 +79,7 @@ class CharacterAnimationManager {
   }
 
   /**
-   * Setzt Sprung-Flags zurück wenn am Boden
+   * Resets jump flags when on ground
    */
   resetJumpFlagsIfGrounded() {
     if (!this.character.isAboveGround()) {
@@ -102,7 +102,7 @@ class CharacterAnimationManager {
   }
 
   /**
-   * Spielt Animation einmalig ab
+   * Plays animation once
    */
   playAnimationOnce(images) {
     this.character.currentImage = 0;
@@ -119,7 +119,7 @@ class CharacterAnimationManager {
   }
 
   /**
-   * Startet Todesanimation
+   * Starts death animation
    */
   playDeadSequence() {
     this.character.isDeadState = true;

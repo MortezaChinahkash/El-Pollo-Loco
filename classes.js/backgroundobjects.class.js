@@ -2,9 +2,9 @@ class BackgroundObject extends movableObject{
     width = 720
     height = 480
     /**
-     * Erstellt ein neues Hintergrundobjekt
-     * @param {string} imagePath - Pfad zum Hintergrundbild
-     * @param {number} x - X-Position des Hintergrundobjekts
+     * Creates a new background object
+     * @param {string} imagePath - Path to the background image
+     * @param {number} x - X position of the background object
      */
     constructor(imagePath, x){
         super().loadImage(imagePath);
