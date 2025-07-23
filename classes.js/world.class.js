@@ -68,8 +68,8 @@ class World {
     this.collectableItems.push(newBottle);
     this.bottleSpawnCount++;  }
   /**
-   * Überprüft Kollisionen zwischen Charakter und sammelbare Gegenstände
-   * Entfernt gesammelte Items aus der Liste
+   * Checks collisions between character and collectable items
+   * Removes collected items from the list
    */
   checkCollectableItems() {
     this.collectableItems.forEach((item) => {
