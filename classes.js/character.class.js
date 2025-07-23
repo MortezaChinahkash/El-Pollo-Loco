@@ -86,9 +86,9 @@ class Character extends movableObject {
   }
 
   /**
-   * Verarbeitet Schaden am Charakter
-   * @param {number} damage - Der zu verursachende Schaden
-   * @param {Object} [source=null] - Die Quelle des Schadens (z.B. Endboss)
+   * Processes damage to the character
+   * @param {number} damage - The damage to be dealt
+   * @param {Object} [source=null] - The source of damage (e.g. Endboss)
    */
   hit(damage, source=null) {
     if (this.isHurt) return;
