@@ -35,6 +35,7 @@ class CharacterInputManager {
 
   /**
    * Processes all movement inputs
+   * @returns {boolean} True if any movement occurred
    */
   processMovementInput() {
     let moved = false;
@@ -46,6 +47,7 @@ class CharacterInputManager {
 
   /**
    * Handles effects during movement
+   * @param {boolean} moved - Whether the character moved
    */
   handleMovementEffects(moved) {
     if (moved) {
