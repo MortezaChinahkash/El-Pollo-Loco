@@ -1,6 +1,6 @@
 /**
- * Chicken-Klasse für die normalen Gegner-Hühner
- * Erweitert movableObject um KI-Verhalten und Zufallseigenschaften
+ * Chicken class for normal enemy chickens
+ * Extends movableObject with AI behavior and random properties
  */
 class Chicken extends movableObject {
   levelWidth;
@@ -24,9 +24,9 @@ class Chicken extends movableObject {
     "img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/2_dead/dead.png",  ];
 
   /**
-   * Erstellt ein neues Chicken mit zufälligen Eigenschaften
-   * @param {number} levelWidth - Breite des Levels für Positionierung
-   * @param {number} damage - Schaden den das Huhn verursacht
+   * Creates a new Chicken with random properties
+   * @param {number} levelWidth - Width of the level for positioning
+   * @param {number} damage - Damage that the chicken deals
    */
   constructor(levelWidth, damage) {
     super();
