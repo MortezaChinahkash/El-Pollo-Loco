@@ -358,11 +358,19 @@ class World {
     mo.x = mo.x * -1;
   }
 
+  /**
+   * Stellt die normale Bildorientierung nach flipImage() wieder her
+   * @param {MovableObject} mo - Das Objekt dessen Bild zurückgedreht werden soll
+   */
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();
   }
 
+ /**
+  * Zeigt den Gewinn-Bildschirm an und startet die Gewinn-Sequenz
+  * Versteckt UI-Elemente und lädt das Gewinn-Bild
+  */
  showWinScreen() {
   this.gameWon = true;
   this.hideUIForWinScreen();
@@ -406,6 +414,10 @@ class World {
   this.showNextLevelButton();
  }
 
+  /**
+   * Zeigt den Game-Over-Bildschirm an
+   * Versteckt mobile Controls und spielt Game-Over-Sound ab
+   */
   showGameOverScreen() {
   this.gameOver = true;
   
@@ -430,6 +442,10 @@ class World {
   };
 }
 
+  /**
+   * Zeigt den Neustart-Button und Home-Button an
+   * Konfiguriert Click-Handler für Spielneustart
+   */
   showRestartButton() {
     const btn = document.getElementById("restartBtn");
     const homeBtn = document.getElementById("homeBtn");
@@ -440,6 +456,10 @@ class World {
     };
   }
 
+  /**
+   * Zeigt den Nächstes-Level-Button und Home-Button an
+   * Konfiguriert Click-Handler für nächstes Level
+   */
   showNextLevelButton() {
     const btn = document.getElementById("nextLevelBtn");
     const homeBtn = document.getElementById("homeBtn");

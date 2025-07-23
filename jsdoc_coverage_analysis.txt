@@ -1,33 +1,11 @@
 JSDOC COVERAGE ANALYSIS REPORT
-Generated: 23.07.2025 11:23
+Generated: 23.07.2025 11:26
 ================================================================================
 Analyzing 24 TypeScript/JavaScript files for missing JSDoc...
 Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
 TypeScript files: 0
 JavaScript files: 24
 Excluded directories: node_modules, .git, dist, build, .angular, coverage, .vscode, .idea
-
-File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
---------------------------------------------------------------------------------
-  Method: flipImageBack (Line 361)
-     Type: Method
-     Declaration: flipImageBack(mo) {...
-
-  Method: showWinScreen (Line 366)
-     Type: Method
-     Declaration: showWinScreen() {...
-
-  Method: showGameOverScreen (Line 409)
-     Type: Method
-     Declaration: showGameOverScreen() {...
-
-  Method: showRestartButton (Line 433)
-     Type: Method
-     Declaration: showRestartButton() {...
-
-  Method: showNextLevelButton (Line 443)
-     Type: Method
-     Declaration: showNextLevelButton() {...
 
 File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
 --------------------------------------------------------------------------------
@@ -42,28 +20,22 @@ File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.j
 ================================================================================
 === MISSING JSDOC BY METHOD TYPE ===
 ================================================================================
-Method: 7 methods missing JSDoc
-  - flipImageBack in world.class.js
-  - showWinScreen in world.class.js
-  - showGameOverScreen in world.class.js
-  ... and 4 more
+Method: 2 methods missing JSDoc
+  - unknown_method in game.js
+  - unknown_method in game.js
 
 ================================================================================
 === TOP 10 FILES WITH MOST MISSING JSDOC ===
 ================================================================================
- 1. world.class.js (5 missing)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
-    Methods: flipImageBack, showWinScreen, showGameOverScreen, showRestartButton, showNextLevelButton
-
- 2. game.js (2 missing)
+ 1. game.js (2 missing)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
     Methods: unknown_method, unknown_method
 
 === OVERALL SUMMARY ===
 Files analyzed: 24
-Files with missing JSDoc: 2
-Total methods missing JSDoc: 7
-Estimated JSDoc coverage: 97.1%
+Files with missing JSDoc: 1
+Total methods missing JSDoc: 2
+Estimated JSDoc coverage: 99.2%
 
 === RECOMMENDATIONS ===
 • Add JSDoc comments to all public methods and functions
