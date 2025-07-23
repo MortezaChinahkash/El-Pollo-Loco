@@ -8,21 +8,21 @@ class DrawableObject {
     currentImage = 0;
 
   /**
-   * Zeichnet das Objekt auf den Canvas
-   * @param {CanvasRenderingContext2D} ctx - Der Canvas-Rendering-Kontext
+   * Draws the object on the canvas
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
    */
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);  }
   /**
-   * Lädt ein einzelnes Bild von einem Pfad
-   * @param {string} path - Pfad zur Bilddatei
+   * Loads a single image from a path
+   * @param {string} path - Path to the image file
    */
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;  }
   /**
-   * Lädt mehrere Bilder und speichert sie im imageCache
-   * @param {string[]} arr - Array mit Bildpfaden
+   * Loads multiple images and stores them in imageCache
+   * @param {string[]} arr - Array with image paths
    */
   loadImages(arr) {
     arr.forEach((path) => {
