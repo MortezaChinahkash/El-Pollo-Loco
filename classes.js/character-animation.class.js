@@ -29,14 +29,14 @@ class CharacterAnimationManager {
   }
 
   /**
-   * Prüft ob Animationen gestoppt werden sollen
+   * Checks if animations should be stopped
    */
   shouldStopAnimations() {
     return this.character.isHurt || this.character.isDeadState;
   }
 
   /**
-   * Behandelt Bewegungsanimationen
+   * Handles movement animations
    */
   handleMovementAnimations() {
     const bossIsEntering = this.character.world.level.boss?.movingIn;
@@ -52,7 +52,7 @@ class CharacterAnimationManager {
   }
 
   /**
-   * Behandelt Animation während Boss-Eingang
+   * Handles animation during boss entrance
    */
   handleBossEnteringAnimation() {
     this.character.audioManager.stopRunningSound();
@@ -60,14 +60,14 @@ class CharacterAnimationManager {
   }
 
   /**
-   * Prüft ob Character sich bewegt
+   * Checks if character is moving
    */
   isMoving() {
     return this.character.world.keyboard.RIGHT || this.character.world.keyboard.LEFT;
   }
 
   /**
-   * Behandelt Idle-Animationen
+   * Handles idle animations
    */
   handleIdleAnimation() {
     const timeSinceLastMove = Date.now() - this.character.lastMovementTime;

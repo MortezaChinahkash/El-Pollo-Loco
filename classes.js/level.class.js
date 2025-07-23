@@ -5,12 +5,12 @@ class Level {
   levelWidth;
   levelNumber;
   /**
-   * Erstellt ein neues Level mit allen Spielelementen
-   * @param {Array} enemies - Array für Gegner
-   * @param {Array} clouds - Array für Wolken
-   * @param {Array} backgroundObjects - Array für Hintergrundobjekte
-   * @param {number} levelWidth - Breite des Levels
-   * @param {number} levelNumber - Nummer des Levels für Schwierigkeitsanpassung
+   * Creates a new level with all game elements
+   * @param {Array} enemies - Array for enemies
+   * @param {Array} clouds - Array for clouds
+   * @param {Array} backgroundObjects - Array for background objects
+   * @param {number} levelWidth - Width of the level
+   * @param {number} levelNumber - Level number for difficulty adjustment
    */
   constructor(enemies, clouds, backgroundObjects, levelWidth, levelNumber) {
     this.enemies = enemies;
@@ -25,8 +25,8 @@ class Level {
     this.generateEndboss();
     this.generateCollectables();  }
   /**
-   * Generiert die Hintergrundobjekte für das gesamte Level
-   * Erstellt mehrere Schichten von Hintergrundbildern über die gesamte Levelbreite
+   * Generates background objects for the entire level
+   * Creates multiple layers of background images across the entire level width
    */
   generateBackground() {
     const config = this.setupBackgroundConfig();
@@ -34,8 +34,8 @@ class Level {
   }
 
   /**
-   * Konfiguriert die Parameter für die Hintergrunderstellung
-   * @returns {Object} Konfigurationsobjekt mit Hintergründen und Parametern
+   * Configures parameters for background creation
+   * @returns {Object} Configuration object with backgrounds and parameters
    */
   setupBackgroundConfig() {
     return {
@@ -47,8 +47,8 @@ class Level {
   }
 
   /**
-   * Erstellt die Hintergrund-Loop über die gesamte Levelbreite
-   * @param {Object} config - Konfiguration für Hintergrunderstellung
+   * Creates the background loop across the entire level width
+   * @param {Object} config - Configuration for background creation
    */
   createBackgroundLoop(config) {
     while (config.startX < this.levelWidth) {
@@ -60,9 +60,9 @@ class Level {
   }
 
   /**
-   * Fügt alle Hintergrund-Schichten für eine Position hinzu
-   * @param {Object} block - Hintergrund-Block mit allen Schichten
-   * @param {number} x - X-Position für die Schichten
+   * Adds all background layers for a position
+   * @param {Object} block - Background block with all layers
+   * @param {number} x - X position for the layers
    */
   addBackgroundLayers(block, x) {
     this.backgroundObjects.push(new BackgroundObject(block.air, x, 480));
@@ -72,8 +72,8 @@ class Level {
   }
 
   /**
-   * Definiert die verfügbaren Hintergrund-Segmente
-   * @returns {Array} Array mit Hintergrund-Konfigurationen für verschiedene Schichten
+   * Defines the available background segments
+   * @returns {Array} Array with background configurations for different layers
    */
   defineBG() {
     return [
@@ -109,8 +109,8 @@ class Level {
   }
 
   /**
-   * Generiert Wolken für das Level basierend auf der Levelbreite
-   * Erstellt eine angemessene Anzahl von Wolken für die Hintergrundanimation
+   * Generates clouds for the level based on level width
+   * Creates an appropriate number of clouds for background animation
    */
   generateClouds() {
     const numberOfClouds = Math.floor(this.levelWidth / 700);
@@ -118,8 +118,8 @@ class Level {
       this.clouds.push(new Cloud(this.levelWidth));
     }  }
   /**
-   * Generiert Hühner-Gegner für das Level
-   * Anzahl und Schaden basieren auf Levelgröße und -nummer
+   * Generates chicken enemies for the level
+   * Count and damage are based on level size and number
    */
   generateChickens() {
     const minChicken = Math.floor(this.levelWidth / 500);
@@ -132,8 +132,8 @@ class Level {
       this.enemies.push(chicken);
     }  }
   /**
-   * Generiert den Endboss für das Level
-   * Schaden und Energie werden basierend auf der Levelnummer skaliert
+   * Generates the endboss for the level
+   * Damage and energy are scaled based on level number
    */
   generateEndboss() {
     const bossDamage = 5 + this.levelNumber * 1;
@@ -142,8 +142,8 @@ class Level {
     this.boss = boss;
     this.enemies.push(boss);  }
   /**
-   * Generiert sammelbare Objekte (Münzen und Flaschen) für das Level
-   * Anzahl basiert auf Levelgröße und -nummer für ausgewogenes Gameplay
+   * Generates collectable objects (coins and bottles) for the level
+   * Count is based on level size and number for balanced gameplay
    */
   generateCollectables() {
     const coinCount = Math.min(10, Math.floor(this.levelWidth / 400));

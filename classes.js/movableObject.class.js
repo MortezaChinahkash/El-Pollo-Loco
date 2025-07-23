@@ -29,10 +29,10 @@ class movableObject extends DrawableObject {
       }
     }, 1000 / 25);  }
   /**
-   * Prüft Kollision zwischen diesem und einem anderen beweglichen Objekt
-   * Verwendet Offset-Werte für präzise Kollisionserkennung
-   * @param {movableObject} mo - Das andere bewegliche Objekt
-   * @returns {boolean} True wenn Kollision erkannt wird
+   * Checks collision between this and another movable object
+   * Uses offset values for precise collision detection
+   * @param {movableObject} mo - The other movable object
+   * @returns {boolean} True if collision is detected
    */
   isColliding(mo) {
   const buffer = 5;
@@ -54,8 +54,8 @@ class movableObject extends DrawableObject {
       this.energy = 0;
     }  }
   /**
-   * Prüft ob das Objekt tot ist (Energie = 0)
-   * @returns {boolean} True wenn das Objekt tot ist
+   * Checks if the object is dead (energy = 0)
+   * @returns {boolean} True if the object is dead
    */
   isDead() {
     return this.energy == 0;
