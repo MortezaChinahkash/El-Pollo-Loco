@@ -1,6 +1,6 @@
 /**
- * Verwaltet Tastatureingaben für das Spiel
- * Speichert den Zustand aller relevanten Tasten
+ * Manages keyboard input for the game
+ * Stores the state of all relevant keys
  */
 class Keyboard {
   LEFT = false;
