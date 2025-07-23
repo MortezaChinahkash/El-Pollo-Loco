@@ -72,8 +72,8 @@ class Statusbar extends DrawableObject {
   }
 
   /**
-   * Liefert die Bildpfade für die Flaschen-Statusleiste
-   * @returns {Object} Flaschenleisten-Bildpfade
+   * Returns the image paths for the bottle status bar
+   * @returns {Object} Bottle bar image paths
    */
   getBottleBarImages() {
     return {
