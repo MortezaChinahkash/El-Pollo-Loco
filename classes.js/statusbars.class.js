@@ -163,8 +163,8 @@ class Statusbar extends DrawableObject {
     if (this.percentage > 0) return 1;
     return 0;  }
   /**
-   * Ermittelt die initiale X-Position basierend auf dem Statusleisten-Typ
-   * @returns {number} X-Position für die Statusleiste
+   * Determines the initial X position based on the status bar type
+   * @returns {number} X position for the status bar
    */
   getInitialX() {
     switch (this.type) {
@@ -176,8 +176,8 @@ class Statusbar extends DrawableObject {
         return 40;
     }  }
   /**
-   * Gibt die initiale Y-Position für alle Statusleisten zurück
-   * @returns {number} Y-Position (immer 0, da alle oben angezeigt werden)
+   * Returns the initial Y position for all status bars
+   * @returns {number} Y position (always 0, as all are displayed at top)
    */
   getInitialY() {
     return 0;
