@@ -56,7 +56,7 @@ class CharacterInputManager {
   }
 
   /**
-   * Bewegt Character nach rechts
+   * Moves character to the right
    */
   moveRightWhenSpace() {
     if (
