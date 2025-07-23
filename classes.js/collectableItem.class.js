@@ -7,10 +7,10 @@ class CollectableItem extends movableObject {
   };
 
   /**
-   * Erstellt ein neues sammelbarebares Objekt (Münze oder Flasche)
-   * @param {number} x - X-Position des Objekts
-   * @param {number} y - Y-Position des Objekts
-   * @param {string} type - Typ des Objekts ('coin' oder 'bottle')
+   * Creates a new collectable object (coin or bottle)
+   * @param {number} x - X position of the object
+   * @param {number} y - Y position of the object
+   * @param {string} type - Type of object ('coin' or 'bottle')
    */
   constructor(x, y, type) {
     super();
