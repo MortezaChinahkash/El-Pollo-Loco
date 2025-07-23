@@ -119,9 +119,9 @@ class Statusbar extends DrawableObject {
       }
     }, 100);  }
   /**
-   * Ermittelt den aktuellen Wert des verknüpften Objekts basierend auf dem Statusleisten-Typ
-   * @param {Object} obj - Das verknüpfte Objekt
-   * @returns {number} Der entsprechende Wert für die Statusleiste
+   * Determines the current value of the linked object based on the status bar type
+   * @param {Object} obj - The linked object
+   * @returns {number} The corresponding value for the status bar
    */
   getLinkedValue(obj) {
     let value = 0;
