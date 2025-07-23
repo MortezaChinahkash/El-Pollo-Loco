@@ -89,8 +89,8 @@ class Statusbar extends DrawableObject {
   }
 
   /**
-   * Liefert die Bildpfade für die Endboss-Statusleiste
-   * @returns {Object} Endboss-Leisten-Bildpfade
+   * Returns the image paths for the endboss status bar
+   * @returns {Object} Endboss bar image paths
    */
   getEndbossBarImages() {
     return {
