@@ -48,8 +48,8 @@ class CollectableItem extends movableObject {
   }
 
   /**
-   * Gibt den Bildpfad für den jeweiligen Objekttyp zurück
-   * @returns {string} Pfad zum Bild des Objekts
+   * Returns the image path for the respective object type
+   * @returns {string} Path to the object's image
    */
   getImagePath() {
     const images = {
