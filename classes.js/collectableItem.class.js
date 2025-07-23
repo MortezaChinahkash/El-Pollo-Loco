@@ -87,8 +87,8 @@ class CollectableItem extends movableObject {
     ctx.globalAlpha = 1;
     ctx.restore();  }
   /**
-   * Startet die Schwebanimation für Münzen
-   * Lässt Münzen auf und ab schweben zwischen zwei Y-Positionen
+   * Starts the floating animation for coins
+   * Makes coins float up and down between two Y positions
    */
   startFloating() {
     let direction = 1;
