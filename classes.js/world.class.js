@@ -266,8 +266,8 @@ class World {
   }
 
   /**
-   * Zeichnet die gesamte Spielwelt auf das Canvas
-   * Rendert Hintergrund, Spielelemente und HUD-Elemente
+   * Draws the entire game world on the canvas
+   * Renders background, game elements and HUD elements
    */
   draw() {
     if (this.gameWon || this.gameOver) return;
