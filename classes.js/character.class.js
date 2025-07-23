@@ -174,17 +174,17 @@ class Character extends movableObject {
   }
 
   /**
-   * Setzt den Bewegungstimer zurück auf die aktuelle Zeit
-   * @returns {number} Der aktuelle Zeitstempel
+   * Resets the movement timer to the current time
+   * @returns {number} The current timestamp
    */
   resetMovementTimer() {
     return (this.lastMovementTime = Date.now());
   }
 
   /**
-   * Setzt die Kameraposition basierend auf Charakterposition und Level-Grenzen
-   * Spezielle Behandlung wenn Boss einläuft
-   * @param {number} camLimit - Die maximale Kamera-Position
+   * Sets the camera position based on character position and level boundaries
+   * Special handling when boss is moving in
+   * @param {number} camLimit - The maximum camera position
    */
   setLevelWidth(camLimit) {
     const boss = this.world.level.boss;
