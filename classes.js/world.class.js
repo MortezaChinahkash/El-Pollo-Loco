@@ -419,8 +419,8 @@ class World {
 }
 
   /**
-   * Zeigt den Neustart-Button und Home-Button an
-   * Konfiguriert Click-Handler für Spielneustart
+   * Shows the restart button and home button
+   * Configures click handler for game restart
    */
   showRestartButton() {
     const btn = document.getElementById("restartBtn");
