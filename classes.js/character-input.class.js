@@ -45,7 +45,7 @@ class CharacterInputManager {
   }
 
   /**
-   * Behandelt Effekte bei Bewegung
+   * Handles effects during movement
    */
   handleMovementEffects(moved) {
     if (moved) {
