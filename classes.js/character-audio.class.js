@@ -151,7 +151,8 @@ class CharacterAudioManager {
   }
 
   /**
-   * Spielt Sprunggeräusch mit Einstellungen ab
+   * Plays jump sound with settings
+   * @param {number} now - Current timestamp
    */
   playJumpSoundWithSettings(now) {
     const sound = soundManager.sounds["jump"];
