@@ -124,7 +124,7 @@ class ThrowableObject extends movableObject {
   }
 
   /**
-   * Setzt den Splash-Zustand und stoppt Bewegung
+   * Sets the splash state and stops movement
    */
   setSplashState() {
     this.isSplashing = true;
@@ -135,7 +135,7 @@ class ThrowableObject extends movableObject {
   }
 
   /**
-   * Behandelt Sound-Effekte beim Splash
+   * Handles sound effects during splash
    */
   handleSplashSounds() {
     if (this.flySoundInstance) {
