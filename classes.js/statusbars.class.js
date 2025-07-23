@@ -142,8 +142,8 @@ class Statusbar extends DrawableObject {
     this.x = obj.x + obj.width / 2 - this.width / 2;
     this.y = obj.y - 30;  }
   /**
-   * Setzt den Prozentsatz der Statusleiste und aktualisiert das angezeigte Bild
-   * @param {number} value - Der neue Wert für die Statusleiste
+   * Sets the percentage of the status bar and updates the displayed image
+   * @param {number} value - The new value for the status bar
    */
   setPercentage(value) {
     const percent = Math.min(100, Math.round((value / this.maxValue) * 100));
