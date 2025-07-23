@@ -92,15 +92,15 @@ class SoundManager {
     }
     localStorage.setItem("soundMuted", this.isMuted ? "true" : "false");  }
   /**
-   * Setzt die Lautstärke der aktuell abspielenden Hintergrundmusik
-   * @param {number} value - Lautstärke zwischen 0.0 und 1.0
+   * Sets the volume of the currently playing background music
+   * @param {number} value - Volume between 0.0 and 1.0
    */
   setMusicVolume(value) {
     if (this.music) this.music.volume = Math.min(Math.max(value, 0), 1);  }
   /**
-   * Setzt die Lautstärke eines spezifischen Sound-Effekts
-   * @param {string} name - Name des Sounds
-   * @param {number} value - Lautstärke zwischen 0.0 und 1.0
+   * Sets the volume of a specific sound effect
+   * @param {string} name - Name of the sound
+   * @param {number} value - Volume between 0.0 and 1.0
    */
   setEffectVolume(name, value) {
     const sound = this.sounds[name];
