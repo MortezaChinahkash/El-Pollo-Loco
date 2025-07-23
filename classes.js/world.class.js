@@ -1,6 +1,6 @@
 /**
- * World-Klasse verwaltet die gesamte Spielwelt und deren Logik
- * Koordiniert Charaktere, Gegner, Kollisionen und Spielzustände
+ * World class manages the entire game world and its logic
+ * Coordinates characters, enemies, collisions and game states
  */
 class World {
   character = new Character();
