@@ -167,7 +167,7 @@ class Character extends movableObject {
   }
 
   /**
-   * Führt die Sprungmechanik aus
+   * Executes the jump mechanics
    */
   executeJumpMechanics() {
     this.speedY = 20;
