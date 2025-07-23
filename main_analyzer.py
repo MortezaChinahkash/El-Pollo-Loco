@@ -53,7 +53,8 @@ def print_menu():
         ("2", "📝 JSDoc Coverage Analyzer", "Checks JSDoc documentation in JS/TS", "analyze_jsdoc_coverage.py"),
         ("3", "🔧 Method Length Analyzer", "Analyzes method lengths in JS/TS", "analyze_method_length_simple.py"),
         ("4", "🧹 Console.log Remover", "Removes console.log statements", "remove_console_logs.py"),
-        ("5", "🚀 Run All Analyzers", "Executes all analyzers sequentially", "all"),
+        ("5", "� Inline Comment Remover", "Removes inline comments (preserves JSDoc)", "remove_inline_comments.py"),
+        ("6", "�🚀 Run All Analyzers", "Executes all analyzers sequentially", "all"),
         ("0", "❌ Exit", "Exit program", "exit")
     ]
     
@@ -68,7 +69,7 @@ def print_menu():
     print(Colors.colorize("💡 TIP:", Colors.BOLD + Colors.CYAN))
     print(Colors.colorize("• Single selection: e.g. '1' or '3'", Colors.CYAN))
     print(Colors.colorize("• Multiple selection: e.g. '1,2,4' (comma separated)", Colors.CYAN))
-    print(Colors.colorize("• Run all: '5'", Colors.CYAN))
+    print(Colors.colorize("• Run all: '6'", Colors.CYAN))
     print()
 
 def get_analyzer_info() -> Dict[str, Dict]:
@@ -97,6 +98,12 @@ def get_analyzer_info() -> Dict[str, Dict]:
             "script": "remove_console_logs.py",
             "description": "Removes console.log statements from JS/TS files",
             "icon": "🧹"
+        },
+        "5": {
+            "name": "Inline Comment Remover",
+            "script": "remove_inline_comments.py",
+            "description": "Removes inline comments while preserving JSDoc",
+            "icon": "💬"
         }
     }
 
@@ -213,16 +220,16 @@ def get_user_choice() -> str:
     """Asks the user for their selection"""
     while True:
         try:
-            choice = input(Colors.colorize("🔍 Your selection (0-5 or multiple with comma): ", Colors.BOLD + Colors.YELLOW)).strip()
+            choice = input(Colors.colorize("🔍 Your selection (0-6 or multiple with comma): ", Colors.BOLD + Colors.YELLOW)).strip()
             
             # Single selection
-            if choice in ['0', '1', '2', '3', '4', '5']:
+            if choice in ['0', '1', '2', '3', '4', '5', '6']:
                 return choice
             
             # Check multiple selection
             if ',' in choice:
                 choices = [c.strip() for c in choice.split(',')]
-                valid_choices = ['1', '2', '3', '4']
+                valid_choices = ['1', '2', '3', '4', '5']
                 
                 # Check if all selections are valid
                 if all(c in valid_choices for c in choices):
@@ -230,9 +237,9 @@ def get_user_choice() -> str:
                     unique_choices = sorted(list(set(choices)))
                     return ','.join(unique_choices)
                 else:
-                    print(Colors.colorize("❌ Invalid multiple selection! Only 1,2,3,4 allowed (no 0 or 5).", Colors.RED))
+                    print(Colors.colorize("❌ Invalid multiple selection! Only 1,2,3,4,5 allowed (no 0 or 6).", Colors.RED))
             else:
-                print(Colors.colorize("❌ Invalid input! Please choose 0-5 or multiple with comma.", Colors.RED))
+                print(Colors.colorize("❌ Invalid input! Please choose 0-6 or multiple with comma.", Colors.RED))
                 
         except KeyboardInterrupt:
             print(Colors.colorize("\n\nGoodbye!", Colors.YELLOW))
@@ -245,8 +252,8 @@ def confirm_action(analyzer_name: str) -> bool:
     """Asks for confirmation before execution"""
     print(Colors.colorize(f"⚠️ You are about to run '{analyzer_name}'.", Colors.YELLOW))
     
-    # Special warning for Console.log Remover
-    if "Console.log Remover" in analyzer_name:
+    # Special warning for file-modifying analyzers
+    if any(modifier in analyzer_name for modifier in ["Console.log Remover", "Inline Comment Remover"]):
         print(Colors.colorize("🚨 WARNING: This analyzer MODIFIES your files!", Colors.RED))
         print(Colors.colorize("   Make sure you have backups.", Colors.RED))
     
@@ -280,7 +287,7 @@ def main():
                 print(Colors.colorize("\n👋 Goodbye!", Colors.YELLOW))
                 break
                 
-            elif choice == '5':
+            elif choice == '6':
                 print()
                 if confirm_action("ALL ANALYZERS"):
                     print()
