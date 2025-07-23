@@ -4,7 +4,6 @@ class TestFunction {
     this.value = 42;
     console.log("Created");
   }
-
   myMethod() {
     let x = 1;
     let y = 2;

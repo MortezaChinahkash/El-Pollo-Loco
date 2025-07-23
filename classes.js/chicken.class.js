@@ -2,7 +2,6 @@
  * Chicken-Klasse für die normalen Gegner-Hühner
  * Erweitert movableObject um KI-Verhalten und Zufallseigenschaften
  */
-
 class Chicken extends movableObject {
   levelWidth;
   energy = 100;
@@ -28,7 +27,6 @@ class Chicken extends movableObject {
    * @param {number} levelWidth - Breite des Levels für Positionierung
    * @param {number} damage - Schaden den das Huhn verursacht
    */
-
   constructor(levelWidth, damage) {
     super();
     this.levelWidth = levelWidth;
@@ -49,7 +47,6 @@ class Chicken extends movableObject {
   /**
    * Checks continuously if chicken should die and triggers death
    */
-
   checkDeathLoop() {
     setInterval(() => {
       if (this.energy <= 0 && !this.markedForDeletion) {
@@ -61,7 +58,6 @@ class Chicken extends movableObject {
   /**
    * Handles chicken death sequence and cleanup
    */
-
   die() {
     this.offset.top = 100;
     this.speed = 0;
@@ -77,7 +73,6 @@ class Chicken extends movableObject {
   /**
    * Fades out the chicken and marks it for deletion
    */
-
   fadeOutAndRemove() {
     const fadeInterval = setInterval(() => {
       this.opacity -= 0.05;
@@ -93,7 +88,6 @@ class Chicken extends movableObject {
    * Returns a random height for chicken placement
    * @returns {number} Random height value
    */
-
   randomHeight() {
     return 350 + Math.random() * 30;
   }
@@ -101,7 +95,6 @@ class Chicken extends movableObject {
   /**
    * Sets random size and speed for chicken variation
    */
-
   setRandomSize() {
     const baseSize = 75;
     const variation = Math.random() * 20;
@@ -113,7 +106,6 @@ class Chicken extends movableObject {
   /**
    * Starts movement and walking animation for the chicken
    */
-
   animate() {
     setInterval(() => {
       if (this.energy > 0) {
@@ -131,7 +123,6 @@ class Chicken extends movableObject {
    * Draws the chicken with opacity support
    * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
    */
-
   draw(ctx) {
     if (!this.img) return;
     ctx.save();

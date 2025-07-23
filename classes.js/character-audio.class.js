@@ -4,13 +4,11 @@
  * @author Morteza Chinahkash
  * @version 1.0.0
  */
-
 class CharacterAudioManager {
   /**
    * Creates a new character audio manager
    * @param {Character} character - The character to manage audio for
    */
-
   constructor(character) {
     this.character = character;
     this.lastHurtSoundTime = 0;
@@ -28,7 +26,6 @@ class CharacterAudioManager {
    * Spielt Verletzungsgeräusch mit Cooldown ab
    * @param {number} now - Aktueller Zeitstempel
    */
-
   playHurtSoundWithCooldown(now) {
     if (
       typeof soundManager !== "undefined" &&
@@ -44,7 +41,6 @@ class CharacterAudioManager {
    * @param {number} now - Aktueller Zeitstempel
    * @param {Object} source - Schadenquelle
    */
-
   playSoundWhenMeetingEndboss(now, source) {
     if (
       typeof soundManager !== "undefined" &&
@@ -59,7 +55,6 @@ class CharacterAudioManager {
   /**
    * Spielt Orale-Sound einmalig ab
    */
-
   playOraleSound() {
     if (!this.hasPlayedOrale && typeof soundManager !== "undefined") {
       soundManager.playSound("orale", 0.1);
@@ -70,7 +65,6 @@ class CharacterAudioManager {
   /**
    * Startet Laufgeräusch
    */
-
   startRunningSound() {
     if (this.canStartRunningSound()) {
       this.initializeRunningSound();
@@ -80,7 +74,6 @@ class CharacterAudioManager {
   /**
    * Prüft ob Laufgeräusch gestartet werden kann
    */
-
   canStartRunningSound() {
     return !this.runningSoundInstance &&
            !this.isRunningSoundPlaying &&
@@ -91,7 +84,6 @@ class CharacterAudioManager {
   /**
    * Initialisiert Laufgeräusch
    */
-
   initializeRunningSound() {
     const sound = soundManager.sounds["running"];
     if (sound && sound.paused) {
@@ -103,7 +95,6 @@ class CharacterAudioManager {
   /**
    * Setzt Sound-Eigenschaften
    */
-
   setupRunningSoundProperties(sound) {
     this.runningSoundInstance = sound;
     sound.loop = true;
@@ -114,7 +105,6 @@ class CharacterAudioManager {
   /**
    * Spielt Sound mit Callback ab
    */
-
   playRunningSoundWithCallback(sound) {
     sound.play()
       .then(() => {
@@ -126,7 +116,6 @@ class CharacterAudioManager {
   /**
    * Stoppt Laufgeräusch
    */
-
   stopRunningSound() {
     if (this.runningSoundInstance) {
       if (!this.runningSoundInstance.paused) {
@@ -140,7 +129,6 @@ class CharacterAudioManager {
   /**
    * Spielt Sprunggeräusch mit Cooldown ab
    */
-
   playJumpSoundWithCooldown() {
     const now = Date.now();
     if (this.shouldPlayJumpSound(now)) {
@@ -151,7 +139,6 @@ class CharacterAudioManager {
   /**
    * Prüft ob Sprunggeräusch abgespielt werden soll
    */
-
   shouldPlayJumpSound(now) {
     return typeof soundManager !== "undefined" &&
            !soundManager.isMuted &&
@@ -161,7 +148,6 @@ class CharacterAudioManager {
   /**
    * Spielt Sprunggeräusch mit Einstellungen ab
    */
-
   playJumpSoundWithSettings(now) {
     const sound = soundManager.sounds["jump"];
     if (sound) {
@@ -172,7 +158,6 @@ class CharacterAudioManager {
   /**
    * Konfiguriert und spielt Sprunggeräusch ab
    */
-
   configureAndPlayJumpSound(sound, now) {
     sound.pause();
     sound.currentTime = 0.3;

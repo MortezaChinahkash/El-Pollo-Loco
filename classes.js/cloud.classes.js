@@ -8,7 +8,6 @@ class Cloud extends movableObject {
      * Erstellt eine neue Wolke für den Hintergrund
      * @param {number} levelWidth - Die Breite des Levels für die Positionierung
      */
-
     constructor(levelWidth) {
         super();
         this.levelWidth = levelWidth;
@@ -20,7 +19,6 @@ class Cloud extends movableObject {
      * Lädt ein zufälliges Wolkenbild aus den verfügbaren Wolkenbildern
      * Sorgt für Variation im Aussehen der Wolken
      */
-
     loadRandomCloudImage() {
         const cloudImages = [
             'img/img_pollo_locco/img/5_background/layers/4_clouds/1.png',
@@ -33,21 +31,18 @@ class Cloud extends movableObject {
      * Generiert eine zufällige Höhe für die Wolke
      * @returns {number} Zufällige Y-Position zwischen 20 und 100
      */
-
     randomHeight() {
         return 20 + Math.random() * 80;    }
     /**
      * Startet die Wolkenanimation
      * Ruft die Bewegung nach links auf
      */
-
     animate() {
         this.moveLeft();    }
     /**
      * Bewegt die Wolke kontinuierlich nach links
      * Erstellt eine langsame, sanfte Bewegung für realistische Wolkenbewegung
      */
-
     moveLeft() {
         setInterval(() => {
             this.x -= this.speed;

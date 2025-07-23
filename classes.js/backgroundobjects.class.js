@@ -6,7 +6,6 @@ class BackgroundObject extends movableObject{
      * @param {string} imagePath - Pfad zum Hintergrundbild
      * @param {number} x - X-Position des Hintergrundobjekts
      */
-
     constructor(imagePath, x){
         super().loadImage(imagePath);
         this.x = x;

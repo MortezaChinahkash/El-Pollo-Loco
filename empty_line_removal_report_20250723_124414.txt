@@ -1,0 +1,123 @@
+EMPTY LINE REMOVAL REPORT
+============================================================
+Generated: 2025-07-23 12:44:14
+
+OPTIMIZATION RULES:
+• Maximum 2 consecutive empty lines anywhere
+• Single empty lines preserved for readability
+• Empty lines reduced at start/end of functions
+• Empty lines preserved after comments/JSDoc
+• Empty lines at file start/end removed
+
+Files analyzed: 27
+Files with empty lines: 26
+Files modified: 25
+Files backed up: 0
+Files with errors: 1
+Total empty lines found: 500
+Total empty lines removed: 231
+Total empty lines remaining: 269
+
+Empty line reduction: 46.2%
+
+DETAILED FILE RESULTS:
+----------------------------------------
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
+  Original: 64, Removed: 37, Remaining: 27
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
+  Original: 34, Removed: 18, Remaining: 16
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\character.class.js
+  Original: 34, Removed: 17, Remaining: 17
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\throwableObject.class.js
+  Original: 33, Removed: 17, Remaining: 16
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\character-audio.class.js
+  Original: 29, Removed: 15, Remaining: 14
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\character-animation.class.js
+  Original: 27, Removed: 14, Remaining: 13
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\level.class.js
+  Original: 21, Removed: 13, Remaining: 8
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\statusbars.class.js
+  Original: 19, Removed: 13, Remaining: 6
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\movableObject.class.js
+  Original: 21, Removed: 12, Remaining: 9
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\character-input.class.js
+  Original: 21, Removed: 11, Remaining: 10
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\soundManager.class.js
+  Original: 11, Removed: 10, Remaining: 1
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\chicken.class.js
+  Original: 17, Removed: 9, Remaining: 8
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\test_precise_formatting.js
+  Original: 11, Removed: 8, Remaining: 3
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\collectableItem.class.js
+  Original: 10, Removed: 7, Remaining: 3
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
+  Original: 78, Removed: 6, Remaining: 72
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\cloud.classes.js
+  Original: 6, Removed: 5, Remaining: 1
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\uiUtils.js
+  Original: 32, Removed: 5, Remaining: 27
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\test_refined_logic.js
+  Original: 7, Removed: 4, Remaining: 3
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\drawableObject.class.js
+  Original: 4, Removed: 3, Remaining: 1
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\soundDefinitions.js
+  Original: 9, Removed: 2, Remaining: 7
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\test_function_example.js
+  Original: 2, Removed: 1, Remaining: 1
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\test_with_empty_lines.js
+  Original: 2, Removed: 1, Remaining: 1
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\backgroundobjects.class.js
+  Original: 2, Removed: 1, Remaining: 1
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\character-images.class.js
+  Original: 2, Removed: 1, Remaining: 1
+  Status: Modified
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\keyboard.class.js
+  Original: 2, Removed: 1, Remaining: 1
+  Status: Modified

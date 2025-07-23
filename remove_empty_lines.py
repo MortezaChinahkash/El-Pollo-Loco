@@ -289,33 +289,30 @@ def remove_excessive_empty_lines(content):
         
         # Check if current line is end of JSDoc comment
         if current_line.endswith('*/') and i + 1 < len(result_lines):
-            next_line = result_lines[i + 1].strip()
+            # Remove any empty lines after JSDoc - we want NO empty line between JSDoc and function
+            j = i + 1
+            while j < len(result_lines) and result_lines[j].strip() == '':
+                j += 1
             
-            # If next line is a function/method/constructor, ensure 1 empty line between
-            if (next_line and not next_line == '' and 
-                any(keyword in next_line for keyword in ['constructor(', 'function ', '=>', 'get ', 'set ']) or
-                next_line.endswith('{') or '(' in next_line):
-                # Add empty line if not already present
-                if i + 1 < len(result_lines) and result_lines[i + 1].strip() != '':
-                    final_lines.append('')
+            # Skip to next non-empty line (no empty line after JSDoc)
+            i = j - 1
         
         # Check if current line is end of function
         elif current_line == '}' and i + 1 < len(result_lines):
+            # Look ahead to see what comes next
             next_line_index = i + 1
+            
             # Skip any existing empty lines
             while (next_line_index < len(result_lines) and 
                    result_lines[next_line_index].strip() == ''):
                 next_line_index += 1
             
-            # If there's a next line that's JSDoc or function, ensure 1 empty line
+            # If there's a next line that's JSDoc, ensure 1 empty line before JSDoc
             if next_line_index < len(result_lines):
                 next_line = result_lines[next_line_index].strip()
-                if (next_line.startswith('/**') or 
-                    any(keyword in next_line for keyword in ['constructor(', 'function ', '=>', 'get ', 'set ']) or
-                    next_line.endswith('{')):
-                    # Add empty line if not already present
-                    if i + 1 < len(result_lines) and result_lines[i + 1].strip() != '':
-                        final_lines.append('')
+                if next_line.startswith('/**'):
+                    # Add exactly 1 empty line before JSDoc
+                    final_lines.append('')
         
         i += 1
     

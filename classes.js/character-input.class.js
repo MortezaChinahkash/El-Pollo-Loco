@@ -4,13 +4,11 @@
  * @author Morteza Chinahkash
  * @version 1.0.0
  */
-
 class CharacterInputManager {
   /**
    * Creates a new character input manager
    * @param {Character} character - The character to manage input for
    */
-
   constructor(character) {
     this.character = character;
   }
@@ -18,7 +16,6 @@ class CharacterInputManager {
   /**
    * Verarbeitet Benutzereingaben
    */
-
   handleInput() {
     if (this.shouldIgnoreInput()) {
       this.character.audioManager.stopRunningSound();
@@ -32,7 +29,6 @@ class CharacterInputManager {
   /**
    * Prüft ob Eingaben ignoriert werden sollen
    */
-
   shouldIgnoreInput() {
     return this.character.isDeadState || this.character.world?.level?.boss?.movingIn;
   }
@@ -40,7 +36,6 @@ class CharacterInputManager {
   /**
    * Verarbeitet alle Bewegungseingaben
    */
-
   processMovementInput() {
     let moved = false;
     if (this.moveRightWhenSpace()) moved = true;
@@ -52,7 +47,6 @@ class CharacterInputManager {
   /**
    * Behandelt Effekte bei Bewegung
    */
-
   handleMovementEffects(moved) {
     if (moved) {
       this.character.resetMovementTimer();
@@ -64,7 +58,6 @@ class CharacterInputManager {
   /**
    * Bewegt Character nach rechts
    */
-
   moveRightWhenSpace() {
     if (
       this.character.world.keyboard.RIGHT &&
@@ -79,7 +72,6 @@ class CharacterInputManager {
   /**
    * Bewegt Character nach links
    */
-
   moveLeftWhenSpace() {
     if (this.character.world.keyboard.LEFT && this.character.x > 0) {
       this.character.moveLeft();
@@ -92,7 +84,6 @@ class CharacterInputManager {
   /**
    * Lässt Character springen
    */
-
   jumpWhenSpace() {
     if (this.character.world.keyboard.UP && !this.character.isAboveGround()) {
       this.character.jump();
@@ -104,7 +95,6 @@ class CharacterInputManager {
   /**
    * Verwaltet Laufgeräusch
    */
-
   playRunningSound(moved) {
     const isActuallyRunning =
       moved && !this.character.isAboveGround() && !this.character.isHurt && !this.character.isDeadState;
@@ -118,7 +108,6 @@ class CharacterInputManager {
   /**
    * Setzt Kamera-Grenzen
    */
-
   setCamLimit() {
     const camLimit = this.character.world.level.levelWidth - this.character.world.canvas.width;
     this.character.setLevelWidth(camLimit);

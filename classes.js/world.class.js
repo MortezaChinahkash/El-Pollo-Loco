@@ -2,7 +2,6 @@
  * World-Klasse verwaltet die gesamte Spielwelt und deren Logik
  * Koordiniert Charaktere, Gegner, Kollisionen und Spielzustände
  */
-
 class World {
   character = new Character();
   enemies;
@@ -23,7 +22,6 @@ class World {
    * @param {Keyboard} keyboard - Das Keyboard-Objekt für Eingaben
    * @param {Level} level - Das Level-Objekt mit allen Spielelementen
    */
-
   constructor(canvas, keyboard, level) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
@@ -54,7 +52,6 @@ class World {
   /**
    * Verbindet den Charakter mit der Welt und startet dessen Animation
    */
-
   setWorld() {
     this.character.world = this;
     this.character.animate();  }
@@ -62,7 +59,6 @@ class World {
    * Erstellt eine neue Flasche an zufälliger Position im Level
    * Begrenzt durch maxBottles-Anzahl
    */
-
   spawnNewBottle() {
     if (this.bottleSpawnCount >= this.maxBottles) return;
     const x = 300 + Math.random() * (this.level.levelWidth - 600);
@@ -74,7 +70,6 @@ class World {
    * Überprüft Kollisionen zwischen Charakter und sammelbare Gegenstände
    * Entfernt gesammelte Items aus der Liste
    */
-
   checkCollectableItems() {
     this.collectableItems.forEach((item) => {
       if (!item.collected && this.character.isColliding(item)) {
@@ -88,7 +83,6 @@ class World {
    * Prüft ob neue Flaschen geworfen werden können
    * Verhindert Werfen während Boss-Eingang
    */
-
   checkThrowObjects() {
     const now = Date.now();
     if (this.character.world.level.boss?.movingIn) return;
@@ -97,7 +91,6 @@ class World {
    * Überprüft Inventar und ermöglicht Flaschenwerfen mit Cooldown
    * @param {number} now - Aktueller Zeitstempel
    */
-
   checkInventory(now) {
     if (
       this.keyboard.SPACE &&
@@ -114,7 +107,6 @@ class World {
    * Erstellt eine neue Flasche und fügt sie zu den werfbaren Objekten hinzu
    * Wird aufgerufen wenn der Spieler eine Flasche wirft
    */
-
   createNewBottle() {
     this.character.resetMovementTimer();
     const bottle = new ThrowableObject(
@@ -128,7 +120,6 @@ class World {
    * Startet die Hauptspiel-Schleife mit 60 FPS
    * Führt kontinuierlich Spiellogik, Aufräumarbeiten und Zustandsprüfungen durch
    */
-
   run() {
     setInterval(() => {
       this.runGameLogic();
@@ -140,7 +131,6 @@ class World {
   /**
    * Führt die Hauptspiel-Logik aus
    */
-
   runGameLogic() {
     this.checkCollision();
     this.checkThrowObjects();
@@ -152,7 +142,6 @@ class World {
   /**
    * Bereinigt markierte Objekte
    */
-
   cleanupObjects() {
     this.throwableObject = this.throwableObject.filter(
       (obj) => !obj.markedForDeletion
@@ -163,12 +152,10 @@ class World {
   /**
    * Überprüft Spiel-Endzustände
    */
-
   checkGameStates() {
     if (this.character.hasFullyDied && !this.gameOver) {
       this.showGameOverScreen();
     }
-
     if (this.level.boss.markedForDeletion && !this.gameWon) {
       this.showWinScreen();
     }
@@ -178,7 +165,6 @@ class World {
    * Aktiviert den Endboss wenn der Spieler die Trigger-Position erreicht
    * Spielt auch den "Ay Dios Mio" Sound beim ersten Erscheinen ab
    */
-
   activateBoss() {
   const boss = this.level.enemies.find((e) => e instanceof Endboss);
   if (
@@ -197,7 +183,6 @@ class World {
    * Überprüft alle Kollisionen im Spiel
    * Behandelt Kollisionen zwischen Spieler und Gegnern sowie Sammelobjekten
    */
-
   checkCollision() {
     if (this.character.isDeadState || this.character.isHurt) return;
     this.enemies.forEach((enemy) => {
@@ -211,7 +196,6 @@ class World {
    * Behandelt Kollision zwischen Charakter und Gegner
    * @param {Enemy} enemy - Der Gegner, mit dem kollidiert wurde
    */
-
   handleCharacterEnemyCollision(enemy) {
     if (this.character.isJumpingOn(enemy)) {
       this.handleJumpOnEnemy(enemy);
@@ -224,7 +208,6 @@ class World {
    * Behandelt das Springen auf einen Gegner
    * @param {Enemy} enemy - Der Gegner, auf den gesprungen wurde
    */
-
   handleJumpOnEnemy(enemy) {
     enemy.hit(this.character.damage);
     if (!(enemy instanceof Endboss) && typeof soundManager !== "undefined") {
@@ -241,7 +224,6 @@ class World {
    * Behandelt seitliche Kollision mit Gegner
    * @param {Enemy} enemy - Der Gegner bei seitlicher Kollision
    */
-
   handleSideCollisionWithEnemy(enemy) {
     const isEndboss = enemy instanceof Endboss;
     const isBossDyingOrDead = isEndboss && (enemy.isDying || enemy.isDead());
@@ -254,7 +236,6 @@ class World {
    * Behandelt Kollisionen zwischen geworfenen Flaschen und Gegnern
    * Fügt Schaden zu und spielt entsprechende Sounds ab
    */
-
   bottleHitEnemy() {
     this.throwableObject.forEach((bottle) => {
       if (!bottle.isSplashing) {
@@ -276,7 +257,6 @@ class World {
    * Behandelt das Respawning von Flaschen nach dem Aufprall
    * @param {ThrowableObject} bottle - Die Flasche die gespawnt werden soll
    */
-
   respawnAfterSplash(bottle) {
     if (bottle.isSplashing && !bottle.respawnHandled) {
       this.spawnNewBottle();
@@ -288,7 +268,6 @@ class World {
    * Zeichnet die gesamte Spielwelt auf das Canvas
    * Rendert Hintergrund, Spielelemente und HUD-Elemente
    */
-
   draw() {
     if (this.gameWon || this.gameOver) return;
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -301,7 +280,6 @@ class World {
       this.endbossBar.draw(this.ctx);
       this.ctx.translate(-this.camera_x, 0);
     }
-
     requestAnimationFrame(() => this.draw());
   }
 
@@ -309,7 +287,6 @@ class World {
    * Zeichnet Hintergrundobjekte und Spielelemente in der richtigen Reihenfolge
    * Sortiert Gegner nach Y-Position für korrekte Tiefenwirkung
    */
-
   drawBackgroundAndGameElements() {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.clouds);
@@ -324,7 +301,6 @@ class World {
    * Zeichnet HUD-Elemente wie Statusbalken und Level-Anzeige
    * Wird außerhalb der Kamera-Translation gerendert
    */
-
   drawHUDElements() {
     this.healthBar.draw(this.ctx);
     this.coinBar.draw(this.ctx);
@@ -338,7 +314,6 @@ class World {
    * Fügt ein Array von Objekten zur Karte hinzu
    * @param {Array} objects - Array von Objekten die gezeichnet werden sollen
    */
-
   addObjectsToMap(objects) {
     objects.forEach((o) => this.addToMap(o));
   }
@@ -347,7 +322,6 @@ class World {
    * Fügt ein einzelnes Objekt zur Karte hinzu und behandelt Bildrichtung
    * @param {DrawableObject} mo - Das Objekt das gezeichnet werden soll
    */
-
   addToMap(mo) {
     if (mo.otherDirection) this.flipImage(mo);
     if (mo.img) {
@@ -360,7 +334,6 @@ class World {
    * Dreht das Bild horizontal für Links-Bewegung
    * @param {DrawableObject} mo - Das Objekt dessen Bild gedreht werden soll
    */
-
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
@@ -372,7 +345,6 @@ class World {
    * Stellt die normale Bildorientierung nach flipImage() wieder her
    * @param {MovableObject} mo - Das Objekt dessen Bild zurückgedreht werden soll
    */
-
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();
@@ -382,7 +354,6 @@ class World {
   * Zeigt den Gewinn-Bildschirm an und startet die Gewinn-Sequenz
   * Versteckt UI-Elemente und lädt das Gewinn-Bild
   */
-
  showWinScreen() {
   this.gameWon = true;
   this.hideUIForWinScreen();
@@ -392,7 +363,6 @@ class World {
  /**
   * Versteckt UI-Elemente für den Gewinn-Bildschirm
   */
-
  hideUIForWinScreen() {
   const mobileControls = document.getElementById("mobile-controls");
   if (mobileControls) {
@@ -403,14 +373,12 @@ class World {
  /**
   * Lädt und zeigt das Gewinn-Bild
   */
-
  loadWinImage() {
   const img = new Image();
   img.src = "img/img_pollo_locco/img/You won, you lost/You won A.png";
   if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
     soundManager.playSound("won", 0.4);
   }
-
   img.onload = () => {
     this.displayWinScreen(img);
   };
@@ -420,7 +388,6 @@ class World {
   * Zeigt den Gewinn-Bildschirm und Buttons
   * @param {Image} img - Das Gewinn-Bild
   */
-
  displayWinScreen(img) {
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
@@ -432,7 +399,6 @@ class World {
    * Zeigt den Game-Over-Bildschirm an
    * Versteckt mobile Controls und spielt Game-Over-Sound ab
    */
-
   showGameOverScreen() {
   this.gameOver = true;
   const mobileControls = document.getElementById("mobile-controls");
@@ -444,7 +410,6 @@ class World {
   if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
     soundManager.playSound("lost", 0.4);
   }
-
   img.onload = () => {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
@@ -456,7 +421,6 @@ class World {
    * Zeigt den Neustart-Button und Home-Button an
    * Konfiguriert Click-Handler für Spielneustart
    */
-
   showRestartButton() {
     const btn = document.getElementById("restartBtn");
     const homeBtn = document.getElementById("homeBtn");
@@ -471,7 +435,6 @@ class World {
    * Zeigt den Nächstes-Level-Button und Home-Button an
    * Konfiguriert Click-Handler für nächstes Level
    */
-
   showNextLevelButton() {
     const btn = document.getElementById("nextLevelBtn");
     const homeBtn = document.getElementById("homeBtn");

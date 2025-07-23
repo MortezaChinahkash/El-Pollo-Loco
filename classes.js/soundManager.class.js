@@ -3,7 +3,6 @@ class SoundManager {
    * Erstellt einen neuen SoundManager zur Verwaltung aller Spiel-Audiodateien
    * Initialisiert Sounds-Dictionary, Musik-Referenz und Mute-Status
    */
-
   constructor() {
     this.sounds = {};
     this.music = null;
@@ -12,7 +11,6 @@ class SoundManager {
    * Entsperrt Audio-Wiedergabe nach Benutzerinteraktion
    * Erforderlich für moderne Browser-Autoplay-Richtlinien
    */
-
   unlockAudio() {
     Object.values(this.sounds).forEach((audio) => {
       try {
@@ -26,7 +24,6 @@ class SoundManager {
    * @param {string} path - Pfad zur Audiodatei
    * @param {boolean} [loop=false] - Ob der Sound in Schleife abgespielt werden soll
    */
-
   loadSound(name, path, loop = false) {
     const audio = new Audio(path);
     audio.loop = loop;
@@ -35,7 +32,6 @@ class SoundManager {
    * Stoppt alle aktuell abspielenden Sounds und setzt sie zurück
    * Nützlich beim Pausieren oder Neustarten des Spiels
    */
-
   stopAll() {
     for (const audio of Object.values(this.sounds)) {
       audio.pause();
@@ -46,7 +42,6 @@ class SoundManager {
    * @param {string} name - Name des Sounds
    * @param {number} [volume=1.0] - Lautstärke (0.0 bis 1.0)
    */
-
   playSound(name, volume = 1.0) {
     if (this.isMuted) return;
     const sound = this.sounds[name];
@@ -63,7 +58,6 @@ class SoundManager {
    * @param {string} name - Name der Musikdatei
    * @param {number} [volume=0.5] - Lautstärke (0.0 bis 1.0)
    */
-
   playMusic(name, volume = 0.5) {
     const music = this.sounds[name];
     if (!music) return;
@@ -82,14 +76,12 @@ class SoundManager {
   /**
    * Pausiert die aktuell abspielende Hintergrundmusik
    */
-
   pauseMusic() {
     if (this.music) this.music.pause();  }
   /**
    * Schaltet zwischen Stummschaltung und normaler Wiedergabe um
    * Speichert den Status im localStorage für Persistenz
    */
-
   toggleMute() {
     this.isMuted = !this.isMuted;
     if (this.music) {
@@ -103,7 +95,6 @@ class SoundManager {
    * Setzt die Lautstärke der aktuell abspielenden Hintergrundmusik
    * @param {number} value - Lautstärke zwischen 0.0 und 1.0
    */
-
   setMusicVolume(value) {
     if (this.music) this.music.volume = Math.min(Math.max(value, 0), 1);  }
   /**
@@ -111,7 +102,6 @@ class SoundManager {
    * @param {string} name - Name des Sounds
    * @param {number} value - Lautstärke zwischen 0.0 und 1.0
    */
-
   setEffectVolume(name, value) {
     const sound = this.sounds[name];
     if (sound) sound.volume = Math.min(Math.max(value, 0), 1);

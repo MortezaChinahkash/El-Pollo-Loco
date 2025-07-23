@@ -4,7 +4,6 @@
  * @author Morteza Chinahkash
  * @version 2.0.0
  */
-
 class CharacterImages {
   /**
    * Lange Idle-Animation Bilder

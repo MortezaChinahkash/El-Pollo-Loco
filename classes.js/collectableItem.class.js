@@ -11,7 +11,6 @@ class CollectableItem extends movableObject {
    * @param {number} y - Y-Position des Objekts
    * @param {string} type - Typ des Objekts ('coin' oder 'bottle')
    */
-
   constructor(x, y, type) {
     super();
     this.x = x;
@@ -37,7 +36,6 @@ class CollectableItem extends movableObject {
    * Setzt die Größe des Objekts basierend auf seinem Typ
    * Münzen sind größer als Flaschen
    */
-
   setSizeByType() {
     if (this.type === 'coin') {
       this.width = 100;
@@ -52,7 +50,6 @@ class CollectableItem extends movableObject {
    * Gibt den Bildpfad für den jeweiligen Objekttyp zurück
    * @returns {string} Pfad zum Bild des Objekts
    */
-
   getImagePath() {
     const images = {
       coin: 'img/img_pollo_locco/img/8_coin/coin_1.png',
@@ -64,7 +61,6 @@ class CollectableItem extends movableObject {
    * Spielt entsprechende Sounds ab und markiert das Objekt zum Löschen
    * @param {Character} character - Der Charakter, der das Objekt sammelt
    */
-
   collect(character) {
     if (this.collected) return;
     this.collected = true;
@@ -72,7 +68,6 @@ class CollectableItem extends movableObject {
       character.coins++;
       soundManager?.playSound("coin", 0.1);
     }
-
     if (this.type === 'bottle') {
       character.bottles++;
       soundManager?.playSound("bottle", 0.1);
@@ -83,7 +78,6 @@ class CollectableItem extends movableObject {
    * Berücksichtigt Transparenz und zeigt nichts an wenn bereits gesammelt
    * @param {CanvasRenderingContext2D} ctx - Der Canvas-Rendering-Kontext
    */
-
   draw(ctx) {
     if (!this.img || this.collected) return;
     ctx.save();
@@ -95,7 +89,6 @@ class CollectableItem extends movableObject {
    * Startet die Schwebanimation für Münzen
    * Lässt Münzen auf und ab schweben zwischen zwei Y-Positionen
    */
-
   startFloating() {
     let direction = 1;
     setInterval(() => {

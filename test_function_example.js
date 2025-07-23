@@ -5,7 +5,6 @@ class TestClass {
         console.log('middle');
         return x;
     }
-
     function anotherMethod() {
         return true;
     }
