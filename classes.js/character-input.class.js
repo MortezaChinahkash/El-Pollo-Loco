@@ -27,7 +27,7 @@ class CharacterInputManager {
   }
 
   /**
-   * Prüft ob Eingaben ignoriert werden sollen
+   * Checks if input should be ignored
    */
   shouldIgnoreInput() {
     return this.character.isDeadState || this.character.world?.level?.boss?.movingIn;
