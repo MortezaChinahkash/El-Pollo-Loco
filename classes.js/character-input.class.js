@@ -70,7 +70,7 @@ class CharacterInputManager {
   }
 
   /**
-   * Bewegt Character nach links
+   * Moves character to the left
    */
   moveLeftWhenSpace() {
     if (this.character.world.keyboard.LEFT && this.character.x > 0) {
