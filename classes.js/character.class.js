@@ -73,7 +73,7 @@ class Character extends movableObject {
   }
 
   /**
-   * Initialisiert alle Bild-Arrays von der CharacterImages-Klasse
+   * Initializes all image arrays from the CharacterImages class
    */
   initializeImageArrays() {
     this.IMAGES_IDLE_LONG = CharacterImages.IMAGES_IDLE_LONG;
