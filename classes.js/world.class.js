@@ -352,8 +352,8 @@ class World {
   }
 
  /**
-  * Zeigt den Gewinn-Bildschirm an und startet die Gewinn-Sequenz
-  * Versteckt UI-Elemente und lädt das Gewinn-Bild
+  * Shows the win screen and starts the win sequence
+  * Hides UI elements and loads the win image
   */
  showWinScreen() {
   this.gameWon = true;
