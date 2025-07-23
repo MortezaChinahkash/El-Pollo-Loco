@@ -1,5 +1,5 @@
 JSDOC COVERAGE ANALYSIS REPORT
-Generated: 23.07.2025 11:26
+Generated: 23.07.2025 11:38
 ================================================================================
 Analyzing 24 TypeScript/JavaScript files for missing JSDoc...
 Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
