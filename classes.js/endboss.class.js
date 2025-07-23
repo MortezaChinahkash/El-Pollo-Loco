@@ -95,6 +95,9 @@ class Endboss extends movableObject {
     }, 30);
   }
 
+  /**
+   * Starts the alert animation loop for the endboss
+   */
   startAlert() {
     this.alertInterval = setInterval(() => {
       if (!this.isDead() && !this.isDying && !this.jumpingAttack && !this.isAnimating) {
@@ -106,6 +109,9 @@ class Endboss extends movableObject {
     }, 400); // Erhöht von 300 auf 400 für weniger häufige Alert-Checks
   }
 
+  /**
+   * Starts the attack loop for boss behavior
+   */
   startAttackLoop() {
     this.attackInterval = setInterval(() => {
       if (this.isDead() || this.isDying) {
@@ -122,6 +128,11 @@ class Endboss extends movableObject {
     }, 1000 / 45); // Reduziert von 60 auf 45 FPS für weniger aggressive Angriffe
   }
 
+  /**
+   * Makes the boss walk towards the player
+   * @param {Object} player - The player character
+   * @param {number} step - Movement step size
+   */
   walkToPlayer(player,step){
     if (!this.jumpingAttack && !this.isAnimating) {
       this.loopAnimation(this.IMAGES_WALKING, 180); // Erhöht von 150 auf 180 für langsamere Animation
@@ -130,6 +141,11 @@ class Endboss extends movableObject {
     }
   }
 
+  /**
+   * Handles jump attack behavior when player is close
+   * @param {Object} player - The player character
+   * @param {number} distanceToPlayer - Distance to the player
+   */
   handleJumpAttack(player, distanceToPlayer) {
     if (distanceToPlayer < 180 && !this.jumpingAttack && !this.isAboveGround()) {
       this.jumpingAttack = true;
@@ -142,6 +158,16 @@ class Endboss extends movableObject {
     }
   }
 
+  /**
+   * Plays a looping animation with given images
+   * @param {Array} images - Array of image paths for animation
+   * @param {number} interval - Interval between animation frames
+   */
+  /**
+   * Loops an animation continuously until stopped
+   * @param {Array} images - Array of image paths for animation
+   * @param {number} interval - Time between animation frames (default: 200)
+   */
   loopAnimation(images, interval = 200) {
     if (this.currentAnimationImages === images && this.isLooping) return;
     this.stopCurrentAnimation();
@@ -155,6 +181,12 @@ class Endboss extends movableObject {
     }, interval);
   }
 
+  /**
+   * Plays a complete animation sequence once
+   * @param {Array} images - Array of image paths for animation
+   * @param {Function} onComplete - Callback function to execute when animation completes
+   * @param {number} interval - Time between animation frames (default: 120)
+   */
   playFullAnimationOnce(images, onComplete, interval = 120) {
     if (this.isAnimating) return;
     this.setupSingleAnimation(images, onComplete, interval);
@@ -201,6 +233,12 @@ class Endboss extends movableObject {
     if (onComplete) onComplete();
   }
 
+  /**
+   * Stops the current animation and resets animation state
+   */
+  /**
+   * Stops any currently running animation
+   */
   stopCurrentAnimation() {
     if (this.currentAnimationInterval) {
       clearInterval(this.currentAnimationInterval);
@@ -210,6 +248,12 @@ class Endboss extends movableObject {
     this.isAnimating = false;
   }
 
+  /**
+   * Plays the death animation sequence for the endboss
+   */
+  /**
+   * Plays the death animation sequence for the boss
+   */
   playDeathAnimation() {
     if (this.isDying) return;
     this.setupDeathAnimation();
@@ -242,6 +286,12 @@ class Endboss extends movableObject {
     }, 150);
   }
 
+  /**
+   * Fades out the endboss and marks it for deletion
+   */
+  /**
+   * Fades out the boss and marks it for deletion
+   */
   fadeOutAndRemove() {
     const fadeInterval = setInterval(() => {
       this.opacity -= 0.02;
@@ -253,6 +303,14 @@ class Endboss extends movableObject {
     }, 1000 / 25);
   }
 
+  /**
+   * Draws the endboss with direction flipping and opacity support
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
+   */
+  /**
+   * Draws the boss with proper orientation and opacity
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
+   */
   draw(ctx) {
     if (!this.img) return;
     ctx.save();

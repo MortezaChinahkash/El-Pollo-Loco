@@ -48,6 +48,9 @@ class Chicken extends movableObject {
     this.checkDeathLoop();
   }
 
+  /**
+   * Checks continuously if chicken should die and triggers death
+   */
   checkDeathLoop() {
     setInterval(() => {
       if (this.energy <= 0 && !this.markedForDeletion) {
@@ -56,6 +59,9 @@ class Chicken extends movableObject {
     }, 100);
   }
 
+  /**
+   * Handles chicken death sequence and cleanup
+   */
   die() {
     this.offset.top = 100;
     this.speed = 0;
@@ -68,6 +74,9 @@ class Chicken extends movableObject {
     this.fadeOutAndRemove();
   }
 
+  /**
+   * Fades out the chicken and marks it for deletion
+   */
   fadeOutAndRemove() {
     const fadeInterval = setInterval(() => {
       this.opacity -= 0.05;
@@ -79,10 +88,17 @@ class Chicken extends movableObject {
     }, 100);
   }
 
+  /**
+   * Returns a random height for chicken placement
+   * @returns {number} Random height value
+   */
   randomHeight() {
     return 350 + Math.random() * 30;
   }
 
+  /**
+   * Sets random size and speed for chicken variation
+   */
   setRandomSize() {
     const baseSize = 75;
     const variation = Math.random() * 20;
@@ -91,6 +107,9 @@ class Chicken extends movableObject {
     this.speed = 0.25 - variation / 100;
   }
 
+  /**
+   * Starts movement and walking animation for the chicken
+   */
   animate() {
     setInterval(() => {
       if (this.energy > 0) {
@@ -105,6 +124,10 @@ class Chicken extends movableObject {
     }, 170);
   }
 
+  /**
+   * Draws the chicken with opacity support
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
+   */
   draw(ctx) {
     if (!this.img) return;
     ctx.save();

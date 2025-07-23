@@ -1,5 +1,5 @@
 JSDOC COVERAGE ANALYSIS REPORT
-Generated: 23.07.2025 11:09
+Generated: 23.07.2025 11:10
 ================================================================================
 Analyzing 24 TypeScript/JavaScript files for missing JSDoc...
 Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
@@ -78,36 +78,6 @@ File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.j
   Method: draw (Line 256)
      Type: Method
      Declaration: draw(ctx) {...
-
-File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\movableObject.class.js
---------------------------------------------------------------------------------
-  Method: isAboveGround (Line 67)
-     Type: Method
-     Declaration: isAboveGround() {...
-
-  Method: playAnimation (Line 75)
-     Type: Method
-     Declaration: playAnimation(images) {...
-
-  Method: playDeadAnimation (Line 82)
-     Type: Method
-     Declaration: playDeadAnimation() {...
-
-  Method: playHurtAnimation (Line 87)
-     Type: Method
-     Declaration: playHurtAnimation() {...
-
-  Method: moveRight (Line 95)
-     Type: Method
-     Declaration: moveRight() {...
-
-  Method: moveLeft (Line 100)
-     Type: Method
-     Declaration: moveLeft() {...
-
-  Method: jump (Line 104)
-     Type: Method
-     Declaration: jump() {...
 
 File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
 --------------------------------------------------------------------------------
@@ -200,11 +170,11 @@ File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.j
 ================================================================================
 === MISSING JSDOC BY METHOD TYPE ===
 ================================================================================
-Method: 45 methods missing JSDoc
+Method: 38 methods missing JSDoc
   - checkDeathLoop in chicken.class.js
   - die in chicken.class.js
   - fadeOutAndRemove in chicken.class.js
-  ... and 42 more
+  ... and 35 more
 
 ================================================================================
 === TOP 10 FILES WITH MOST MISSING JSDOC ===
@@ -221,19 +191,15 @@ Method: 45 methods missing JSDoc
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\chicken.class.js
     Methods: checkDeathLoop, die, fadeOutAndRemove, randomHeight, setRandomSize ... and 2 more
 
- 4. movableObject.class.js (7 missing)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\movableObject.class.js
-    Methods: isAboveGround, playAnimation, playDeadAnimation, playHurtAnimation, moveRight ... and 2 more
-
- 5. game.js (4 missing)
+ 4. game.js (4 missing)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
     Methods: unknown_method, unknown_method, addEventListener, addEventListener
 
 === OVERALL SUMMARY ===
 Files analyzed: 24
-Files with missing JSDoc: 5
-Total methods missing JSDoc: 45
-Estimated JSDoc coverage: 81.2%
+Files with missing JSDoc: 4
+Total methods missing JSDoc: 38
+Estimated JSDoc coverage: 84.2%
 
 === RECOMMENDATIONS ===
 • Add JSDoc comments to all public methods and functions
