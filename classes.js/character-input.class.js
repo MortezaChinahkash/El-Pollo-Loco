@@ -106,7 +106,7 @@ class CharacterInputManager {
   }
 
   /**
-   * Setzt Kamera-Grenzen
+   * Sets camera limits
    */
   setCamLimit() {
     const camLimit = this.character.world.level.levelWidth - this.character.world.canvas.width;
