@@ -23,8 +23,8 @@ class CharacterAudioManager {
   }
 
   /**
-   * Spielt Verletzungsgeräusch mit Cooldown ab
-   * @param {number} now - Aktueller Zeitstempel
+   * Plays hurt sound with cooldown
+   * @param {number} now - Current timestamp
    */
   playHurtSoundWithCooldown(now) {
     if (
