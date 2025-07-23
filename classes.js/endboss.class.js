@@ -2,6 +2,7 @@
  * Endboss-Klasse für den Hauptgegner des Spiels
  * Erweitert movableObject um komplexe KI, Angriffsverhalten und Animationen
  */
+
 class Endboss extends movableObject {
   isDeadState = false;
   isDying = false;
@@ -19,14 +20,12 @@ class Endboss extends movableObject {
   height = 300;
   y = 110;
   speed = 25;
-
   IMAGES_WALKING = [
     "img/img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G1.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G2.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G3.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G4.png",
   ];
-
   IMAGES_ATTACK = [
     "img/img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G13.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G14.png",
@@ -37,7 +36,6 @@ class Endboss extends movableObject {
     "img/img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G19.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G20.png",
   ];
-
   IMAGES_ALERT = [
     "img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G6.png",
@@ -48,7 +46,6 @@ class Endboss extends movableObject {
     "img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G11.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
-
   IMAGES_DEAD = [
     "img/img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G21.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G22.png",
@@ -56,13 +53,13 @@ class Endboss extends movableObject {
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G24.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png",  ];
-
   /**
    * Erstellt einen neuen Endboss mit angegebenen Eigenschaften
    * @param {number} levelWidth - Breite des Levels für Positionierung
    * @param {number} damage - Schaden den der Boss verursacht
    * @param {number} energy - Lebenspunkte des Bosses
    */
+
   constructor(levelWidth, damage, energy) {
     super();
     this.levelWidth = levelWidth;
@@ -75,11 +72,11 @@ class Endboss extends movableObject {
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_DEAD);
     this.applyGravity();  }
-
   /**
    * Aktiviert den Endboss und startet dessen Eingangssequenz
    * Boss bewegt sich ins Level und beginnt dann mit Angriffen
    */
+
   activate() {
     this.activated = true;
     this.movingIn = true;
@@ -98,6 +95,7 @@ class Endboss extends movableObject {
   /**
    * Starts the alert animation loop for the endboss
    */
+
   startAlert() {
     this.alertInterval = setInterval(() => {
       if (!this.isDead() && !this.isDying && !this.jumpingAttack && !this.isAnimating) {
@@ -112,6 +110,7 @@ class Endboss extends movableObject {
   /**
    * Starts the attack loop for boss behavior
    */
+
   startAttackLoop() {
     this.attackInterval = setInterval(() => {
       if (this.isDead() || this.isDying) {
@@ -133,6 +132,7 @@ class Endboss extends movableObject {
    * @param {Object} player - The player character
    * @param {number} step - Movement step size
    */
+
   walkToPlayer(player,step){
     if (!this.jumpingAttack && !this.isAnimating) {
       this.loopAnimation(this.IMAGES_WALKING, 180);
@@ -146,6 +146,7 @@ class Endboss extends movableObject {
    * @param {Object} player - The player character
    * @param {number} distanceToPlayer - Distance to the player
    */
+
   handleJumpAttack(player, distanceToPlayer) {
     if (distanceToPlayer < 180 && !this.jumpingAttack && !this.isAboveGround()) {
       this.jumpingAttack = true;
@@ -168,6 +169,7 @@ class Endboss extends movableObject {
    * @param {Array} images - Array of image paths for animation
    * @param {number} interval - Time between animation frames (default: 200)
    */
+
   loopAnimation(images, interval = 200) {
     if (this.currentAnimationImages === images && this.isLooping) return;
     this.stopCurrentAnimation();
@@ -187,6 +189,7 @@ class Endboss extends movableObject {
    * @param {Function} onComplete - Callback function to execute when animation completes
    * @param {number} interval - Time between animation frames (default: 120)
    */
+
   playFullAnimationOnce(images, onComplete, interval = 120) {
     if (this.isAnimating) return;
     this.setupSingleAnimation(images, onComplete, interval);
@@ -198,6 +201,7 @@ class Endboss extends movableObject {
    * @param {Function} onComplete - Callback nach Abschluss
    * @param {number} interval - Intervall zwischen Frames
    */
+
   setupSingleAnimation(images, onComplete, interval) {
     this.stopCurrentAnimation();
     this.isAnimating = true;
@@ -211,6 +215,7 @@ class Endboss extends movableObject {
    * @param {Function} onComplete - Callback nach Abschluss
    * @param {number} interval - Intervall zwischen Frames
    */
+
   startAnimationLoop(images, onComplete, interval) {
     this.currentAnimationInterval = setInterval(() => {
       if (this.currentImage < images.length) {
@@ -227,6 +232,7 @@ class Endboss extends movableObject {
    * Beendet die Animation und ruft Callback auf
    * @param {Function} onComplete - Callback nach Abschluss
    */
+
   finishAnimation(onComplete) {
     clearInterval(this.currentAnimationInterval);
     this.isAnimating = false;
@@ -239,6 +245,7 @@ class Endboss extends movableObject {
   /**
    * Stops any currently running animation
    */
+
   stopCurrentAnimation() {
     if (this.currentAnimationInterval) {
       clearInterval(this.currentAnimationInterval);
@@ -254,6 +261,7 @@ class Endboss extends movableObject {
   /**
    * Plays the death animation sequence for the boss
    */
+
   playDeathAnimation() {
     if (this.isDying) return;
     this.setupDeathAnimation();
@@ -263,6 +271,7 @@ class Endboss extends movableObject {
   /**
    * Bereitet die Tod-Animation vor
    */
+
   setupDeathAnimation() {
     this.isDying = true;
     this.currentImage = 0;
@@ -273,6 +282,7 @@ class Endboss extends movableObject {
   /**
    * Startet den Tod-Animations-Loop
    */
+
   startDeathAnimationLoop() {
     this.deathInterval = setInterval(() => {
       if (this.currentImage < this.IMAGES_DEAD.length) {
@@ -292,6 +302,7 @@ class Endboss extends movableObject {
   /**
    * Fades out the boss and marks it for deletion
    */
+
   fadeOutAndRemove() {
     const fadeInterval = setInterval(() => {
       this.opacity -= 0.02;
@@ -311,6 +322,7 @@ class Endboss extends movableObject {
    * Draws the boss with proper orientation and opacity
    * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
    */
+
   draw(ctx) {
     if (!this.img) return;
     ctx.save();

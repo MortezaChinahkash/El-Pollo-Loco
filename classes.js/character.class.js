@@ -12,14 +12,13 @@ class Character extends movableObject {
   idleThreshold = 10000;
   invulnerable = false;
   hasFullyDied = false;
-
   world;
   camera_x = 0;
-
   /**
    * Erstellt eine neue Character-Instanz
    * Initialisiert alle Bilder, Eigenschaften und startet die Schwerkraft
    */
+
   constructor() {
     super();
     this.initializeImageArrays();
@@ -33,6 +32,7 @@ class Character extends movableObject {
   /**
    * Richtet alle Manager-Klassen ein
    */
+
   setupManagers() {
     this.audioManager = new CharacterAudioManager(this);
     this.animationManager = new CharacterAnimationManager(this);
@@ -42,6 +42,7 @@ class Character extends movableObject {
   /**
    * Setzt Kollisions-Offsets
    */
+
   setupOffsets() {
     this.offset = {
       top: 120,
@@ -54,6 +55,7 @@ class Character extends movableObject {
   /**
    * Initialisiert Inventar
    */
+
   setupInventory() {
     this.coins = 0;
     this.bottles = 0;
@@ -62,6 +64,7 @@ class Character extends movableObject {
   /**
    * Lädt alle Character-Bilder
    */
+
   loadAllImages() {
     this.loadImage("img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
@@ -76,6 +79,7 @@ class Character extends movableObject {
   /**
    * Initialisiert alle Bild-Arrays von der CharacterImages-Klasse
    */
+
   initializeImageArrays() {
     this.IMAGES_IDLE_LONG = CharacterImages.IMAGES_IDLE_LONG;
     this.IMAGES_IDLE = CharacterImages.IMAGES_IDLE;
@@ -91,9 +95,9 @@ class Character extends movableObject {
    * @param {number} damage - Der zu verursachende Schaden
    * @param {Object} [source=null] - Die Quelle des Schadens (z.B. Endboss)
    */
+
   hit(damage, source=null) {
     if (this.isHurt) return;
-    
     this.processHitDamage(damage);
     this.handleHitEffects();
     this.playHitSounds(Date.now(), source);
@@ -104,6 +108,7 @@ class Character extends movableObject {
    * Verarbeitet den Schadenswert
    * @param {number} damage - Schadenswert
    */
+
   processHitDamage(damage) {
     this.audioManager.stopRunningSound();
     this.energy -= damage;
@@ -113,6 +118,7 @@ class Character extends movableObject {
   /**
    * Behandelt Treffer-Effekte
    */
+
   handleHitEffects() {
     this.isHurt = true;
     this.resetMovementTimer();
@@ -125,6 +131,7 @@ class Character extends movableObject {
    * @param {number} now - Aktueller Zeitstempel
    * @param {Object} source - Schadenquelle
    */
+
   playHitSounds(now, source) {
     this.audioManager.playHurtSoundWithCooldown(now);
     this.audioManager.playSoundWhenMeetingEndboss(now, source);
@@ -133,6 +140,7 @@ class Character extends movableObject {
   /**
    * Prüft auf Tod und startet Sequenz
    */
+
   checkForDeath() {
     if (this.isDead()) {
       this.animationManager.playDeadSequence();
@@ -144,6 +152,7 @@ class Character extends movableObject {
    * @param {Object} enemy - Der Gegner-Objekt
    * @returns {boolean} True wenn der Charakter auf den Gegner springt
    */
+
   isJumpingOn(enemy) {
     return (
       this.speedY < 0 &&
@@ -155,6 +164,7 @@ class Character extends movableObject {
    * Startet die Hauptanimation des Charakters
    * Initialisiert Input-Handling und Charakter-Animationen
    */
+
   animate() {
     setInterval(() => this.inputManager.handleInput(), 1000 / 60);
     setInterval(() => this.animationManager.charAnimations(), 120);
@@ -163,6 +173,7 @@ class Character extends movableObject {
   /**
    * Führt einen Sprung aus
    */
+
   jump() {
     this.executeJumpMechanics();
     this.audioManager.playJumpSoundWithCooldown();
@@ -171,6 +182,7 @@ class Character extends movableObject {
   /**
    * Führt die Sprungmechanik aus
    */
+
   executeJumpMechanics() {
     this.speedY = 20;
   }
@@ -179,6 +191,7 @@ class Character extends movableObject {
    * Setzt den Bewegungstimer zurück auf die aktuelle Zeit
    * @returns {number} Der aktuelle Zeitstempel
    */
+
   resetMovementTimer() {
     return (this.lastMovementTime = Date.now());
   }
@@ -188,6 +201,7 @@ class Character extends movableObject {
    * Spezielle Behandlung wenn Boss einläuft
    * @param {number} camLimit - Die maximale Kamera-Position
    */
+
   setLevelWidth(camLimit) {
     const boss = this.world.level.boss;
     if (boss?.movingIn) {

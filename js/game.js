@@ -5,7 +5,6 @@ let soundManager;
 let muteStateAlreadyLoaded = false;
 let currentLevel;
 
-
 let cachedElements = {};
 
 /**
@@ -13,6 +12,7 @@ let cachedElements = {};
  * @param {string} id - Element ID to retrieve
  * @returns {HTMLElement} Cached DOM element
  */
+
 function getCachedElement(id) {
   if (!cachedElements[id]) {
     cachedElements[id] = document.getElementById(id);
@@ -25,6 +25,7 @@ function getCachedElement(id) {
  * @param {number} levelWidth - Width of the game level (default: 5000)
  * @param {number} levelNumber - Level number to initialize (default: 1)
  */
+
 function init(levelWidth = 5000, levelNumber = 1) {
   setupUI();
   currentLevel = initializeLevel(levelWidth, levelNumber);
@@ -37,6 +38,7 @@ function init(levelWidth = 5000, levelNumber = 1) {
 /**
  * Sets up the main game UI and interface elements
  */
+
 function setupUI() {
   setupGameCanvas();
   hideWelcomeElements();
@@ -47,6 +49,7 @@ function setupUI() {
 /**
  * Sets up the game canvas and hides loading screen
  */
+
 function setupGameCanvas() {
   canvas = getCachedElement("canvas");
   canvas.style.display = "block";
@@ -56,6 +59,7 @@ function setupGameCanvas() {
 /**
  * Hides all welcome and intro elements
  */
+
 function hideWelcomeElements() {
   hideWelcomeMessages();
   const introText = document.querySelector(".intro-text");
@@ -67,6 +71,7 @@ function hideWelcomeElements() {
 /**
  * Configures mobile controls based on device detection
  */
+
 function configureMobileControls() {
   showMobileControlsForGameplay();
   setTimeout(() => {
@@ -85,6 +90,7 @@ function configureMobileControls() {
 /**
  * Hides game control buttons (restart, next level, home)
  */
+
 function hideGameControlButtons() {
   const restartBtn = getCachedElement("restartBtn");
   const nextBtn = getCachedElement("nextLevelBtn");
@@ -94,10 +100,10 @@ function hideGameControlButtons() {
   if (homeBtn) homeBtn.style.display = "none";
 }
 
-
 /**
  * Sets up all overlay button functionalities
  */
+
 function setupOverlayButtons() {
   setupMuteButton();
   setupFullscreenButton();
@@ -108,6 +114,7 @@ function setupOverlayButtons() {
 /**
  * Sets up mute button functionality and state management
  */
+
 function setupMuteButton() {
   const muteBtn = getCachedElement("muteBtn");
   muteBtn.onclick = () => {
@@ -125,6 +132,7 @@ function setupMuteButton() {
 /**
  * Sets up fullscreen toggle button functionality
  */
+
 function setupFullscreenButton() {
   const fullscreenBtn = getCachedElement("fullscreenBtn");
   fullscreenBtn.onclick = () => {
@@ -142,6 +150,7 @@ function setupFullscreenButton() {
 /**
  * Sets up help overlay button and click handlers
  */
+
 function setupHelpButton() {
   const elements = getHelpElements();
   setupHelpClickHandlers(elements);
@@ -152,6 +161,7 @@ function setupHelpButton() {
  * Gets all help-related DOM elements
  * @returns {Object} Object containing help elements
  */
+
 function getHelpElements() {
   return {
     helpBtn: getCachedElement("helpBtn"),
@@ -165,6 +175,7 @@ function getHelpElements() {
  * Sets up click handlers for help button and close button
  * @param {Object} elements - Help elements object
  */
+
 function setupHelpClickHandlers(elements) {
   elements.helpBtn.addEventListener("click", () => {
     elements.helpOverlay.style.display = "flex";
@@ -178,6 +189,7 @@ function setupHelpClickHandlers(elements) {
  * Sets up overlay click handler to close help when clicking outside
  * @param {Object} elements - Help elements object
  */
+
 function setupHelpOverlayHandler(elements) {
   elements.helpOverlay.addEventListener("click", (event) => {
     if (!elements.helpContent.contains(event.target)) {
@@ -189,6 +201,7 @@ function setupHelpOverlayHandler(elements) {
 /**
  * Sets up home button to reload the page
  */
+
 function setupHomeButton() {
   const homeBtn = getCachedElement("homeBtn");
   homeBtn.addEventListener("click", () => {
@@ -202,6 +215,7 @@ function setupHomeButton() {
  * @param {number} levelNumber - Level number
  * @returns {Level} Created level instance
  */
+
 function initializeLevel(levelWidth, levelNumber) {
   return createLevel(levelWidth, levelNumber);
 }
@@ -210,6 +224,7 @@ function initializeLevel(levelWidth, levelNumber) {
  * Initializes the game world with the current level
  * @param {Level} currentLevel - Level to initialize world with
  */
+
 function initializeGameWorld(currentLevel) {
   world = new World(canvas, keyboard, currentLevel);
 }
@@ -217,6 +232,7 @@ function initializeGameWorld(currentLevel) {
 /**
  * Sets up input handling for touch and mobile controls
  */
+
 function setupInput() {
   touchDetection();
   setupMobileControls();
@@ -225,6 +241,7 @@ function setupInput() {
 /**
  * Hides mobile controls by setting display and visibility to hidden
  */
+
 function hideMobileControls() {
   const mobileControls = getCachedElement("mobile-controls");
   if (mobileControls) {
@@ -238,6 +255,7 @@ window.forceMobileControls = forceMobileControls;
 /**
  * Sets up the audio system and loads all game sounds
  */
+
 function setupAudio() {
   initializeSoundManager();
   loadAllGameSounds();
@@ -247,6 +265,7 @@ function setupAudio() {
 /**
  * Initializes the sound manager and loads mute state
  */
+
 function initializeSoundManager() {
   if (!soundManager) {
     soundManager = new SoundManager();
@@ -262,6 +281,7 @@ function initializeSoundManager() {
 /**
  * Loads all game sounds into the sound manager
  */
+
 function loadAllGameSounds() {
   const sounds = getSoundDefinitions();
   sounds.forEach(sound => {
@@ -273,6 +293,7 @@ function loadAllGameSounds() {
 /**
  * Starts background music with delay to prevent audio errors
  */
+
 function startBackgroundMusic() {
   setTimeout(() => {
     if (!soundManager.isMuted) {
@@ -288,6 +309,7 @@ function startBackgroundMusic() {
 /**
  * Loads mute state from localStorage if not already loaded
  */
+
 function loadMuteStateFromLocalStorage() {
   if (muteStateAlreadyLoaded) return;
   const isMuted = localStorage.getItem("soundMuted") === "true";
@@ -301,6 +323,7 @@ function loadMuteStateFromLocalStorage() {
  * Updates mute button display based on current mute state
  * @param {boolean} isMuted - Current mute state
  */
+
 function refreshMuteButton(isMuted) {
   const muteBtn = getCachedElement("muteBtn");
   if (muteBtn) {
@@ -312,6 +335,7 @@ function refreshMuteButton(isMuted) {
  * Starts background music if not muted
  * @param {boolean} isMuted - Current mute state
  */
+
 function startMusicWhenNotMuted(isMuted) {
   if (!isMuted) {
     try {
@@ -325,6 +349,7 @@ function startMusicWhenNotMuted(isMuted) {
 /**
  * Detects touch devices and adjusts UI interface accordingly
  */
+
 function touchDetection() {
   const isTouchDevice = detectTouchDevice();
   adjustUIForDevice(isTouchDevice);
@@ -334,6 +359,7 @@ function touchDetection() {
  * Detects if the current device supports touch input
  * @returns {boolean} True if touch device, false otherwise
  */
+
 function detectTouchDevice() {
   return (navigator.maxTouchPoints > 0) ||
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
@@ -345,6 +371,7 @@ function detectTouchDevice() {
  * Adjusts UI elements based on device type
  * @param {boolean} isTouchDevice - Whether device supports touch
  */
+
 function adjustUIForDevice(isTouchDevice) {
   const desktopWelcome = document.getElementById("desktop-welcome");
   const mobileWelcome = document.getElementById("mobile-welcome");
@@ -377,6 +404,7 @@ if (document.readyState === 'loading') {
  * Event Listener für Touch-Ende - startet das Spiel bei Touch-Eingabe
  * Initialisiert das Spiel und spielt Hintergrundmusik ab
  */
+
 window.addEventListener(
   "touchend",
   () => {
@@ -397,6 +425,7 @@ window.addEventListener(
  * Event Listener für Tasten-Eingabe - startet das Spiel bei Tastendruck
  * Initialisiert das Spiel und spielt Hintergrundmusik ab
  */
+
 window.addEventListener(
   "keydown",
   () => {
@@ -418,6 +447,7 @@ window.addEventListener(
  * Behandelt Bewegungs- und Aktionstasten (Pfeiltasten und Leertaste)
  * @param {KeyboardEvent} button - Das Tastatur-Event
  */
+
 window.addEventListener("keydown", (button) => {
   if (button.keyCode == 39) keyboard.RIGHT = true;
   if (button.keyCode == 37) keyboard.LEFT = true;
@@ -431,6 +461,7 @@ window.addEventListener("keydown", (button) => {
  * Behandelt Bewegungs- und Aktionstasten (Pfeiltasten und Leertaste)
  * @param {KeyboardEvent} button - Das Tastatur-Event
  */
+
 window.addEventListener("keyup", (button) => {
   if (button.keyCode == 39) keyboard.RIGHT = false;
   if (button.keyCode == 37) keyboard.LEFT = false;
@@ -445,6 +476,7 @@ window.addEventListener("keyup", (button) => {
  * @param {number} levelNumber - Level number
  * @returns {Level} New level instance
  */
+
 function createLevel(levelWidth, levelNumber) {
   return new Level([], [], [], levelWidth, levelNumber);
 }
@@ -452,6 +484,7 @@ function createLevel(levelWidth, levelNumber) {
 /**
  * Sets up mobile control button event listeners
  */
+
 function setupMobileControls() {
   const btnLeft = getCachedElement("btn-left");
   const btnRight = getCachedElement("btn-right");

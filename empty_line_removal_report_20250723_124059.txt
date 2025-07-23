@@ -1,0 +1,25 @@
+EMPTY LINE REMOVAL REPORT
+============================================================
+Generated: 2025-07-23 12:40:59
+
+OPTIMIZATION RULES:
+• Maximum 2 consecutive empty lines anywhere
+• Single empty lines preserved for readability
+• Empty lines reduced at start/end of functions
+• Empty lines preserved after comments/JSDoc
+• Empty lines at file start/end removed
+
+Files analyzed: 26
+Files with empty lines: 25
+Files modified: 23
+Files backed up: 0
+Files with errors: 1
+Total empty lines found: 104
+Total empty lines removed: -385
+Total empty lines remaining: 489
+
+DETAILED FILE RESULTS:
+----------------------------------------
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\test_refined_logic.js
+  Original: 15, Removed: 8, Remaining: 7
+  Status: Modified

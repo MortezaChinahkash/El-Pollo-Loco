@@ -148,11 +148,10 @@ def remove_empty_lines_from_file(file_path, backup_dir=None):
 def remove_excessive_empty_lines(content):
     """
     Remove excessive empty lines while preserving intentional spacing
-    Rules:
-    - Maximum 2 consecutive empty lines anywhere
-    - Preserve single empty lines for readability
-    - Remove empty lines at start and end of functions/classes
-    - Preserve empty lines after comments and JSDoc
+    SPECIAL RULES:
+    - INSIDE functions/methods (between {}): ALL empty lines are removed
+    - OUTSIDE functions/methods: Maximum 2 consecutive empty lines
+    - Preserve empty lines after comments and JSDoc (outside functions)
     """
     lines = content.split('\n')
     result_lines = []
@@ -162,6 +161,7 @@ def remove_excessive_empty_lines(content):
     in_string = False
     string_char = None
     brace_level = 0
+    inside_function = False
     
     i = 0
     while i < len(lines):
@@ -192,11 +192,27 @@ def remove_excessive_empty_lines(content):
         if '*/' in line and in_multiline_comment and not in_string:
             in_multiline_comment = False
         
-        # Track brace levels (for function/class bodies)
+        # Track brace levels and function context
         if not in_string and not in_jsdoc and not in_multiline_comment:
-            brace_level += line.count('{') - line.count('}')
+            # Count opening and closing braces
+            opening_braces = line.count('{')
+            closing_braces = line.count('}')
+            
+            # Update brace level
+            brace_level += opening_braces - closing_braces
+            
+            # Determine if we're inside a function/method
+            # We're inside a function if brace_level > 0 AND we've seen a function-like line
+            if opening_braces > 0:
+                # Check if this line looks like a function/method/class definition
+                if any(keyword in line for keyword in ['function', 'class', '=>', 'constructor', 'get ', 'set ']):
+                    inside_function = True
+                elif brace_level > 0:
+                    inside_function = True
+            elif brace_level == 0:
+                inside_function = False
         
-        # Handle empty lines
+        # Handle empty lines with AGGRESSIVE INSIDE-FUNCTION REMOVAL
         if stripped == '':
             # Look ahead to count consecutive empty lines
             empty_count = 0
@@ -205,29 +221,43 @@ def remove_excessive_empty_lines(content):
                 empty_count += 1
                 j += 1
             
-            # Determine how many empty lines to keep
-            keep_count = min(empty_count, 2)  # Maximum 2 consecutive empty lines
+            # Get context before and after empty lines
+            prev_line = lines[i-1].strip() if i > 0 else ''
+            next_line = lines[j].strip() if j < len(lines) else ''
             
-            # Special cases for reducing empty lines
-            if empty_count > 0:
-                # Check context before empty lines
-                prev_line = lines[i-1].strip() if i > 0 else ''
-                next_line = lines[j].strip() if j < len(lines) else ''
+            # SPECIAL RULE: INSIDE FUNCTIONS -> REMOVE ALL EMPTY LINES
+            if inside_function and brace_level > 0:
+                # Inside a function/method body - remove ALL empty lines
+                keep_count = 0
                 
-                # Reduce empty lines at start/end of functions
-                if (prev_line.endswith('{') or next_line == '}') and empty_count > 1:
+                # Exception: Keep 1 empty line after JSDoc inside functions
+                if prev_line.endswith('*/') and prev_line.startswith('*'):
+                    keep_count = 1
+            else:
+                # OUTSIDE FUNCTIONS: Use refined optimization rules
+                keep_count = min(empty_count, 2)  # Maximum 2 consecutive empty lines
+                
+                # REFINED RULES for empty line reduction OUTSIDE functions:
+                if empty_count > 2:
+                    # More than 2 consecutive empty lines -> reduce to 1
+                    keep_count = 1
+                elif empty_count == 2:
+                    # 2 consecutive empty lines -> reduce to 1
+                    keep_count = 1
+                else:
+                    # Single empty line -> keep it (important for JSDoc separation)
                     keep_count = 1
                 
-                # Reduce empty lines between simple statements
-                if (not prev_line.endswith('{') and not prev_line.endswith(':') and 
-                    not next_line.startswith('}') and not next_line.startswith('*') and
-                    not '/**' in prev_line and not '*/' in prev_line and
-                    empty_count > 1):
+                # SPECIAL CASES - Always keep 1 empty line:
+                # 1. After JSDoc comments (before function)
+                if prev_line.endswith('*/'):
                     keep_count = 1
-                
-                # Always keep at least one empty line after comments/JSDoc
-                if ('*/' in prev_line or prev_line.startswith('//')) and empty_count >= 1:
-                    keep_count = max(1, min(keep_count, 1))
+                # 2. After function closing brace (before next JSDoc/function)
+                elif prev_line == '}':
+                    keep_count = 1
+                # 3. Before JSDoc comments
+                elif next_line.startswith('/**'):
+                    keep_count = 1
             
             # Add the determined number of empty lines
             for _ in range(keep_count):
@@ -248,11 +278,52 @@ def remove_excessive_empty_lines(content):
     while result_lines and result_lines[-1].strip() == '':
         result_lines.pop()
     
-    # Ensure file ends with single newline
-    if result_lines and result_lines[-1] != '':
-        result_lines.append('')
+    # POST-PROCESSING: Ensure proper spacing between JSDoc and functions
+    final_lines = []
+    i = 0
+    while i < len(result_lines):
+        current_line = result_lines[i].strip()
+        
+        # Add current line
+        final_lines.append(result_lines[i])
+        
+        # Check if current line is end of JSDoc comment
+        if current_line.endswith('*/') and i + 1 < len(result_lines):
+            next_line = result_lines[i + 1].strip()
+            
+            # If next line is a function/method/constructor, ensure 1 empty line between
+            if (next_line and not next_line == '' and 
+                any(keyword in next_line for keyword in ['constructor(', 'function ', '=>', 'get ', 'set ']) or
+                next_line.endswith('{') or '(' in next_line):
+                # Add empty line if not already present
+                if i + 1 < len(result_lines) and result_lines[i + 1].strip() != '':
+                    final_lines.append('')
+        
+        # Check if current line is end of function
+        elif current_line == '}' and i + 1 < len(result_lines):
+            next_line_index = i + 1
+            # Skip any existing empty lines
+            while (next_line_index < len(result_lines) and 
+                   result_lines[next_line_index].strip() == ''):
+                next_line_index += 1
+            
+            # If there's a next line that's JSDoc or function, ensure 1 empty line
+            if next_line_index < len(result_lines):
+                next_line = result_lines[next_line_index].strip()
+                if (next_line.startswith('/**') or 
+                    any(keyword in next_line for keyword in ['constructor(', 'function ', '=>', 'get ', 'set ']) or
+                    next_line.endswith('{')):
+                    # Add empty line if not already present
+                    if i + 1 < len(result_lines) and result_lines[i + 1].strip() != '':
+                        final_lines.append('')
+        
+        i += 1
     
-    return '\n'.join(result_lines)
+    # Ensure file ends with single newline
+    if final_lines and final_lines[-1] != '':
+        final_lines.append('')
+    
+    return '\n'.join(final_lines)
 
 def scan_and_remove_empty_lines():
     """

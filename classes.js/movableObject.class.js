@@ -2,6 +2,7 @@
  * Basisklasse für alle beweglichen Objekte im Spiel
  * Erweitert DrawableObject um Bewegung, Kollision und Physik
  */
+
 class movableObject extends DrawableObject {
   speed = 1;
   otherDirection = false;
@@ -14,11 +15,11 @@ class movableObject extends DrawableObject {
     bottom: 0,
     left: 0,
     right: 0,  };
-
   /**
    * Wendet Schwerkraft auf das Objekt an
    * Reduziert vertikale Geschwindigkeit kontinuierlich
    */
+
   applyGravity() {
     setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
@@ -28,16 +29,15 @@ class movableObject extends DrawableObject {
         this.speedY = 0;
       }
     }, 1000 / 25);  }
-
   /**
    * Prüft Kollision zwischen diesem und einem anderen beweglichen Objekt
    * Verwendet Offset-Werte für präzise Kollisionserkennung
    * @param {movableObject} mo - Das andere bewegliche Objekt
    * @returns {boolean} True wenn Kollision erkannt wird
    */
+
   isColliding(mo) {
   const buffer = 5;
-
   return (
     this.x + this.width - this.offset.right > mo.x + mo.offset.left + buffer &&
     this.x + this.offset.left < mo.x + mo.width - mo.offset.right - buffer &&
@@ -50,16 +50,17 @@ class movableObject extends DrawableObject {
    * Reduziert die Energie des Objekts um den angegebenen Schaden
    * @param {number} damage - Der zu verursachende Schaden
    */
+
   hit(damage) {
     this.energy -= damage;
     if (this.energy < 0) {
       this.energy = 0;
     }  }
-
   /**
    * Prüft ob das Objekt tot ist (Energie = 0)
    * @returns {boolean} True wenn das Objekt tot ist
    */
+
   isDead() {
     return this.energy == 0;
   }
@@ -68,6 +69,7 @@ class movableObject extends DrawableObject {
    * Checks if the object is above ground level
    * @returns {boolean} True if object is above ground
    */
+
   isAboveGround() {
     if (this instanceof ThrowableObject) {
       return true;
@@ -80,6 +82,7 @@ class movableObject extends DrawableObject {
    * Plays an animation sequence from given images
    * @param {Array} images - Array of image paths for animation
    */
+
   playAnimation(images) {
     let i = this.currentImage % images.length;
     let path = images[i];
@@ -90,6 +93,7 @@ class movableObject extends DrawableObject {
   /**
    * Plays the death animation sequence
    */
+
   playDeadAnimation() {
     this.playAnimation(this.IMAGES_DEAD);
     setTimeout(() => {}, this.IMAGES_DEAD.length * 10);
@@ -98,6 +102,7 @@ class movableObject extends DrawableObject {
   /**
    * Plays the hurt animation and sets hurt state temporarily
    */
+
   playHurtAnimation() {
     this.isHurt = true;
     this.playAnimation(this.IMAGES_HURT, false);
@@ -109,6 +114,7 @@ class movableObject extends DrawableObject {
   /**
    * Moves the object to the right
    */
+
   moveRight() {
     this.x += this.speed;
     this.otherDirection = false;
@@ -117,6 +123,7 @@ class movableObject extends DrawableObject {
   /**
    * Moves the object to the left
    */
+
   moveLeft() {
     this.x -= this.speed;
   }
@@ -124,6 +131,7 @@ class movableObject extends DrawableObject {
   /**
    * Makes the object jump by setting upward velocity
    */
+
   jump() {
     this.speedY = 20;
   }

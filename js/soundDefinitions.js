@@ -7,6 +7,7 @@
  * Gets array of all game sound definitions
  * @returns {Array} Array of sound objects with key, src and loop properties
  */
+
 function getSoundDefinitions() {
   return [
     ...getBackgroundSounds(),
@@ -19,6 +20,7 @@ function getSoundDefinitions() {
  * Gets background and music sound definitions
  * @returns {Array} Background sounds array
  */
+
 function getBackgroundSounds() {
   return [
     { key: "background", src: "audio/flamenco-guitar-duo-flamenco-spanish-guitar-music-1614.mp3", loop: true }
@@ -29,6 +31,7 @@ function getBackgroundSounds() {
  * Gets player action sound definitions
  * @returns {Array} Player sounds array
  */
+
 function getPlayerSounds() {
   return [
     { key: "hurt", src: "audio/Hurt.mp3" },
@@ -45,6 +48,7 @@ function getPlayerSounds() {
  * Gets game object sound definitions
  * @returns {Array} Game object sounds array
  */
+
 function getGameSounds() {
   return [
     { key: "coin", src: "audio/coin-recieved-230517.mp3" },
