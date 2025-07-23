@@ -373,6 +373,10 @@ if (document.readyState === 'loading') {
   touchDetection();
 }
 
+/**
+ * Event Listener für Touch-Ende - startet das Spiel bei Touch-Eingabe
+ * Initialisiert das Spiel und spielt Hintergrundmusik ab
+ */
 window.addEventListener(
   "touchend",
   () => {
@@ -389,6 +393,10 @@ window.addEventListener(
   { once: true }
 );
 
+/**
+ * Event Listener für Tasten-Eingabe - startet das Spiel bei Tastendruck
+ * Initialisiert das Spiel und spielt Hintergrundmusik ab
+ */
 window.addEventListener(
   "keydown",
   () => {

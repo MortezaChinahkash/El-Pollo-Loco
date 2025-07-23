@@ -109,6 +109,10 @@ class World {
     }
   }
 
+  /**
+   * Erstellt eine neue Flasche und fügt sie zu den werfbaren Objekten hinzu
+   * Wird aufgerufen wenn der Spieler eine Flasche wirft
+   */
   createNewBottle() {
     this.character.resetMovementTimer();
     const bottle = new ThrowableObject(
@@ -118,6 +122,10 @@ class World {
     this.throwableObject.push(bottle);
   }
 
+  /**
+   * Startet die Hauptspiel-Schleife mit 60 FPS
+   * Führt kontinuierlich Spiellogik, Aufräumarbeiten und Zustandsprüfungen durch
+   */
   run() {
     setInterval(() => {
       this.runGameLogic();
@@ -159,6 +167,10 @@ class World {
     }
   }
 
+  /**
+   * Aktiviert den Endboss wenn der Spieler die Trigger-Position erreicht
+   * Spielt auch den "Ay Dios Mio" Sound beim ersten Erscheinen ab
+   */
   activateBoss() {
   const boss = this.level.enemies.find((e) => e instanceof Endboss);
   if (
@@ -175,6 +187,10 @@ class World {
   }
 }
 
+  /**
+   * Überprüft alle Kollisionen im Spiel
+   * Behandelt Kollisionen zwischen Spieler und Gegnern sowie Sammelobjekten
+   */
   checkCollision() {
     if (this.character.isDeadState || this.character.isHurt) return;
 
@@ -229,6 +245,10 @@ class World {
     }
   }
 
+  /**
+   * Behandelt Kollisionen zwischen geworfenen Flaschen und Gegnern
+   * Fügt Schaden zu und spielt entsprechende Sounds ab
+   */
   bottleHitEnemy() {
     this.throwableObject.forEach((bottle) => {
       if (!bottle.isSplashing) {
@@ -249,6 +269,10 @@ class World {
     });
   }
 
+  /**
+   * Behandelt das Respawning von Flaschen nach dem Aufprall
+   * @param {ThrowableObject} bottle - Die Flasche die gespawnt werden soll
+   */
   respawnAfterSplash(bottle) {
     if (bottle.isSplashing && !bottle.respawnHandled) {
       this.spawnNewBottle();
@@ -256,6 +280,10 @@ class World {
     }
   }
 
+  /**
+   * Zeichnet die gesamte Spielwelt auf das Canvas
+   * Rendert Hintergrund, Spielelemente und HUD-Elemente
+   */
   draw() {
     if (this.gameWon || this.gameOver) return;
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -271,6 +299,10 @@ class World {
     requestAnimationFrame(() => this.draw());
   }
 
+  /**
+   * Zeichnet Hintergrundobjekte und Spielelemente in der richtigen Reihenfolge
+   * Sortiert Gegner nach Y-Position für korrekte Tiefenwirkung
+   */
   drawBackgroundAndGameElements() {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.clouds);
@@ -281,6 +313,10 @@ class World {
     this.addToMap(this.character);
   }
 
+  /**
+   * Zeichnet HUD-Elemente wie Statusbalken und Level-Anzeige
+   * Wird außerhalb der Kamera-Translation gerendert
+   */
   drawHUDElements() {
     this.healthBar.draw(this.ctx);
     this.coinBar.draw(this.ctx);
@@ -290,10 +326,18 @@ class World {
     this.ctx.fillText("Level " + this.level.levelNumber, 40, 90);
   }
 
+  /**
+   * Fügt ein Array von Objekten zur Karte hinzu
+   * @param {Array} objects - Array von Objekten die gezeichnet werden sollen
+   */
   addObjectsToMap(objects) {
     objects.forEach((o) => this.addToMap(o));
   }
 
+  /**
+   * Fügt ein einzelnes Objekt zur Karte hinzu und behandelt Bildrichtung
+   * @param {DrawableObject} mo - Das Objekt das gezeichnet werden soll
+   */
   addToMap(mo) {
     if (mo.otherDirection) this.flipImage(mo);
     if (mo.img) {
@@ -303,6 +347,10 @@ class World {
     if (mo.otherDirection) this.flipImageBack(mo);
   }
 
+  /**
+   * Dreht das Bild horizontal für Links-Bewegung
+   * @param {DrawableObject} mo - Das Objekt dessen Bild gedreht werden soll
+   */
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
