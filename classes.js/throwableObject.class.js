@@ -94,7 +94,7 @@ class ThrowableObject extends movableObject {
   }
 
   /**
-   * Startet die horizontale Bewegung
+   * Starts horizontal movement
    */
   startHorizontalMovement() {
     this.moveXInterval = setInterval(() => {
