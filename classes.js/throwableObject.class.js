@@ -60,10 +60,24 @@ class ThrowableObject extends movableObject {
   }
 
   throw() {
+    this.initializeThrowPhysics();
+    this.playThrowSound();
+    this.startHorizontalMovement();
+  }
+
+  /**
+   * Initialisiert die Wurf-Physik
+   */
+  initializeThrowPhysics() {
     this.speedY = 15;
     this.applyGravity();
     this.animateRotation();
+  }
 
+  /**
+   * Spielt den Wurf-Sound ab
+   */
+  playThrowSound() {
     if (!soundManager.isMuted) {
       const sound = soundManager.sounds["throw_fly"];
       if (sound) {
@@ -73,7 +87,12 @@ class ThrowableObject extends movableObject {
         this.flySoundInstance.play();
       }
     }
+  }
 
+  /**
+   * Startet die horizontale Bewegung
+   */
+  startHorizontalMovement() {
     this.moveXInterval = setInterval(() => {
       if (!this.isSplashing) {
         this.x += 5;
@@ -120,9 +139,16 @@ class ThrowableObject extends movableObject {
   }
 
   fadeOutAndRemove() {
+    this.startFallingAnimation();
+    this.scheduleOpacityFade();
+  }
+
+  /**
+   * Startet die Fall-Animation des Objekts
+   */
+  startFallingAnimation() {
     const targetY = 370;
     const fallSpeed = 0.5;
-    const fadeSpeed = 0.02;
 
     const fallInterval = setInterval(() => {
       if (this.y < targetY) {
@@ -131,16 +157,30 @@ class ThrowableObject extends movableObject {
         clearInterval(fallInterval);
       }
     }, 1000 / 25);
+  }
 
+  /**
+   * Plant das Ausblenden des Objekts nach einer Verzögerung
+   */
+  scheduleOpacityFade() {
     setTimeout(() => {
-      const fadeInterval = setInterval(() => {
-        this.opacity -= fadeSpeed;
-        if (this.opacity <= 0) {
-          this.opacity = 0;
-          clearInterval(fadeInterval);
-          this.markedForDeletion = true;
-        }
-      }, 1000 / 25);
+      this.startOpacityFade();
     }, 1000);
+  }
+
+  /**
+   * Startet das Ausblenden und markiert das Objekt zur Löschung
+   */
+  startOpacityFade() {
+    const fadeSpeed = 0.02;
+
+    const fadeInterval = setInterval(() => {
+      this.opacity -= fadeSpeed;
+      if (this.opacity <= 0) {
+        this.opacity = 0;
+        clearInterval(fadeInterval);
+        this.markedForDeletion = true;
+      }
+    }, 1000 / 25);
   }
 }

@@ -120,22 +120,43 @@ class World {
 
   run() {
     setInterval(() => {
-      this.checkCollision();
-      this.checkThrowObjects();
-      this.bottleHitEnemy();
-      this.activateBoss();
-      this.checkCollectableItems();
-      this.throwableObject = this.throwableObject.filter(
-        (obj) => !obj.markedForDeletion
-      );
-      this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion);
-      if (this.character.hasFullyDied && !this.gameOver) {
-        this.showGameOverScreen();
-      }
-      if (this.level.boss.markedForDeletion && !this.gameWon) {
-        this.showWinScreen();
-      }
+      this.runGameLogic();
+      this.cleanupObjects();
+      this.checkGameStates();
     }, 1000 / 60);
+  }
+
+  /**
+   * Führt die Hauptspiel-Logik aus
+   */
+  runGameLogic() {
+    this.checkCollision();
+    this.checkThrowObjects();
+    this.bottleHitEnemy();
+    this.activateBoss();
+    this.checkCollectableItems();
+  }
+
+  /**
+   * Bereinigt markierte Objekte
+   */
+  cleanupObjects() {
+    this.throwableObject = this.throwableObject.filter(
+      (obj) => !obj.markedForDeletion
+    );
+    this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion);
+  }
+
+  /**
+   * Überprüft Spiel-Endzustände
+   */
+  checkGameStates() {
+    if (this.character.hasFullyDied && !this.gameOver) {
+      this.showGameOverScreen();
+    }
+    if (this.level.boss.markedForDeletion && !this.gameWon) {
+      this.showWinScreen();
+    }
   }
 
   activateBoss() {
