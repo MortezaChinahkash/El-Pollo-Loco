@@ -1,94 +1,18 @@
 METHOD LENGTH ANALYSIS REPORT
-Generated: 23.07.2025 11:03
+Generated: 23.07.2025 11:05
 ================================================================================
-Analyzing 25 TypeScript/JavaScript files for methods > 14 lines...
+Analyzing 23 TypeScript/JavaScript files for methods > 14 lines...
 Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
 TypeScript files: 0
-JavaScript files: 25
+JavaScript files: 23
 Excluded directories: node_modules, .git, dist, build, .angular, coverage
 NOTE: Constructors are excluded from analysis (allowed to be > 14 lines)
-
-File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103342\js\uiUtils.js
---------------------------------------------------------------------------------
-  Method: hideWelcomeMessages (Line 9-38)
-     Code lines: 18 | Total lines: 30
-     Declaration: function hideWelcomeMessages() {...
-
-  Method: forceMobileControls (Line 67-93)
-     Code lines: 22 | Total lines: 27
-     Declaration: function forceMobileControls() {...
-
-File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103748\js\uiUtils.js
---------------------------------------------------------------------------------
-  Method: hideWelcomeMessages (Line 9-38)
-     Code lines: 18 | Total lines: 30
-     Declaration: function hideWelcomeMessages() {...
-
-  Method: showMobileControlsForGameplay (Line 91-118)
-     Code lines: 19 | Total lines: 28
-     Declaration: function showMobileControlsForGameplay() {...
-
-File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
---------------------------------------------------------------------------------
-  Method: playFullAnimationOnce (Line 158-174)
-     Code lines: 15 | Total lines: 17
-     Declaration: playFullAnimationOnce(images, onComplete, interval = 120) {...
-
-  Method: playDeathAnimation (Line 185-201)
-     Code lines: 15 | Total lines: 17
-     Declaration: playDeathAnimation() {...
-
-File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\throwableObject.class.js
---------------------------------------------------------------------------------
-  Method: splash (Line 109-129)
-     Code lines: 15 | Total lines: 21
-     Declaration: splash() {...
-
-File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
---------------------------------------------------------------------------------
-  Method: showWinScreen (Line 318-341)
-     Code lines: 15 | Total lines: 24
-     Declaration: showWinScreen() {...
 
 ================================================================================
 === TOP 10 LONGEST METHODS ===
 ================================================================================
- 1. forceMobileControls (22 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103342\js\uiUtils.js
-    Line: 67-93
-
- 2. showMobileControlsForGameplay (19 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103748\js\uiUtils.js
-    Line: 91-118
-
- 3. hideWelcomeMessages (18 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103342\js\uiUtils.js
-    Line: 9-38
-
- 4. hideWelcomeMessages (18 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103748\js\uiUtils.js
-    Line: 9-38
-
- 5. playFullAnimationOnce (15 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
-    Line: 158-174
-
- 6. playDeathAnimation (15 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
-    Line: 185-201
-
- 7. splash (15 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\throwableObject.class.js
-    Line: 109-129
-
- 8. showWinScreen (15 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
-    Line: 318-341
-
 === SUMMARY ===
-Files analyzed: 25
-Files with long methods: 5
-Total methods > 14 lines: 8
-Average length: 17.1 lines
-Longest method: forceMobileControls (22 lines)
-Consider refactoring methods longer than 20-25 lines
+Files analyzed: 23
+Files with long methods: 0
+Total methods > 14 lines: 0
+No methods longer than 14 lines found!

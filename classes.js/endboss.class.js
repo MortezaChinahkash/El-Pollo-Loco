@@ -212,10 +212,24 @@ class Endboss extends movableObject {
 
   playDeathAnimation() {
     if (this.isDying) return;
+    this.setupDeathAnimation();
+    this.startDeathAnimationLoop();
+  }
+
+  /**
+   * Bereitet die Tod-Animation vor
+   */
+  setupDeathAnimation() {
     this.isDying = true;
     this.currentImage = 0;
     this.opacity = 1;
     this.stopCurrentAnimation();
+  }
+
+  /**
+   * Startet den Tod-Animations-Loop
+   */
+  startDeathAnimationLoop() {
     this.deathInterval = setInterval(() => {
       if (this.currentImage < this.IMAGES_DEAD.length) {
         const path = this.IMAGES_DEAD[this.currentImage];
