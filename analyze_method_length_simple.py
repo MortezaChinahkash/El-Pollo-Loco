@@ -26,6 +26,7 @@ def analyze_method_length(file_path):
                 stripped.startswith('export ') or
                 stripped.startswith('import ') or
                 stripped.startswith('@') or
+                stripped.startswith('constructor') or  # Skip constructors
                 'interface' in stripped or
                 'enum' in stripped or
                 (stripped.startswith('class ') and '{' in stripped)):
@@ -49,23 +50,35 @@ def analyze_method_length(file_path):
 
 def is_method_declaration(stripped, lines, i):
     """Check if this line is a method/function declaration"""
-    # Constructor
+    # Skip constructor - allowed to be longer than 14 lines
     if stripped.startswith('constructor'):
+        return False
+    
+    # JavaScript function declarations
+    if (stripped.startswith('function ') and '(' in stripped):
         return True
     
-    # Regular method/function with parentheses and either : or {
+    # Arrow functions (const funcName = () => {)
+    if ('=' in stripped and '=>' in stripped and '(' in stripped):
+        return True
+    
+    # Method declarations in classes/objects
+    if ('(' in stripped and ')' in stripped and '{' in stripped):
+        return True
+    
+    # Method declarations spanning multiple lines
     if ('(' in stripped and ')' in stripped and 
-        ((':' in stripped and ('{' in stripped or 
-         (i + 1 < len(lines) and lines[i + 1].strip() == '{'))) or
-         stripped.startswith('async '))):
+        i + 1 < len(lines) and lines[i + 1].strip() == '{'):
         return True
     
-    # Angular lifecycle hooks
-    if (stripped.startswith('ngOnInit') or 
-        stripped.startswith('ngOnDestroy') or 
-        stripped.startswith('ngOnChanges') or
-        stripped.startswith('ngAfterViewInit')):
+    # Async functions
+    if stripped.startswith('async ') and '(' in stripped:
         return True
+    
+    # Event handlers and callbacks
+    if ('addEventListener' in stripped or 'onclick' in stripped or 
+        'onload' in stripped or 'ontouchstart' in stripped):
+        return False  # Skip inline handlers
     
     return False
 
@@ -132,31 +145,35 @@ def analyze_method_from_line(lines, start_line, file_path):
 
 def extract_method_name(method_line):
     """Extract method name from declaration line"""
-    # Constructor
+    # Skip constructor - already filtered out
     if method_line.startswith('constructor'):
-        return 'constructor'
+        return None
     
-    # Angular lifecycle hooks
-    for hook in ['ngOnInit', 'ngOnDestroy', 'ngOnChanges', 'ngAfterViewInit']:
-        if method_line.startswith(hook):
-            return hook
-    
-    # Regular methods/functions
-    patterns = [
-        r'(\w+)\s*\(',  # methodName(
-        r'async\s+(\w+)\s*\(',  # async methodName(
-        r'private\s+(\w+)\s*\(',  # private methodName(
-        r'public\s+(\w+)\s*\(',  # public methodName(
-        r'protected\s+(\w+)\s*\(',  # protected methodName(
-        r'static\s+(\w+)\s*\(',  # static methodName(
-        r'get\s+(\w+)\s*\(',  # get methodName(
-        r'set\s+(\w+)\s*\(',  # set methodName(
-    ]
-    
-    for pattern in patterns:
-        match = re.search(pattern, method_line)
+    # Function declarations
+    if method_line.startswith('function '):
+        match = re.search(r'function\s+(\w+)\s*\(', method_line)
         if match:
             return match.group(1)
+    
+    # Arrow functions (const/let/var funcName = () => {)
+    arrow_match = re.search(r'(?:const|let|var)\s+(\w+)\s*=.*=>', method_line)
+    if arrow_match:
+        return arrow_match.group(1)
+    
+    # Object method or class method (methodName() {)
+    method_match = re.search(r'(\w+)\s*\([^)]*\)\s*{', method_line)
+    if method_match:
+        return method_match.group(1)
+    
+    # Async functions
+    async_match = re.search(r'async\s+(?:function\s+)?(\w+)\s*\(', method_line)
+    if async_match:
+        return async_match.group(1)
+    
+    # Method declarations without immediate opening brace
+    simple_match = re.search(r'(\w+)\s*\([^)]*\)', method_line)
+    if simple_match:
+        return simple_match.group(1)
     
     return None
 
@@ -195,6 +212,7 @@ def scan_all_ts_files():
     output_lines.append(f"TypeScript files: {len(ts_files_filtered)}")
     output_lines.append(f"JavaScript files: {len(js_files_filtered)}")
     output_lines.append(f"Excluded directories: {', '.join(excluded_dirs)}")
+    output_lines.append("NOTE: Constructors are excluded from analysis (allowed to be > 14 lines)")
     output_lines.append("")
     
     print(f"Analyzing {len(files)} TypeScript/JavaScript files for methods > 14 lines...")
@@ -202,6 +220,7 @@ def scan_all_ts_files():
     print(f"TypeScript files: {len(ts_files_filtered)}")
     print(f"JavaScript files: {len(js_files_filtered)}")
     print(f"Excluded directories: {', '.join(excluded_dirs)}")
+    print("NOTE: Constructors are excluded from analysis (allowed to be > 14 lines)")
     print("")
     
     all_long_methods = []

@@ -1,49 +1,144 @@
 METHOD LENGTH ANALYSIS REPORT
-Generated: 23.07.2025 10:37
+Generated: 23.07.2025 10:50
 ================================================================================
-Analyzing 24 TypeScript/JavaScript files for methods > 14 lines...
+Analyzing 25 TypeScript/JavaScript files for methods > 14 lines...
 Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
 TypeScript files: 0
-JavaScript files: 24
+JavaScript files: 25
 Excluded directories: node_modules, .git, dist, build, .angular, coverage
+NOTE: Constructors are excluded from analysis (allowed to be > 14 lines)
 
-File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\chicken.class.js
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103342\js\uiUtils.js
 --------------------------------------------------------------------------------
-  Method: constructor (Line 34-49)
-     Code lines: 15 | Total lines: 16
-     Declaration: constructor(levelWidth, damage) {...
+  Method: hideWelcomeMessages (Line 9-38)
+     Code lines: 18 | Total lines: 30
+     Declaration: function hideWelcomeMessages() {...
 
-File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\collectableItem.class.js
+  Method: forceMobileControls (Line 67-93)
+     Code lines: 22 | Total lines: 27
+     Declaration: function forceMobileControls() {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103748\js\uiUtils.js
 --------------------------------------------------------------------------------
-  Method: constructor (Line 16-37)
-     Code lines: 17 | Total lines: 22
-     Declaration: constructor(x, y, type) {...
+  Method: hideWelcomeMessages (Line 9-38)
+     Code lines: 18 | Total lines: 30
+     Declaration: function hideWelcomeMessages() {...
+
+  Method: showMobileControlsForGameplay (Line 91-118)
+     Code lines: 19 | Total lines: 28
+     Declaration: function showMobileControlsForGameplay() {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
+--------------------------------------------------------------------------------
+  Method: playFullAnimationOnce (Line 158-174)
+     Code lines: 15 | Total lines: 17
+     Declaration: playFullAnimationOnce(images, onComplete, interval = 120) {...
+
+  Method: playDeathAnimation (Line 185-201)
+     Code lines: 15 | Total lines: 17
+     Declaration: playDeathAnimation() {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\level.class.js
+--------------------------------------------------------------------------------
+  Method: generateBackground (Line 33-52)
+     Code lines: 20 | Total lines: 20
+     Declaration: generateBackground() {...
+
+  Method: defineBG (Line 58-78)
+     Code lines: 19 | Total lines: 21
+     Declaration: defineBG() {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\statusbars.class.js
+--------------------------------------------------------------------------------
+  Method: initImages (Line 32-66)
+     Code lines: 35 | Total lines: 35
+     Declaration: initImages() {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\throwableObject.class.js
+--------------------------------------------------------------------------------
+  Method: throw (Line 62-82)
+     Code lines: 15 | Total lines: 21
+     Declaration: throw() {...
+
+  Method: splash (Line 90-110)
+     Code lines: 15 | Total lines: 21
+     Declaration: splash() {...
+
+  Method: fadeOutAndRemove (Line 122-145)
+     Code lines: 19 | Total lines: 24
+     Declaration: fadeOutAndRemove() {...
 
 File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
 --------------------------------------------------------------------------------
-  Method: constructor (Line 26-52)
-     Code lines: 27 | Total lines: 27
-     Declaration: constructor(canvas, keyboard, level) {...
+  Method: run (Line 121-139)
+     Code lines: 16 | Total lines: 19
+     Declaration: run() {...
+
+  Method: checkCollision (Line 157-190)
+     Code lines: 20 | Total lines: 34
+     Declaration: checkCollision() {...
+
+  Method: showWinScreen (Line 278-301)
+     Code lines: 15 | Total lines: 24
+     Declaration: showWinScreen() {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
+--------------------------------------------------------------------------------
+  Method: setupHelpButton (Line 149-168)
+     Code lines: 15 | Total lines: 20
+     Declaration: function setupHelpButton() {...
+
+  Method: touchDetection (Line 320-343)
+     Code lines: 16 | Total lines: 24
+     Declaration: function touchDetection() {...
 
 ================================================================================
 === TOP 10 LONGEST METHODS ===
 ================================================================================
- 1. constructor (27 lines)
+ 1. initImages (35 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\statusbars.class.js
+    Line: 32-66
+
+ 2. forceMobileControls (22 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103342\js\uiUtils.js
+    Line: 67-93
+
+ 3. generateBackground (20 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\level.class.js
+    Line: 33-52
+
+ 4. checkCollision (20 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
-    Line: 26-52
+    Line: 157-190
 
- 2. constructor (17 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\collectableItem.class.js
-    Line: 16-37
+ 5. showMobileControlsForGameplay (19 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103748\js\uiUtils.js
+    Line: 91-118
 
- 3. constructor (15 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\chicken.class.js
-    Line: 34-49
+ 6. defineBG (19 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\level.class.js
+    Line: 58-78
+
+ 7. fadeOutAndRemove (19 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\throwableObject.class.js
+    Line: 122-145
+
+ 8. hideWelcomeMessages (18 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103342\js\uiUtils.js
+    Line: 9-38
+
+ 9. hideWelcomeMessages (18 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103748\js\uiUtils.js
+    Line: 9-38
+
+10. run (16 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
+    Line: 121-139
 
 === SUMMARY ===
-Files analyzed: 24
-Files with long methods: 3
-Total methods > 14 lines: 3
-Average length: 19.7 lines
-Longest method: constructor (27 lines)
+Files analyzed: 25
+Files with long methods: 8
+Total methods > 14 lines: 17
+Average length: 18.4 lines
+Longest method: initImages (35 lines)
 Consider refactoring methods longer than 20-25 lines

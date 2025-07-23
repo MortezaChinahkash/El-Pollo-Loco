@@ -33,40 +33,57 @@ function init(levelWidth = 5000, levelNumber = 1) {
  * Sets up the main game UI and interface elements
  */
 function setupUI() {
+  setupGameCanvas();
+  hideWelcomeElements();
+  configureMobileControls();
+  hideGameControlButtons();
+}
+
+/**
+ * Sets up the game canvas and hides loading screen
+ */
+function setupGameCanvas() {
   canvas = getCachedElement("canvas");
   canvas.style.display = "block";
   getCachedElement("loading-screen").style.display = "none";
+}
 
-  // Beide Willkommensnachrichten verstecken wenn Spiel startet
+/**
+ * Hides all welcome and intro elements
+ */
+function hideWelcomeElements() {
   hideWelcomeMessages();
   
-  // Zusätzliche Sicherheit: Verstecke alle intro-related Elemente
   const introText = document.querySelector(".intro-text");
   if (introText) {
     introText.style.display = "none";
   }
+}
 
-  // Mobile Controls nur während aktivem Spiel anzeigen
+/**
+ * Configures mobile controls based on device detection
+ */
+function configureMobileControls() {
   showMobileControlsForGameplay();
   
-  // Zusätzliche Überprüfung: Falls Touch-Detection fehlschlägt, überprüfe erneut
   setTimeout(() => {
     const mobileControls = getCachedElement("mobile-controls");
     const isDisplayed = window.getComputedStyle(mobileControls).display !== "none";
     
-    // Nur bei Touch-Geräten nachträglich aktivieren, auf Desktop niemals
     if (!isDisplayed && isTouchDeviceDetected()) {
-
       mobileControls.style.setProperty("display", "flex", "important");
       mobileControls.style.setProperty("visibility", "visible", "important");
     } else if (isDisplayed && !isTouchDeviceDetected()) {
-      // Sicherheit: Falls Mobile Controls auf Desktop angezeigt werden, verstecken
-
       mobileControls.style.setProperty("display", "none", "important");
       mobileControls.style.setProperty("visibility", "hidden", "important");
     }
   }, 100);
+}
 
+/**
+ * Hides game control buttons (restart, next level, home)
+ */
+function hideGameControlButtons() {
   const restartBtn = getCachedElement("restartBtn");
   const nextBtn = getCachedElement("nextLevelBtn");
   const homeBtn = getCachedElement("homeBtn");
@@ -130,22 +147,46 @@ function setupFullscreenButton() {
  * Sets up help overlay button and click handlers
  */
 function setupHelpButton() {
-  const helpBtn = getCachedElement("helpBtn");
-  const helpOverlay = getCachedElement("helpOverlay");
-  const closeHelp = getCachedElement("closeHelp");
-  const helpContent = document.querySelector(".help-content");
+  const elements = getHelpElements();
+  setupHelpClickHandlers(elements);
+  setupHelpOverlayHandler(elements);
+}
 
-  helpBtn.addEventListener("click", () => {
-    helpOverlay.style.display = "flex";
+/**
+ * Gets all help-related DOM elements
+ * @returns {Object} Object containing help elements
+ */
+function getHelpElements() {
+  return {
+    helpBtn: getCachedElement("helpBtn"),
+    helpOverlay: getCachedElement("helpOverlay"),
+    closeHelp: getCachedElement("closeHelp"),
+    helpContent: document.querySelector(".help-content")
+  };
+}
+
+/**
+ * Sets up click handlers for help button and close button
+ * @param {Object} elements - Help elements object
+ */
+function setupHelpClickHandlers(elements) {
+  elements.helpBtn.addEventListener("click", () => {
+    elements.helpOverlay.style.display = "flex";
   });
 
-  closeHelp.addEventListener("click", () => {
-    helpOverlay.style.display = "none";
+  elements.closeHelp.addEventListener("click", () => {
+    elements.helpOverlay.style.display = "none";
   });
+}
 
-  helpOverlay.addEventListener("click", (event) => {
-    if (!helpContent.contains(event.target)) {
-      helpOverlay.style.display = "none";
+/**
+ * Sets up overlay click handler to close help when clicking outside
+ * @param {Object} elements - Help elements object
+ */
+function setupHelpOverlayHandler(elements) {
+  elements.helpOverlay.addEventListener("click", (event) => {
+    if (!elements.helpContent.contains(event.target)) {
+      elements.helpOverlay.style.display = "none";
     }
   });
 }
@@ -211,6 +252,15 @@ window.forceMobileControls = forceMobileControls;
  * Sets up the audio system and loads all game sounds
  */
 function setupAudio() {
+  initializeSoundManager();
+  loadAllGameSounds();
+  startBackgroundMusic();
+}
+
+/**
+ * Initializes the sound manager and loads mute state
+ */
+function initializeSoundManager() {
   if (!soundManager) {
     soundManager = new SoundManager();
 
@@ -220,36 +270,24 @@ function setupAudio() {
       muteStateAlreadyLoaded = true;
     }
   }
-
   soundManager.stopAll();
-  
-  // Load sounds with better error handling and performance
-  const sounds = [
-    { key: "background", src: "audio/flamenco-guitar-duo-flamenco-spanish-guitar-music-1614.mp3", loop: true },
-    { key: "coin", src: "audio/coin-recieved-230517.mp3" },
-    { key: "bottle", src: "audio/glass-bottle-clink-90671.mp3" },
-    { key: "throw_fly", src: "audio/flying-blade-103343.mp3" },
-    { key: "throw_splash", src: "audio/bottle-break-39916.mp3" },
-    { key: "bottle_hit_boss", src: "audio/bottle-hit-boss.mp3" },
-    { key: "hurt", src: "audio/Hurt.mp3" },
-    { key: "jump", src: "audio/Jump.mp3" },
-    { key: "orale", src: "audio/Orale.mp3" },
-    { key: "ay_dios_mio", src: "audio/Ay Dios Mio.mp3" },
-    { key: "won", src: "audio/won.mp3" },
-    { key: "lost", src: "audio/Lost.mp3" },
-    { key: "running", src: "audio/running-on-gravel-301880.mp3" },
-    { key: "jump_on_enemy", src: "audio/jump-up-245782.mp3" },
-    { key: "snore", src: "audio/snoring-8486.mp3" }
-  ];
+}
 
-  // Load sounds efficiently
+/**
+ * Loads all game sounds into the sound manager
+ */
+function loadAllGameSounds() {
+  const sounds = getSoundDefinitions();
   sounds.forEach(sound => {
     soundManager.loadSound(sound.key, sound.src, sound.loop || false);
   });
   refreshMuteButton(soundManager.isMuted);
+}
 
-  // 👉 Wichtig: Musik wird immer nur gestartet, wenn gerade **nicht gemutet**
-  // Add timeout to prevent audio interruption errors
+/**
+ * Starts background music with delay to prevent audio errors
+ */
+function startBackgroundMusic() {
   setTimeout(() => {
     if (!soundManager.isMuted) {
       try {
