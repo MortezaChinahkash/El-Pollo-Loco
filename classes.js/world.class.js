@@ -312,8 +312,8 @@ class World {
   }
 
   /**
-   * Fügt ein Array von Objekten zur Karte hinzu
-   * @param {Array} objects - Array von Objekten die gezeichnet werden sollen
+   * Adds an array of objects to the map
+   * @param {Array} objects - Array of objects to be drawn
    */
   addObjectsToMap(objects) {
     objects.forEach((o) => this.addToMap(o));
