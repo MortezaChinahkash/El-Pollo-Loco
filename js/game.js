@@ -442,9 +442,9 @@ window.addEventListener(
 );
 
 /**
- * Event Listener für Tasten drücken - setzt Keyboard-Zustand auf true
- * Behandelt Bewegungs- und Aktionstasten (Pfeiltasten und Leertaste)
- * @param {KeyboardEvent} button - Das Tastatur-Event
+ * Event Listener for key press - sets keyboard state to true
+ * Handles movement and action keys (arrow keys and spacebar)
+ * @param {KeyboardEvent} button - The keyboard event
  */
 window.addEventListener("keydown", (button) => {
   if (button.keyCode == 39) keyboard.RIGHT = true;
@@ -455,9 +455,9 @@ window.addEventListener("keydown", (button) => {
 });
 
 /**
- * Event Listener für Tasten loslassen - setzt Keyboard-Zustand auf false
- * Behandelt Bewegungs- und Aktionstasten (Pfeiltasten und Leertaste)
- * @param {KeyboardEvent} button - Das Tastatur-Event
+ * Event Listener for key release - sets keyboard state to false
+ * Handles movement and action keys (arrow keys and spacebar)
+ * @param {KeyboardEvent} button - The keyboard event
  */
 window.addEventListener("keyup", (button) => {
   if (button.keyCode == 39) keyboard.RIGHT = false;

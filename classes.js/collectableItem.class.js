@@ -34,8 +34,8 @@ class CollectableItem extends movableObject {
   }
 
   /**
-   * Setzt die Größe des Objekts basierend auf seinem Typ
-   * Münzen sind größer als Flaschen
+   * Sets the size of the object based on its type
+   * Coins are larger than bottles
    */
   setSizeByType() {
     if (this.type === 'coin') {
