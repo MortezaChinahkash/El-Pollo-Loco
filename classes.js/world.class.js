@@ -18,10 +18,10 @@ class World {
   gameOver = false;
 
   /**
-   * Erstellt eine neue World-Instanz und initialisiert alle Spielelemente
-   * @param {HTMLCanvasElement} canvas - Das Canvas-Element für die Darstellung
-   * @param {Keyboard} keyboard - Das Keyboard-Objekt für Eingaben
-   * @param {Level} level - Das Level-Objekt mit allen Spielelementen
+   * Creates a new World instance and initializes all game elements
+   * @param {HTMLCanvasElement} canvas - The canvas element for rendering
+   * @param {Keyboard} keyboard - The keyboard object for input
+   * @param {Level} level - The level object with all game elements
    */
   constructor(canvas, keyboard, level) {
     this.ctx = canvas.getContext("2d");
