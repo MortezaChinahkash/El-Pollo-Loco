@@ -194,8 +194,8 @@ class World {
   }
 
   /**
-   * Behandelt Kollision zwischen Charakter und Gegner
-   * @param {Enemy} enemy - Der Gegner, mit dem kollidiert wurde
+   * Handles collision between character and enemy
+   * @param {Enemy} enemy - The enemy that was collided with
    */
   handleCharacterEnemyCollision(enemy) {
     if (this.character.isJumpingOn(enemy)) {
