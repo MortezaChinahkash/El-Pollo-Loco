@@ -152,8 +152,8 @@ class Statusbar extends DrawableObject {
     const path = this.IMAGES[this.type][index];
     this.img = this.imageCache[path];  }
   /**
-   * Ermittelt den Index des anzuzeigenden Bildes basierend auf dem Prozentsatz
-   * @returns {number} Index des entsprechenden Bildes im IMAGES Array
+   * Determines the index of the image to display based on the percentage
+   * @returns {number} Index of the corresponding image in the IMAGES array
    */
   resolveImageIndex() {
     if (this.percentage >= 100) return 5;
