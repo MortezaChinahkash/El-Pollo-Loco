@@ -105,7 +105,8 @@ class CharacterAudioManager {
   }
 
   /**
-   * Spielt Sound mit Callback ab
+   * Plays sound with callback
+   * @param {HTMLAudioElement} sound - The audio element to play
    */
   playRunningSoundWithCallback(sound) {
     sound.play()
@@ -116,7 +117,7 @@ class CharacterAudioManager {
   }
 
   /**
-   * Stoppt Laufgeräusch
+   * Stops running sound
    */
   stopRunningSound() {
     if (this.runningSoundInstance) {
@@ -129,7 +130,7 @@ class CharacterAudioManager {
   }
 
   /**
-   * Spielt Sprunggeräusch mit Cooldown ab
+   * Plays jump sound with cooldown
    */
   playJumpSoundWithCooldown() {
     const now = Date.now();
