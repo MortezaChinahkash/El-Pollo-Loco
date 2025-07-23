@@ -343,8 +343,8 @@ class World {
   }
 
   /**
-   * Stellt die normale Bildorientierung nach flipImage() wieder her
-   * @param {MovableObject} mo - Das Objekt dessen Bild zurückgedreht werden soll
+   * Restores normal image orientation after flipImage()
+   * @param {MovableObject} mo - The object whose image should be flipped back
    */
   flipImageBack(mo) {
     mo.x = mo.x * -1;
