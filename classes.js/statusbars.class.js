@@ -106,9 +106,9 @@ class Statusbar extends DrawableObject {
   }
 
   /**
-   * Startet die Synchronisation der Statusleiste mit einem verknüpften Objekt
-   * Aktualisiert kontinuierlich die Anzeige basierend auf den Objektwerten
-   * @param {Object} obj - Das Objekt mit dem synchronisiert werden soll
+   * Starts synchronization of the status bar with a linked object
+   * Continuously updates the display based on object values
+   * @param {Object} obj - The object to synchronize with
    */
   startSyncWithObject(obj) {
     setInterval(() => {
