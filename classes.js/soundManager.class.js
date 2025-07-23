@@ -1,15 +1,15 @@
 class SoundManager {
   /**
-   * Erstellt einen neuen SoundManager zur Verwaltung aller Spiel-Audiodateien
-   * Initialisiert Sounds-Dictionary, Musik-Referenz und Mute-Status
+   * Creates a new SoundManager to manage all game audio files
+   * Initializes sounds dictionary, music reference and mute status
    */
   constructor() {
     this.sounds = {};
     this.music = null;
     this.isMuted = false;  }
   /**
-   * Entsperrt Audio-Wiedergabe nach Benutzerinteraktion
-   * Erforderlich für moderne Browser-Autoplay-Richtlinien
+   * Unlocks audio playback after user interaction
+   * Required for modern browser autoplay policies
    */
   unlockAudio() {
     Object.values(this.sounds).forEach((audio) => {
@@ -19,18 +19,18 @@ class SoundManager {
       } catch {}
     });  }
   /**
-   * Lädt eine Audiodatei und fügt sie zur Sounds-Sammlung hinzu
-   * @param {string} name - Name/ID für den Sound
-   * @param {string} path - Pfad zur Audiodatei
-   * @param {boolean} [loop=false] - Ob der Sound in Schleife abgespielt werden soll
+   * Loads an audio file and adds it to the sounds collection
+   * @param {string} name - Name/ID for the sound
+   * @param {string} path - Path to the audio file
+   * @param {boolean} [loop=false] - Whether the sound should loop
    */
   loadSound(name, path, loop = false) {
     const audio = new Audio(path);
     audio.loop = loop;
     this.sounds[name] = audio;  }
   /**
-   * Stoppt alle aktuell abspielenden Sounds und setzt sie zurück
-   * Nützlich beim Pausieren oder Neustarten des Spiels
+   * Stops all currently playing sounds and resets them
+   * Useful when pausing or restarting the game
    */
   stopAll() {
     for (const audio of Object.values(this.sounds)) {
