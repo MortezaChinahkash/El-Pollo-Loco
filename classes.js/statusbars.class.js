@@ -134,9 +134,9 @@ class Statusbar extends DrawableObject {
     }
     return value;  }
   /**
-   * Aktualisiert die Position der Endboss-Statusleiste
-   * Positioniert sie über dem Endboss und zentriert sie
-   * @param {Endboss} obj - Der Endboss dessen Position verfolgt wird
+   * Updates the position of the endboss status bar
+   * Positions it above the endboss and centers it
+   * @param {Endboss} obj - The endboss whose position is tracked
    */
   updateEndbossBarPosition(obj) {
     this.x = obj.x + obj.width / 2 - this.width / 2;
