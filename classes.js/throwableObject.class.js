@@ -47,6 +47,9 @@ class ThrowableObject extends movableObject {
     this.opacity = 1;
   }
 
+  /**
+   * Applies gravity physics to the throwable object
+   */
   applyGravity() {
     this.gravityInterval = setInterval(() => {
       if (this.isSplashing) return;
@@ -59,6 +62,9 @@ class ThrowableObject extends movableObject {
     }, 1000 / 25);
   }
 
+  /**
+   * Throws the object with physics and sound effects
+   */
   throw() {
     this.initializeThrowPhysics();
     this.playThrowSound();
@@ -100,12 +106,18 @@ class ThrowableObject extends movableObject {
     }, 20);
   }
 
+  /**
+   * Animates the rotation of the bottle during flight
+   */
   animateRotation() {
     this.rotationInterval = setInterval(() => {
       this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
     }, 100);
   }
 
+  /**
+   * Triggers splash effect when bottle hits ground or enemy
+   */
   splash() {
     if (this.isSplashing) return;
     this.setSplashState();
@@ -147,6 +159,10 @@ class ThrowableObject extends movableObject {
     setTimeout(() => this.fadeOutAndRemove(), 1000);
   }
 
+  /**
+   * Draws the throwable object with opacity support
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
+   */
   draw(ctx) {
     if (this.img && this.opacity > 0) {
       ctx.save();
@@ -157,6 +173,9 @@ class ThrowableObject extends movableObject {
     }
   }
 
+  /**
+   * Starts fade out animation and removes object from game
+   */
   fadeOutAndRemove() {
     this.startFallingAnimation();
     this.scheduleOpacityFade();

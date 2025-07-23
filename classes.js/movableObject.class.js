@@ -64,6 +64,10 @@ class movableObject extends DrawableObject {
     return this.energy == 0;
   }
 
+  /**
+   * Checks if the object is above ground level
+   * @returns {boolean} True if object is above ground
+   */
   isAboveGround() {
     if (this instanceof ThrowableObject) {
       return true;
@@ -72,6 +76,10 @@ class movableObject extends DrawableObject {
     }
   }
 
+  /**
+   * Plays an animation sequence from given images
+   * @param {Array} images - Array of image paths for animation
+   */
   playAnimation(images) {
     let i = this.currentImage % images.length;
     let path = images[i];
@@ -79,11 +87,17 @@ class movableObject extends DrawableObject {
     this.currentImage++;
   }
 
+  /**
+   * Plays the death animation sequence
+   */
   playDeadAnimation() {
     this.playAnimation(this.IMAGES_DEAD);
     setTimeout(() => {}, this.IMAGES_DEAD.length * 10);
   }
 
+  /**
+   * Plays the hurt animation and sets hurt state temporarily
+   */
   playHurtAnimation() {
     this.isHurt = true;
     this.playAnimation(this.IMAGES_HURT, false);
@@ -92,15 +106,24 @@ class movableObject extends DrawableObject {
     }, this.IMAGES_HURT.length * 10);
   }
 
+  /**
+   * Moves the object to the right
+   */
   moveRight() {
     this.x += this.speed;
     this.otherDirection = false;
   }
 
+  /**
+   * Moves the object to the left
+   */
   moveLeft() {
     this.x -= this.speed;
   }
 
+  /**
+   * Makes the object jump by setting upward velocity
+   */
   jump() {
     this.speedY = 20;
   }

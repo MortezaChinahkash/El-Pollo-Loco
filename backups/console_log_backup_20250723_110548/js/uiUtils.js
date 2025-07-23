@@ -171,7 +171,7 @@ function showMobileControlsForTouch(mobileControls) {
   mobileControls.style.setProperty("position", "fixed", "important");
   mobileControls.style.setProperty("bottom", "10px", "important");
   mobileControls.style.setProperty("z-index", "1000", "important");
-
+  console.log("Mobile Controls aktiviert für Touch-Gerät");
 }
 
 /**
@@ -183,5 +183,5 @@ function hideMobileControlsForDesktop(mobileControls) {
     mobileControls.style.setProperty("display", "none", "important");
     mobileControls.style.setProperty("visibility", "hidden", "important");
   }
-
+  console.log("Desktop-Gerät erkannt - Mobile Controls bleiben versteckt");
 }

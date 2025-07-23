@@ -1,5 +1,5 @@
 JSDOC COVERAGE ANALYSIS REPORT
-Generated: 23.07.2025 10:37
+Generated: 23.07.2025 11:09
 ================================================================================
 Analyzing 24 TypeScript/JavaScript files for missing JSDoc...
 Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
@@ -7,14 +7,237 @@ TypeScript files: 0
 JavaScript files: 24
 Excluded directories: node_modules, .git, dist, build, .angular, coverage, .vscode, .idea
 
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\chicken.class.js
+--------------------------------------------------------------------------------
+  Method: checkDeathLoop (Line 51)
+     Type: Method
+     Declaration: checkDeathLoop() {...
+
+  Method: die (Line 59)
+     Type: Method
+     Declaration: die() {...
+
+  Method: fadeOutAndRemove (Line 71)
+     Type: Method
+     Declaration: fadeOutAndRemove() {...
+
+  Method: randomHeight (Line 82)
+     Type: Method
+     Declaration: randomHeight() {...
+
+  Method: setRandomSize (Line 86)
+     Type: Method
+     Declaration: setRandomSize() {...
+
+  Method: animate (Line 94)
+     Type: Method
+     Declaration: animate() {...
+
+  Method: draw (Line 108)
+     Type: Method
+     Declaration: draw(ctx) {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
+--------------------------------------------------------------------------------
+  Method: startAlert (Line 98)
+     Type: Method
+     Declaration: startAlert() {...
+
+  Method: startAttackLoop (Line 109)
+     Type: Method
+     Declaration: startAttackLoop() {...
+
+  Method: walkToPlayer (Line 125)
+     Type: Method
+     Declaration: walkToPlayer(player,step){...
+
+  Method: handleJumpAttack (Line 133)
+     Type: Method
+     Declaration: handleJumpAttack(player, distanceToPlayer) {...
+
+  Method: loopAnimation (Line 145)
+     Type: Method
+     Declaration: loopAnimation(images, interval = 200) {...
+
+  Method: playFullAnimationOnce (Line 158)
+     Type: Method
+     Declaration: playFullAnimationOnce(images, onComplete, interval = 120) {...
+
+  Method: stopCurrentAnimation (Line 204)
+     Type: Method
+     Declaration: stopCurrentAnimation() {...
+
+  Method: playDeathAnimation (Line 213)
+     Type: Method
+     Declaration: playDeathAnimation() {...
+
+  Method: fadeOutAndRemove (Line 245)
+     Type: Method
+     Declaration: fadeOutAndRemove() {...
+
+  Method: draw (Line 256)
+     Type: Method
+     Declaration: draw(ctx) {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\movableObject.class.js
+--------------------------------------------------------------------------------
+  Method: isAboveGround (Line 67)
+     Type: Method
+     Declaration: isAboveGround() {...
+
+  Method: playAnimation (Line 75)
+     Type: Method
+     Declaration: playAnimation(images) {...
+
+  Method: playDeadAnimation (Line 82)
+     Type: Method
+     Declaration: playDeadAnimation() {...
+
+  Method: playHurtAnimation (Line 87)
+     Type: Method
+     Declaration: playHurtAnimation() {...
+
+  Method: moveRight (Line 95)
+     Type: Method
+     Declaration: moveRight() {...
+
+  Method: moveLeft (Line 100)
+     Type: Method
+     Declaration: moveLeft() {...
+
+  Method: jump (Line 104)
+     Type: Method
+     Declaration: jump() {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
+--------------------------------------------------------------------------------
+  Method: createNewBottle (Line 112)
+     Type: Method
+     Declaration: createNewBottle() {...
+
+  Method: run (Line 121)
+     Type: Method
+     Declaration: run() {...
+
+  Method: activateBoss (Line 162)
+     Type: Method
+     Declaration: activateBoss() {...
+
+  Method: checkCollision (Line 178)
+     Type: Method
+     Declaration: checkCollision() {...
+
+  Method: bottleHitEnemy (Line 232)
+     Type: Method
+     Declaration: bottleHitEnemy() {...
+
+  Method: respawnAfterSplash (Line 252)
+     Type: Method
+     Declaration: respawnAfterSplash(bottle) {...
+
+  Method: draw (Line 259)
+     Type: Method
+     Declaration: draw() {...
+
+  Method: drawBackgroundAndGameElements (Line 274)
+     Type: Method
+     Declaration: drawBackgroundAndGameElements() {...
+
+  Method: drawHUDElements (Line 284)
+     Type: Method
+     Declaration: drawHUDElements() {...
+
+  Method: addObjectsToMap (Line 293)
+     Type: Method
+     Declaration: addObjectsToMap(objects) {...
+
+  Method: addToMap (Line 297)
+     Type: Method
+     Declaration: addToMap(mo) {...
+
+  Method: flipImage (Line 306)
+     Type: Method
+     Declaration: flipImage(mo) {...
+
+  Method: flipImageBack (Line 313)
+     Type: Method
+     Declaration: flipImageBack(mo) {...
+
+  Method: showWinScreen (Line 318)
+     Type: Method
+     Declaration: showWinScreen() {...
+
+  Method: showGameOverScreen (Line 361)
+     Type: Method
+     Declaration: showGameOverScreen() {...
+
+  Method: showRestartButton (Line 385)
+     Type: Method
+     Declaration: showRestartButton() {...
+
+  Method: showNextLevelButton (Line 395)
+     Type: Method
+     Declaration: showNextLevelButton() {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
+--------------------------------------------------------------------------------
+  Method: unknown_method (Line 378)
+     Type: Method
+     Declaration: () => {...
+
+  Method: unknown_method (Line 394)
+     Type: Method
+     Declaration: () => {...
+
+  Method: addEventListener (Line 408)
+     Type: Method
+     Declaration: window.addEventListener("keydown", (button) => {...
+
+  Method: addEventListener (Line 416)
+     Type: Method
+     Declaration: window.addEventListener("keyup", (button) => {...
+
 ================================================================================
 === MISSING JSDOC BY METHOD TYPE ===
 ================================================================================
+Method: 45 methods missing JSDoc
+  - checkDeathLoop in chicken.class.js
+  - die in chicken.class.js
+  - fadeOutAndRemove in chicken.class.js
+  ... and 42 more
+
 ================================================================================
 === TOP 10 FILES WITH MOST MISSING JSDOC ===
 ================================================================================
+ 1. world.class.js (17 missing)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
+    Methods: createNewBottle, run, activateBoss, checkCollision, bottleHitEnemy ... and 12 more
+
+ 2. endboss.class.js (10 missing)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
+    Methods: startAlert, startAttackLoop, walkToPlayer, handleJumpAttack, loopAnimation ... and 5 more
+
+ 3. chicken.class.js (7 missing)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\chicken.class.js
+    Methods: checkDeathLoop, die, fadeOutAndRemove, randomHeight, setRandomSize ... and 2 more
+
+ 4. movableObject.class.js (7 missing)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\movableObject.class.js
+    Methods: isAboveGround, playAnimation, playDeadAnimation, playHurtAnimation, moveRight ... and 2 more
+
+ 5. game.js (4 missing)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
+    Methods: unknown_method, unknown_method, addEventListener, addEventListener
+
 === OVERALL SUMMARY ===
 Files analyzed: 24
-Files with missing JSDoc: 0
-Total methods missing JSDoc: 0
-Perfect! All methods have JSDoc documentation!
+Files with missing JSDoc: 5
+Total methods missing JSDoc: 45
+Estimated JSDoc coverage: 81.2%
+
+=== RECOMMENDATIONS ===
+• Add JSDoc comments to all public methods and functions
+• Private methods should have at least a brief description
+• Include @param and @returns tags for complex methods
+• Document any thrown exceptions with @throws
+• Use @deprecated for methods planned for removal

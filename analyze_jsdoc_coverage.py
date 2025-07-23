@@ -26,6 +26,28 @@ def analyze_jsdoc_coverage(file_path):
                 stripped.startswith('export ') or
                 stripped.startswith('import ') or
                 stripped.startswith('@') or
+                stripped.startswith('if ') or
+                stripped.startswith('if(') or
+                stripped.startswith('else') or
+                stripped.startswith('for ') or
+                stripped.startswith('for(') or
+                stripped.startswith('while ') or
+                stripped.startswith('while(') or
+                stripped.startswith('switch ') or
+                stripped.startswith('switch(') or
+                stripped.startswith('try') or
+                stripped.startswith('catch') or
+                stripped.startswith('finally') or
+                stripped.startswith('return ') or
+                stripped.startswith('throw ') or
+                stripped.startswith('break') or
+                stripped.startswith('continue') or
+                stripped.startswith('setTimeout') or
+                stripped.startswith('setInterval') or
+                stripped.startswith('clearTimeout') or
+                stripped.startswith('clearInterval') or
+                stripped.startswith('addEventListener') or
+                stripped.startswith('removeEventListener') or
                 'interface' in stripped or
                 'enum' in stripped or
                 'type ' in stripped or
@@ -59,49 +81,53 @@ def is_method_declaration(stripped, lines, i):
         stripped.startswith('afterAll(')):
         return False
     
-    # Skip arrow functions - they typically don't need JSDoc
-    if '=>' in stripped:
-        return False
-    
     # Skip variable declarations with method calls (const x = method(), let y = new Date(), etc.)
     if (stripped.startswith('const ') or 
         stripped.startswith('let ') or 
-        stripped.startswith('var ')) and '=' in stripped:
+        stripped.startswith('var ')) and '=' in stripped and '=>' not in stripped:
         return False
     
-    # Skip method calls that are part of variable assignments or return statements
-    if (stripped.startswith('return ') or 
-        stripped.startswith('const ') or 
-        stripped.startswith('let ') or 
-        stripped.startswith('var ') or
-        '= ' in stripped or
-        stripped.startswith('this.') or
-        'Math.' in stripped or
-        'console.' in stripped or
-        'document.' in stripped or
-        'window.' in stripped or
-        'localStorage.' in stripped or
-        'sessionStorage.' in stripped):
-        return False
-    
-    # Skip simple method calls (lines that only contain method invocations)
+    # Skip simple method calls without braces (but allow method declarations)
     if ('(' in stripped and ')' in stripped and 
         not stripped.endswith('{') and 
-        not stripped.endswith(':') and
-        not (i + 1 < len(lines) and lines[i + 1].strip() == '{')):
-        # This looks like a method call, not a declaration
+        not (i + 1 < len(lines) and lines[i + 1].strip() == '{') and
+        not stripped.startswith('function ') and
+        not stripped.startswith('async ') and
+        not 'constructor' in stripped and
+        not any(keyword in stripped for keyword in ['get ', 'set ', 'static ']) and
+        any(skipword in stripped for skipword in ['setTimeout', 'setInterval', 'addEventListener', 'if ', 'window.', 'document.'])):
         return False
     
     # Constructor
     if stripped.startswith('constructor'):
         return True
     
-    # Regular method/function with parentheses and either : or {
+    # JavaScript function declarations
+    if (stripped.startswith('function ') and '(' in stripped):
+        return True
+    
+    # Arrow functions assigned to variables (const funcName = () => {)
+    if ('=' in stripped and '=>' in stripped and '(' in stripped):
+        return True
+    
+    # Method declarations in classes/objects (methodName() { or methodName(): type {)
     if ('(' in stripped and ')' in stripped and 
-        ((':' in stripped and ('{' in stripped or 
-         (i + 1 < len(lines) and lines[i + 1].strip() == '{'))) or
-         stripped.startswith('async ') or
-         stripped.startswith('function '))):
+        ('{' in stripped or (i + 1 < len(lines) and lines[i + 1].strip() == '{'))):
+        # Make sure it's not a method call by checking if it starts with a method name pattern
+        method_pattern = re.match(r'^[a-zA-Z_$][a-zA-Z0-9_$]*\s*\(', stripped)
+        if method_pattern:
+            return True
+    
+    # Async functions
+    if stripped.startswith('async ') and '(' in stripped:
+        return True
+    
+    # Getters and setters
+    if (stripped.startswith('get ') or stripped.startswith('set ')) and '(' in stripped:
+        return True
+    
+    # Static methods
+    if stripped.startswith('static ') and '(' in stripped:
         return True
     
     # Angular lifecycle hooks

@@ -1,11 +1,11 @@
 FILE LENGTH ANALYSIS REPORT
-Generated: 23.07.2025 10:37
+Generated: 23.07.2025 11:05
 ================================================================================
-Analyzing 28 files for length > 400 lines...
+Analyzing 27 files for length > 400 lines...
 Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
 HTML files: 2
 CSS files: 2
-JavaScript files: 24
+JavaScript files: 23
 Excluded directories: node_modules, .git, dist, build, .angular, coverage, .vscode, .idea
 
 File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\css\style.css
@@ -13,10 +13,15 @@ File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\css\style
   Type: CSS | Total lines: 876
   Non-empty: 778 | Comments: 662 | JSDoc: 0 | Code: 116
 
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
+--------------------------------------------------------------------------------
+  Type: JavaScript | Total lines: 404
+  Non-empty: 358 | Comments: 5 | JSDoc: 60 | Code: 293
+
 File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
 --------------------------------------------------------------------------------
-  Type: JavaScript | Total lines: 440
-  Non-empty: 379 | Comments: 30 | JSDoc: 65 | Code: 284
+  Type: JavaScript | Total lines: 455
+  Non-empty: 412 | Comments: 1 | JSDoc: 106 | Code: 305
 
 ================================================================================
 === TOP 10 LARGEST FILES ===
@@ -25,22 +30,26 @@ File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.j
     Type: CSS
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\css\style.css
 
- 2. game.js (440 lines)
+ 2. game.js (455 lines)
     Type: JavaScript
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
+
+ 3. world.class.js (404 lines)
+    Type: JavaScript
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
 
 === SUMMARY BY FILE TYPE ===
 HTML: 0 files > 400 lines
 CSS: 1 files > 400 lines (avg: 876.0, max: 876)
 SCSS: 0 files > 400 lines
 SASS: 0 files > 400 lines
-JavaScript: 1 files > 400 lines (avg: 440.0, max: 440)
+JavaScript: 2 files > 400 lines (avg: 429.5, max: 455)
 TypeScript: 0 files > 400 lines
 
 === OVERALL SUMMARY ===
-Files analyzed: 28
-Files over 400 lines: 2
-Average length of large files: 658.0 lines
+Files analyzed: 27
+Files over 400 lines: 3
+Average length of large files: 578.3 lines
 Largest file: style.css (876 lines)
 
 === RECOMMENDATIONS ===

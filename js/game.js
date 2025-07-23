@@ -20,6 +20,11 @@ function getCachedElement(id) {
   return cachedElements[id];
 }
 
+/**
+ * Initializes the game with specified level parameters
+ * @param {number} levelWidth - Width of the game level (default: 5000)
+ * @param {number} levelNumber - Level number to initialize (default: 1)
+ */
 function init(levelWidth = 5000, levelNumber = 1) {
   setupUI();
   currentLevel = initializeLevel(levelWidth, levelNumber);
