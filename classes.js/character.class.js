@@ -119,9 +119,9 @@ class Character extends movableObject {
   }
 
   /**
-   * Spielt Treffer-Sounds ab
-   * @param {number} now - Aktueller Zeitstempel
-   * @param {Object} source - Schadenquelle
+   * Plays hit sounds
+   * @param {number} now - Current timestamp
+   * @param {Object} source - Damage source
    */
   playHitSounds(now, source) {
     this.audioManager.playHurtSoundWithCooldown(now);
