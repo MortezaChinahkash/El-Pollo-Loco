@@ -1,17 +1,7 @@
 #!/usr/bin/env python3
 """
-Main Analyzer Contrdef print_menu():
-    """Shows the main menu"""
-    menu_items = [
-        ("1", "📏 File Length Analyzer", "Analyzes file lengths (HTML, CSS, JS, TS)", "analyze_file_length.py"),
-        ("2", "📝 JSDoc Coverage Analyzer", "Checks JSDoc documentation in JS/TS", "analyze_jsdoc_coverage.py"),
-        ("3", "🔧 Method Length Analyzer", "Analyzes method lengths in JS/TS", "analyze_method_length_simple.py"),
-        ("4", "🧹 Console.log Remover", "Removes console.log statements", "remove_console_logs.py"),
-        ("5", "💬 Inline Comment Remover", "Removes inline comments (preserves JSDoc)", "remove_inline_comments.py"),
-        ("6", "📐 Empty Line Optimizer", "Optimizes empty lines in JS/TS files", "remove_empty_lines.py"),
-        ("7", "🚀 Run All Analyzers", "Executes all analyzers sequentially", "all"),
-        ("0", "❌ Exit", "Exit program", "exit")
-    ]ral control for all code analysis tools
+Main Analyzer Controller
+Central control for all code analysis tools
 """
 import os
 import sys
@@ -63,8 +53,9 @@ def print_menu():
         ("2", "📝 JSDoc Coverage Analyzer", "Checks JSDoc documentation in JS/TS", "analyze_jsdoc_coverage.py"),
         ("3", "🔧 Method Length Analyzer", "Analyzes method lengths in JS/TS", "analyze_method_length_simple.py"),
         ("4", "🧹 Console.log Remover", "Removes console.log statements", "remove_console_logs.py"),
-        ("5", "� Inline Comment Remover", "Removes inline comments (preserves JSDoc)", "remove_inline_comments.py"),
-        ("6", "�🚀 Run All Analyzers", "Executes all analyzers sequentially", "all"),
+        ("5", "💬 Inline Comment Remover", "Removes inline comments (preserves JSDoc)", "remove_inline_comments.py"),
+        ("6", "📐 Empty Line Optimizer", "Optimizes empty lines in JS/TS files", "remove_empty_lines.py"),
+        ("7", "🚀 Run All Analyzers", "Executes all analyzers sequentially", "all"),
         ("0", "❌ Exit", "Exit program", "exit")
     ]
     
