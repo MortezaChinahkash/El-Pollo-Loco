@@ -34,7 +34,7 @@ class CharacterInputManager {
   }
 
   /**
-   * Verarbeitet alle Bewegungseingaben
+   * Processes all movement inputs
    */
   processMovementInput() {
     let moved = false;
