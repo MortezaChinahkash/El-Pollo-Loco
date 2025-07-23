@@ -53,7 +53,6 @@ function setupGameCanvas() {
  */
 function hideWelcomeElements() {
   hideWelcomeMessages();
-  
   const introText = document.querySelector(".intro-text");
   if (introText) {
     introText.style.display = "none";
@@ -65,11 +64,9 @@ function hideWelcomeElements() {
  */
 function configureMobileControls() {
   showMobileControlsForGameplay();
-  
   setTimeout(() => {
     const mobileControls = getCachedElement("mobile-controls");
     const isDisplayed = window.getComputedStyle(mobileControls).display !== "none";
-    
     if (!isDisplayed && isTouchDeviceDetected()) {
       mobileControls.style.setProperty("display", "flex", "important");
       mobileControls.style.setProperty("visibility", "visible", "important");
@@ -92,7 +89,6 @@ function hideGameControlButtons() {
   if (homeBtn) homeBtn.style.display = "none";
 }
 
-// Diese Funktionen sind in uiUtils.js ausgelagert
 
 /**
  * Sets up all overlay button functionalities
@@ -109,18 +105,13 @@ function setupOverlayButtons() {
  */
 function setupMuteButton() {
   const muteBtn = getCachedElement("muteBtn");
-
   muteBtn.onclick = () => {
     if (soundManager) {
       soundManager.toggleMute();
-
-      // 🔒 Zustand speichern
       localStorage.setItem(
         "soundMuted",
         soundManager.isMuted ? "true" : "false"
       );
-
-      // Icon aktualisieren
       muteBtn.textContent = soundManager.isMuted ? "🔊" : "🔇";
     }
   };
