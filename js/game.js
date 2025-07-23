@@ -164,7 +164,6 @@ function setupHelpClickHandlers(elements) {
   elements.helpBtn.addEventListener("click", () => {
     elements.helpOverlay.style.display = "flex";
   });
-
   elements.closeHelp.addEventListener("click", () => {
     elements.helpOverlay.style.display = "none";
   });
@@ -187,9 +186,7 @@ function setupHelpOverlayHandler(elements) {
  */
 function setupHomeButton() {
   const homeBtn = getCachedElement("homeBtn");
-  
   homeBtn.addEventListener("click", () => {
-    // Seite neu laden
     window.location.reload();
   });
 }
@@ -218,10 +215,7 @@ function initializeGameWorld(currentLevel) {
 function setupInput() {
   touchDetection();
   setupMobileControls();
-  // Mobile Controls werden in setupUI() aktiviert, nicht hier
 }
-
-// showMobileControlsForGameplay ist in uiUtils.js ausgelagert
 
 /**
  * Hides mobile controls by setting display and visibility to hidden
@@ -234,9 +228,6 @@ function hideMobileControls() {
   }
 }
 
-// Diese Funktionen sind in uiUtils.js ausgelagert
-
-// Globale Verfügbarkeit für Debugging
 window.forceMobileControls = forceMobileControls;
 
 /**
@@ -254,7 +245,6 @@ function setupAudio() {
 function initializeSoundManager() {
   if (!soundManager) {
     soundManager = new SoundManager();
-
     if (!muteStateAlreadyLoaded) {
       const isMuted = localStorage.getItem("soundMuted") === "true";
       soundManager.isMuted = isMuted;
@@ -295,12 +285,10 @@ function startBackgroundMusic() {
  */
 function loadMuteStateFromLocalStorage() {
   if (muteStateAlreadyLoaded) return;
-
   const isMuted = localStorage.getItem("soundMuted") === "true";
   soundManager.isMuted = isMuted;
   refreshMuteButton(isMuted);
   startMusicWhenNotMuted(isMuted);
-
   muteStateAlreadyLoaded = true; 
 }
 
@@ -356,7 +344,6 @@ function adjustUIForDevice(isTouchDevice) {
   const desktopWelcome = document.getElementById("desktop-welcome");
   const mobileWelcome = document.getElementById("mobile-welcome");
   const mobileControls = document.getElementById("mobile-controls");
-  
   if (isTouchDevice) {
     if (desktopWelcome) desktopWelcome.style.display = "none";
     if (mobileWelcome) mobileWelcome.style.display = "flex";
@@ -367,17 +354,14 @@ function adjustUIForDevice(isTouchDevice) {
   }
 }
 
-// Touch-Detection beim Laden der Seite ausführen
 document.addEventListener('DOMContentLoaded', function() {
   touchDetection();
 });
 
-// Fallback: Auch beim window.load Event
 window.addEventListener('load', function() {
   touchDetection();
 });
 
-// Direkte Ausführung falls Scripts bereits geladen sind
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', touchDetection);
 } else {
@@ -388,9 +372,8 @@ window.addEventListener(
   "touchend",
   () => {
     if (!world) {
-      hideWelcomeMessages(); // Explizit Willkommensnachrichten verstecken
+      hideWelcomeMessages(); 
       init();
-      // Add delay to prevent audio interruption
       setTimeout(() => {
         if (soundManager && !soundManager.isMuted) {
           soundManager.playMusic("background", 0.2);
