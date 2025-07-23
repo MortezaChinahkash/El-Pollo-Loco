@@ -58,9 +58,9 @@ class CollectableItem extends movableObject {
     };
     return images[this.type];  }
   /**
-   * Sammelt das Objekt ein und fügt es zum Charakter-Inventar hinzu
-   * Spielt entsprechende Sounds ab und markiert das Objekt zum Löschen
-   * @param {Character} character - Der Charakter, der das Objekt sammelt
+   * Collects the object and adds it to the character's inventory
+   * Plays appropriate sounds and marks the object for deletion
+   * @param {Character} character - The character collecting the object
    */
   collect(character) {
     if (this.collected) return;
