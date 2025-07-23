@@ -75,9 +75,9 @@ class CollectableItem extends movableObject {
     }
     this.markedForDeletion = true;  }
   /**
-   * Zeichnet das sammelbare Objekt auf den Canvas
-   * Berücksichtigt Transparenz und zeigt nichts an wenn bereits gesammelt
-   * @param {CanvasRenderingContext2D} ctx - Der Canvas-Rendering-Kontext
+   * Draws the collectable object on the canvas
+   * Takes transparency into account and shows nothing if already collected
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
    */
   draw(ctx) {
     if (!this.img || this.collected) return;
