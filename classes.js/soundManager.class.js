@@ -79,8 +79,8 @@ class SoundManager {
   pauseMusic() {
     if (this.music) this.music.pause();  }
   /**
-   * Schaltet zwischen Stummschaltung und normaler Wiedergabe um
-   * Speichert den Status im localStorage für Persistenz
+   * Toggles between mute and normal playback
+   * Saves status in localStorage for persistence
    */
   toggleMute() {
     this.isMuted = !this.isMuted;
