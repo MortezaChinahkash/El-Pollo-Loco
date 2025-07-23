@@ -13,7 +13,6 @@ const PERFORMANCE_CONFIG = {
   RESOURCE_TIMEOUT: 10000,
   RETRY_ATTEMPTS: 3
 };
-
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = PERFORMANCE_CONFIG;
 }

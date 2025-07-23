@@ -5,6 +5,7 @@
  * @version 1.0.0
  */
 class CharacterAnimationManager {
+
   /**
    * Creates a new character animation manager
    * @param {Character} character - The character to manage animations for

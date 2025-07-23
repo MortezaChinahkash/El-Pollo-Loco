@@ -51,7 +51,7 @@ def print_menu():
     menu_items = [
         ("1", "📏 File Length Analyzer", "Analyzes file lengths (HTML, CSS, JS, TS)", "analyze_file_length.py"),
         ("2", "📝 JSDoc Coverage Analyzer", "Checks JSDoc documentation in JS/TS", "analyze_jsdoc_coverage.py"),
-        ("3", "🔧 Method Length Analyzer", "Analyzes method lengths in JS/TS", "analyze_method_length_simple.py"),
+        ("3", "🔧 Method Length Analyzer", "Analyzes method lengths in JS/TS", "analyze_method_length_improved.py"),
         ("4", "🧹 Console.log Remover", "Removes console.log statements", "remove_console_logs.py"),
         ("5", "💬 Inline Comment Remover", "Removes inline comments (preserves JSDoc)", "remove_inline_comments.py"),
         ("6", "📐 Empty Line Optimizer", "Optimizes empty lines in JS/TS files", "remove_empty_lines.py"),
@@ -90,7 +90,7 @@ def get_analyzer_info() -> Dict[str, Dict]:
         },
         "3": {
             "name": "Method Length Analyzer",
-            "script": "analyze_method_length_simple.py", 
+            "script": "analyze_method_length_improved.py", 
             "description": "Analyzes method lengths in JavaScript/TypeScript",
             "icon": "🔧"
         },

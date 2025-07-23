@@ -50,12 +50,14 @@ class World {
     this.draw();
     this.run();
     this.bottleSpawnCount = 0;  }
+
   /**
    * Connects the character to the world and starts its animation
    */
   setWorld() {
     this.character.world = this;
     this.character.animate();  }
+
   /**
    * Creates a new bottle at random position in the level
    * Limited by maxBottles count
@@ -67,6 +69,7 @@ class World {
     const newBottle = new CollectableItem(x, y, "bottle");
     this.collectableItems.push(newBottle);
     this.bottleSpawnCount++;  }
+
   /**
    * Checks collisions between character and collectable items
    * Removes collected items from the list
@@ -80,6 +83,7 @@ class World {
     this.collectableItems = this.collectableItems.filter(
       (item) => !item.markedForDeletion
     );  }
+
   /**
    * Checks if new bottles can be thrown
    * Prevents throwing during boss entrance
@@ -88,6 +92,7 @@ class World {
     const now = Date.now();
     if (this.character.world.level.boss?.movingIn) return;
     this.checkInventory(now);  }
+
   /**
    * Checks inventory and allows bottle throwing with cooldown
    * @param {number} now - Current timestamp

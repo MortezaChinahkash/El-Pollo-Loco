@@ -24,6 +24,7 @@ class Statusbar extends DrawableObject {
     if (linkedObject) {
       this.startSyncWithObject(linkedObject);
     }  }
+
   /**
    * Initializes the image paths for all status bar types
    * Defines the corresponding images for different fill levels for each type
@@ -118,6 +119,7 @@ class Statusbar extends DrawableObject {
         this.updateEndbossBarPosition(obj);
       }
     }, 100);  }
+
   /**
    * Determines the current value of the linked object based on the status bar type
    * @param {Object} obj - The linked object
@@ -133,6 +135,7 @@ class Statusbar extends DrawableObject {
       value = obj.bottles;
     }
     return value;  }
+
   /**
    * Updates the position of the endboss status bar
    * Positions it above the endboss and centers it
@@ -141,6 +144,7 @@ class Statusbar extends DrawableObject {
   updateEndbossBarPosition(obj) {
     this.x = obj.x + obj.width / 2 - this.width / 2;
     this.y = obj.y - 30;  }
+
   /**
    * Sets the percentage of the status bar and updates the displayed image
    * @param {number} value - The new value for the status bar
@@ -151,6 +155,7 @@ class Statusbar extends DrawableObject {
     const index = this.resolveImageIndex();
     const path = this.IMAGES[this.type][index];
     this.img = this.imageCache[path];  }
+
   /**
    * Determines the index of the image to display based on the percentage
    * @returns {number} Index of the corresponding image in the IMAGES array
@@ -162,6 +167,7 @@ class Statusbar extends DrawableObject {
     if (this.percentage >= 30) return 2;
     if (this.percentage > 0) return 1;
     return 0;  }
+
   /**
    * Determines the initial X position based on the status bar type
    * @returns {number} X position for the status bar
@@ -175,6 +181,7 @@ class Statusbar extends DrawableObject {
       default:
         return 40;
     }  }
+
   /**
    * Returns the initial Y position for all status bars
    * @returns {number} Y position (always 0, as all are displayed at top)

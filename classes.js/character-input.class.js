@@ -5,6 +5,7 @@
  * @version 1.0.0
  */
 class CharacterInputManager {
+
   /**
    * Creates a new character input manager
    * @param {Character} character - The character to manage input for

@@ -5,6 +5,7 @@
  * @version 2.0.0
  */
 class CharacterImages {
+
   /**
    * Long idle animation images
    */

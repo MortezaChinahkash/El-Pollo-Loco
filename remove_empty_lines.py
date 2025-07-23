@@ -149,9 +149,10 @@ def remove_excessive_empty_lines(content):
     """
     Remove excessive empty lines while preserving intentional spacing
     SPECIAL RULES:
-    - INSIDE functions/methods (between {}): ALL empty lines are removed
-    - OUTSIDE functions/methods: Maximum 2 consecutive empty lines
-    - Preserve empty lines after comments and JSDoc (outside functions)
+    - INSIDE functions/methods (between {}): Remove ALL empty lines
+    - OUTSIDE functions/methods: Maximum 1 consecutive empty line
+    - ALWAYS ensure 1 empty line BEFORE JSDoc comments (/**) for readability
+    - NO empty line AFTER JSDoc comments (before the function/method)
     """
     lines = content.split('\n')
     result_lines = []
@@ -166,7 +167,6 @@ def remove_excessive_empty_lines(content):
     i = 0
     while i < len(lines):
         line = lines[i].rstrip()  # Remove trailing whitespace
-        original_line = line
         stripped = line.strip()
         
         # Track string literals
@@ -202,7 +202,6 @@ def remove_excessive_empty_lines(content):
             brace_level += opening_braces - closing_braces
             
             # Determine if we're inside a function/method
-            # We're inside a function if brace_level > 0 AND we've seen a function-like line
             if opening_braces > 0:
                 # Check if this line looks like a function/method/class definition
                 if any(keyword in line for keyword in ['function', 'class', '=>', 'constructor', 'get ', 'set ']):
@@ -212,7 +211,7 @@ def remove_excessive_empty_lines(content):
             elif brace_level == 0:
                 inside_function = False
         
-        # Handle empty lines with AGGRESSIVE INSIDE-FUNCTION REMOVAL
+        # Handle empty lines
         if stripped == '':
             # Look ahead to count consecutive empty lines
             empty_count = 0
@@ -225,39 +224,40 @@ def remove_excessive_empty_lines(content):
             prev_line = lines[i-1].strip() if i > 0 else ''
             next_line = lines[j].strip() if j < len(lines) else ''
             
-            # SPECIAL RULE: INSIDE FUNCTIONS -> REMOVE ALL EMPTY LINES
+            # RULE 1: INSIDE FUNCTIONS -> REMOVE ALL EMPTY LINES
             if inside_function and brace_level > 0:
-                # Inside a function/method body - remove ALL empty lines
-                keep_count = 0
-                
-                # Exception: Keep 1 empty line after JSDoc inside functions
-                if prev_line.endswith('*/') and prev_line.startswith('*'):
-                    keep_count = 1
+                keep_count = 0  # Remove all empty lines inside functions
             else:
-                # OUTSIDE FUNCTIONS: Use refined optimization rules
-                keep_count = min(empty_count, 2)  # Maximum 2 consecutive empty lines
+                # RULE 2: OUTSIDE FUNCTIONS
+                keep_count = 0  # Default: remove all empty lines
                 
-                # REFINED RULES for empty line reduction OUTSIDE functions:
-                if empty_count > 2:
-                    # More than 2 consecutive empty lines -> reduce to 1
+                # SPECIAL CASE: Before JSDoc -> ALWAYS ensure 1 empty line
+                if next_line.startswith('/**'):
                     keep_count = 1
-                elif empty_count == 2:
-                    # 2 consecutive empty lines -> reduce to 1
-                    keep_count = 1
-                else:
-                    # Single empty line -> keep it (important for JSDoc separation)
-                    keep_count = 1
-                
-                # SPECIAL CASES - Always keep 1 empty line:
-                # 1. After JSDoc comments (before function)
-                if prev_line.endswith('*/'):
-                    keep_count = 1
-                # 2. After function closing brace (before next JSDoc/function)
+                # SPECIAL CASE: After function closing brace -> prepare for potential JSDoc
                 elif prev_line == '}':
-                    keep_count = 1
-                # 3. Before JSDoc comments
-                elif next_line.startswith('/**'):
-                    keep_count = 1
+                    # Look ahead to see if there's a JSDoc coming
+                    future_line_index = j
+                    while future_line_index < len(lines):
+                        future_line = lines[future_line_index].strip()
+                        if future_line == '':
+                            future_line_index += 1
+                            continue
+                        elif future_line.startswith('/**'):
+                            keep_count = 1  # Keep 1 empty line before JSDoc
+                        break
+                # SPECIAL CASE: After variable/property declaration -> prepare for potential JSDoc
+                elif (prev_line.endswith(';') or prev_line.endswith('];') or prev_line.endswith('};')):
+                    # Look ahead to see if there's a JSDoc coming
+                    future_line_index = j
+                    while future_line_index < len(lines):
+                        future_line = lines[future_line_index].strip()
+                        if future_line == '':
+                            future_line_index += 1
+                            continue
+                        elif future_line.startswith('/**'):
+                            keep_count = 1  # Keep 1 empty line before JSDoc
+                        break
             
             # Add the determined number of empty lines
             for _ in range(keep_count):
@@ -278,58 +278,32 @@ def remove_excessive_empty_lines(content):
     while result_lines and result_lines[-1].strip() == '':
         result_lines.pop()
     
-    # POST-PROCESSING: Ensure proper spacing between JSDoc and functions
+    # POST-PROCESSING: Ensure perfect JSDoc spacing
     final_lines = []
     i = 0
     while i < len(result_lines):
-        current_line = result_lines[i].strip()
+        current_line = result_lines[i]
+        current_stripped = current_line.strip()
         
         # Add current line
-        final_lines.append(result_lines[i])
+        final_lines.append(current_line)
         
-        # Check if current line is end of JSDoc comment
-        if current_line.endswith('*/') and i + 1 < len(result_lines):
-            # Remove any empty lines after JSDoc - we want NO empty line between JSDoc and function
+        # RULE: After JSDoc end (*/) -> NO empty line before function
+        if current_stripped.endswith('*/') and i + 1 < len(result_lines):
+            # Remove any empty lines after JSDoc
             j = i + 1
             while j < len(result_lines) and result_lines[j].strip() == '':
                 j += 1
-            
-            # Skip to next non-empty line (no empty line after JSDoc)
+            # Skip to next non-empty line (no gap after JSDoc)
             i = j - 1
         
-        # Check if current line is end of function
-        elif current_line == '}' and i + 1 < len(result_lines):
-            # Look ahead to see what comes next
-            next_line_index = i + 1
-            
-            # Skip any existing empty lines
-            while (next_line_index < len(result_lines) and 
-                   result_lines[next_line_index].strip() == ''):
-                next_line_index += 1
-            
-            # If there's a next line that's JSDoc, ensure 1 empty line before JSDoc
-            if next_line_index < len(result_lines):
-                next_line = result_lines[next_line_index].strip()
-                if next_line.startswith('/**'):
-                    # Add exactly 1 empty line before JSDoc
-                    final_lines.append('')
-        
-        # Check if current line is a class variable/property and next is JSDoc
-        elif (current_line.endswith('];') or current_line.endswith('};') or 
-              (current_line.endswith(';') and ('=' in current_line or current_line.strip().endswith(':')))) and i + 1 < len(result_lines):
-            # Look ahead to see if next non-empty line is JSDoc
-            next_line_index = i + 1
-            
-            # Skip any existing empty lines
-            while (next_line_index < len(result_lines) and 
-                   result_lines[next_line_index].strip() == ''):
-                next_line_index += 1
-            
-            # If there's a next line that's JSDoc, ensure 1 empty line before JSDoc
-            if next_line_index < len(result_lines):
-                next_line = result_lines[next_line_index].strip()
-                if next_line.startswith('/**'):
-                    # Add exactly 1 empty line before JSDoc
+        # RULE: Before JSDoc start (/**) -> ENSURE 1 empty line (but only if not already there)
+        elif i + 1 < len(result_lines):
+            next_line = result_lines[i + 1].strip()
+            # Check if the next non-empty line is JSDoc
+            if next_line.startswith('/**'):
+                # Only add empty line if current line is not already empty
+                if current_stripped != '':
                     final_lines.append('')
         
         i += 1
@@ -389,7 +363,8 @@ def scan_and_remove_empty_lines():
     print(Colors.colorize(f"📄 JavaScript files: {len([f for f in files if f.endswith('.js')])}", Colors.GREEN))
     print(Colors.colorize(f"📘 TypeScript files: {len([f for f in files if f.endswith('.ts')])}", Colors.GREEN))
     print(Colors.colorize(f"🔒 Backup enabled: {'Yes' if create_backup else 'No'}", Colors.YELLOW if create_backup else Colors.RED))
-    print(Colors.colorize("📏 Max 2 consecutive empty lines will be enforced", Colors.GREEN))
+    print(Colors.colorize("✨ Perfect JSDoc spacing: 1 empty line before, none after", Colors.GREEN))
+    print(Colors.colorize("🧹 All empty lines inside functions will be removed", Colors.GREEN))
     print()
     
     # Display file counts by type
@@ -496,11 +471,11 @@ def scan_and_remove_empty_lines():
         f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         "",
         "OPTIMIZATION RULES:",
-        "• Maximum 2 consecutive empty lines anywhere",
-        "• Single empty lines preserved for readability",
-        "• Empty lines reduced at start/end of functions",
-        "• Empty lines preserved after comments/JSDoc",
+        "• ALL empty lines inside functions/methods removed",
+        "• Exactly 1 empty line BEFORE JSDoc comments (/**)",
+        "• NO empty lines AFTER JSDoc comments", 
         "• Empty lines at file start/end removed",
+        "• Clean and consistent code formatting",
         "",
         f"Files analyzed: {len(files)}",
         f"Files with empty lines: {len(files_with_empty_lines)}",
@@ -546,8 +521,9 @@ if __name__ == "__main__":
     print(Colors.colorize("🚀 Empty Line Removal Tool", Colors.CYAN))
     print(Colors.colorize("=" * 40, Colors.CYAN))
     print(Colors.colorize("📏 Optimizes empty lines in JS/TS files", Colors.GREEN))
-    print(Colors.colorize("🧹 Removes excessive empty lines (max 2 consecutive)", Colors.YELLOW))
-    print(Colors.colorize("💡 Preserves intentional spacing for readability", Colors.BLUE))
+    print(Colors.colorize("✨ Perfect JSDoc spacing: 1 line before, none after", Colors.YELLOW))
+    print(Colors.colorize("🧹 Removes ALL empty lines inside functions", Colors.YELLOW))
+    print(Colors.colorize("💡 Creates clean and consistent code formatting", Colors.BLUE))
     print(Colors.colorize("⚠️  WARNING: This will modify your files!", Colors.YELLOW))
     print(Colors.colorize("📁 Make sure you have backups or use the backup feature.", Colors.YELLOW))
     print()

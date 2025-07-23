@@ -57,6 +57,7 @@ class CollectableItem extends movableObject {
       bottle: 'img/img_pollo_locco/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'
     };
     return images[this.type];  }
+
   /**
    * Collects the object and adds it to the character's inventory
    * Plays appropriate sounds and marks the object for deletion
@@ -74,6 +75,7 @@ class CollectableItem extends movableObject {
       soundManager?.playSound("bottle", 0.1);
     }
     this.markedForDeletion = true;  }
+
   /**
    * Draws the collectable object on the canvas
    * Takes transparency into account and shows nothing if already collected
@@ -86,6 +88,7 @@ class CollectableItem extends movableObject {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     ctx.globalAlpha = 1;
     ctx.restore();  }
+
   /**
    * Starts the floating animation for coins
    * Makes coins float up and down between two Y positions

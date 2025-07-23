@@ -4,6 +4,7 @@ class Level {
   backgroundObjects;
   levelWidth;
   levelNumber;
+
   /**
    * Creates a new level with all game elements
    * @param {Array} enemies - Array for enemies
@@ -24,6 +25,7 @@ class Level {
     this.generateChickens();
     this.generateEndboss();
     this.generateCollectables();  }
+
   /**
    * Generates background objects for the entire level
    * Creates multiple layers of background images across the entire level width
@@ -117,6 +119,7 @@ class Level {
     for (let i = 0; i < numberOfClouds; i++) {
       this.clouds.push(new Cloud(this.levelWidth));
     }  }
+
   /**
    * Generates chicken enemies for the level
    * Count and damage are based on level size and number
@@ -131,6 +134,7 @@ class Level {
       const chicken = new Chicken(this.levelWidth, chickenDamage);
       this.enemies.push(chicken);
     }  }
+
   /**
    * Generates the endboss for the level
    * Damage and energy are scaled based on level number
@@ -141,6 +145,7 @@ class Level {
     const boss = new Endboss(this.levelWidth, bossDamage, energy);
     this.boss = boss;
     this.enemies.push(boss);  }
+
   /**
    * Generates collectable objects (coins and bottles) for the level
    * Count is based on level size and number for balanced gameplay

@@ -4,7 +4,6 @@ let keyboard = new Keyboard();
 let soundManager;
 let muteStateAlreadyLoaded = false;
 let currentLevel;
-
 let cachedElements = {};
 
 
@@ -249,7 +248,6 @@ function hideMobileControls() {
     mobileControls.style.visibility = "hidden";
   }
 }
-
 window.forceMobileControls = forceMobileControls;
 
 
@@ -385,15 +383,12 @@ function adjustUIForDevice(isTouchDevice) {
     if (mobileControls) mobileControls.style.display = "none";
   }
 }
-
 document.addEventListener('DOMContentLoaded', function() {
   touchDetection();
 });
-
 window.addEventListener('load', function() {
   touchDetection();
 });
-
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', touchDetection);
 } else {
@@ -421,6 +416,7 @@ window.addEventListener(
   { once: true }
 );
 
+
 /**
  * Event Listener for key input - starts the game on key press
  * Initializes the game and plays background music
@@ -441,6 +437,7 @@ window.addEventListener(
   { once: true }
 );
 
+
 /**
  * Event Listener for key press - sets keyboard state to true
  * Handles movement and action keys (arrow keys and spacebar)
@@ -454,6 +451,7 @@ window.addEventListener("keydown", (button) => {
   if (button.keyCode == 32) keyboard.SPACE = true;
 });
 
+
 /**
  * Event Listener for key release - sets keyboard state to false
  * Handles movement and action keys (arrow keys and spacebar)
@@ -466,6 +464,7 @@ window.addEventListener("keyup", (button) => {
   if (button.keyCode == 40) keyboard.DOWN = false;
   if (button.keyCode == 32) keyboard.SPACE = false;
 });
+
 
 /**
  * Creates a new level with specified parameters
@@ -495,11 +494,9 @@ function setupMobileControls() {
   btnThrow.addEventListener("touchstart", () => (keyboard.SPACE = true), { passive: true });
   btnThrow.addEventListener("touchend", () => (keyboard.SPACE = false), { passive: true });
 }
-
 document.addEventListener('DOMContentLoaded', function() {
   touchDetection();
 });
-
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', touchDetection);
 } else {

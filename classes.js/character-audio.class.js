@@ -5,6 +5,7 @@
  * @version 1.0.0
  */
 class CharacterAudioManager {
+
   /**
    * Creates a new character audio manager
    * @param {Character} character - The character to manage audio for
