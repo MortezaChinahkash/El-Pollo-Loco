@@ -70,7 +70,7 @@ class ThrowableObject extends movableObject {
   }
 
   /**
-   * Initialisiert die Wurf-Physik
+   * Initializes the throw physics
    */
   initializeThrowPhysics() {
     this.speedY = 15;
@@ -79,7 +79,7 @@ class ThrowableObject extends movableObject {
   }
 
   /**
-   * Spielt den Wurf-Sound ab
+   * Plays the throw sound
    */
   playThrowSound() {
     if (!soundManager.isMuted) {
