@@ -150,8 +150,8 @@ class Character extends movableObject {
   }
 
   /**
-   * Startet die Hauptanimation des Charakters
-   * Initialisiert Input-Handling und Charakter-Animationen
+   * Starts the main animation of the character
+   * Initializes input handling and character animations
    */
   animate() {
     setInterval(() => this.inputManager.handleInput(), 1000 / 60);
