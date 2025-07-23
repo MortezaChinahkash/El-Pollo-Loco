@@ -59,7 +59,7 @@ class Character extends movableObject {
   }
 
   /**
-   * Lädt alle Character-Bilder
+   * Loads all character images
    */
   loadAllImages() {
     this.loadImage("img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png");
