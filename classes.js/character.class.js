@@ -129,7 +129,7 @@ class Character extends movableObject {
   }
 
   /**
-   * Prüft auf Tod und startet Sequenz
+   * Checks for death and starts sequence
    */
   checkForDeath() {
     if (this.isDead()) {
