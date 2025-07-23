@@ -87,6 +87,7 @@ class CharacterInputManager {
 
   /**
    * Makes character jump
+   * @returns {boolean} True if jump occurred
    */
   jumpWhenSpace() {
     if (this.character.world.keyboard.UP && !this.character.isAboveGround()) {
