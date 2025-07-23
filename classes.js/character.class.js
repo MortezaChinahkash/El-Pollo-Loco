@@ -39,7 +39,7 @@ class Character extends movableObject {
   }
 
   /**
-   * Setzt Kollisions-Offsets
+   * Sets collision offsets
    */
   setupOffsets() {
     this.offset = {
