@@ -59,6 +59,7 @@ class CharacterInputManager {
 
   /**
    * Moves character to the right
+   * @returns {boolean} True if movement occurred
    */
   moveRightWhenSpace() {
     if (
@@ -73,6 +74,7 @@ class CharacterInputManager {
 
   /**
    * Moves character to the left
+   * @returns {boolean} True if movement occurred
    */
   moveLeftWhenSpace() {
     if (this.character.world.keyboard.LEFT && this.character.x > 0) {
