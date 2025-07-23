@@ -140,7 +140,9 @@ class CharacterAudioManager {
   }
 
   /**
-   * Prüft ob Sprunggeräusch abgespielt werden soll
+   * Checks if jump sound should be played
+   * @param {number} now - Current timestamp
+   * @returns {boolean} True if jump sound should be played
    */
   shouldPlayJumpSound(now) {
     return typeof soundManager !== "undefined" &&
