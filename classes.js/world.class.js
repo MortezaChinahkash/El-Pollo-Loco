@@ -332,8 +332,8 @@ class World {
   }
 
   /**
-   * Dreht das Bild horizontal für Links-Bewegung
-   * @param {DrawableObject} mo - Das Objekt dessen Bild gedreht werden soll
+   * Flips the image horizontally for left movement
+   * @param {DrawableObject} mo - The object whose image should be flipped
    */
   flipImage(mo) {
     this.ctx.save();
