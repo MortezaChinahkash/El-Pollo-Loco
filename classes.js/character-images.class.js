@@ -61,7 +61,7 @@ class CharacterImages {
   ];
 
   /**
-   * Sprung nach unten Animation Bilder
+   * Jump down animation images
    */
   static IMAGES_JUMP_DOWN = [
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-36.png",
