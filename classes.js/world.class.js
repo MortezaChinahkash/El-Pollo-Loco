@@ -57,8 +57,8 @@ class World {
     this.character.world = this;
     this.character.animate();  }
   /**
-   * Erstellt eine neue Flasche an zufälliger Position im Level
-   * Begrenzt durch maxBottles-Anzahl
+   * Creates a new bottle at random position in the level
+   * Limited by maxBottles count
    */
   spawnNewBottle() {
     if (this.bottleSpawnCount >= this.maxBottles) return;
