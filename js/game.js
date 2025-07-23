@@ -470,12 +470,10 @@ function setupMobileControls() {
   btnThrow.addEventListener("touchend", () => (keyboard.SPACE = false), { passive: true });
 }
 
-// Touch-Erkennung beim Laden der Seite ausführen
 document.addEventListener('DOMContentLoaded', function() {
   touchDetection();
 });
 
-// Fallback für den Fall, dass DOMContentLoaded bereits ausgelöst wurde
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', touchDetection);
 } else {
