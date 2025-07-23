@@ -151,7 +151,7 @@ class World {
   }
 
   /**
-   * Überprüft Spiel-Endzustände
+   * Checks game end states
    */
   checkGameStates() {
     if (this.character.hasFullyDied && !this.gameOver) {
