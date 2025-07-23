@@ -99,8 +99,8 @@ class Character extends movableObject {
   }
 
   /**
-   * Verarbeitet den Schadenswert
-   * @param {number} damage - Schadenswert
+   * Processes the damage value
+   * @param {number} damage - Damage value
    */
   processHitDamage(damage) {
     this.audioManager.stopRunningSound();
@@ -109,7 +109,7 @@ class Character extends movableObject {
   }
 
   /**
-   * Behandelt Treffer-Effekte
+   * Handles hit effects
    */
   handleHitEffects() {
     this.isHurt = true;
