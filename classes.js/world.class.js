@@ -433,8 +433,8 @@ class World {
   }
 
   /**
-   * Zeigt den Nächstes-Level-Button und Home-Button an
-   * Konfiguriert Click-Handler für nächstes Level
+   * Shows the next level button and home button
+   * Configures click handler for next level
    */
   showNextLevelButton() {
     const btn = document.getElementById("nextLevelBtn");
