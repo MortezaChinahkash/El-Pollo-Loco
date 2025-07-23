@@ -1,5 +1,5 @@
 METHOD LENGTH ANALYSIS REPORT
-Generated: 23.07.2025 10:53
+Generated: 23.07.2025 11:00
 ================================================================================
 Analyzing 25 TypeScript/JavaScript files for methods > 14 lines...
 Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
@@ -40,19 +40,9 @@ File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.j
 
 File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\level.class.js
 --------------------------------------------------------------------------------
-  Method: generateBackground (Line 33-52)
-     Code lines: 20 | Total lines: 20
-     Declaration: generateBackground() {...
-
-  Method: defineBG (Line 58-78)
+  Method: defineBG (Line 80-100)
      Code lines: 19 | Total lines: 21
      Declaration: defineBG() {...
-
-File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\statusbars.class.js
---------------------------------------------------------------------------------
-  Method: initImages (Line 32-66)
-     Code lines: 35 | Total lines: 35
-     Declaration: initImages() {...
 
 File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\throwableObject.class.js
 --------------------------------------------------------------------------------
@@ -74,61 +64,57 @@ File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.j
      Code lines: 16 | Total lines: 19
      Declaration: run() {...
 
-  Method: checkCollision (Line 157-190)
-     Code lines: 20 | Total lines: 34
-     Declaration: checkCollision() {...
-
-  Method: showWinScreen (Line 278-301)
+  Method: showWinScreen (Line 297-320)
      Code lines: 15 | Total lines: 24
      Declaration: showWinScreen() {...
 
 ================================================================================
 === TOP 10 LONGEST METHODS ===
 ================================================================================
- 1. initImages (35 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\statusbars.class.js
-    Line: 32-66
-
- 2. forceMobileControls (22 lines)
+ 1. forceMobileControls (22 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103342\js\uiUtils.js
     Line: 67-93
 
- 3. generateBackground (20 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\level.class.js
-    Line: 33-52
-
- 4. checkCollision (20 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
-    Line: 157-190
-
- 5. showMobileControlsForGameplay (19 lines)
+ 2. showMobileControlsForGameplay (19 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103748\js\uiUtils.js
     Line: 91-118
 
- 6. defineBG (19 lines)
+ 3. defineBG (19 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\level.class.js
-    Line: 58-78
+    Line: 80-100
 
- 7. fadeOutAndRemove (19 lines)
+ 4. fadeOutAndRemove (19 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\throwableObject.class.js
     Line: 122-145
 
- 8. hideWelcomeMessages (18 lines)
+ 5. hideWelcomeMessages (18 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103342\js\uiUtils.js
     Line: 9-38
 
- 9. hideWelcomeMessages (18 lines)
+ 6. hideWelcomeMessages (18 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103748\js\uiUtils.js
     Line: 9-38
 
-10. run (16 lines)
+ 7. run (16 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
     Line: 121-139
 
+ 8. playFullAnimationOnce (15 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
+    Line: 158-174
+
+ 9. playDeathAnimation (15 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
+    Line: 185-201
+
+10. throw (15 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\throwableObject.class.js
+    Line: 62-82
+
 === SUMMARY ===
 Files analyzed: 25
-Files with long methods: 7
-Total methods > 14 lines: 15
-Average length: 18.7 lines
-Longest method: initImages (35 lines)
+Files with long methods: 6
+Total methods > 14 lines: 12
+Average length: 17.2 lines
+Longest method: forceMobileControls (22 lines)
 Consider refactoring methods longer than 20-25 lines

@@ -31,25 +31,47 @@ class Level {
    * Erstellt mehrere Schichten von Hintergrundbildern über die gesamte Levelbreite
    */
   generateBackground() {
-    const backgrounds = this.defineBG();
-    const segmentWidth = 719;
-    let startX = -719;
-    let blockIndex = 0;
-    while (startX < this.levelWidth) {
-      let block = backgrounds[blockIndex % backgrounds.length];
-      this.backgroundObjects.push(new BackgroundObject(block.air, startX, 480));
-      this.backgroundObjects.push(
-        new BackgroundObject(block.third, startX, 400)
-      );
-      this.backgroundObjects.push(
-        new BackgroundObject(block.second, startX, 400)
-      );
-      this.backgroundObjects.push(
-        new BackgroundObject(block.first, startX, 400)
-      );
-      startX += segmentWidth;
-      blockIndex++;
-    }  }
+    const config = this.setupBackgroundConfig();
+    this.createBackgroundLoop(config);
+  }
+
+  /**
+   * Konfiguriert die Parameter für die Hintergrunderstellung
+   * @returns {Object} Konfigurationsobjekt mit Hintergründen und Parametern
+   */
+  setupBackgroundConfig() {
+    return {
+      backgrounds: this.defineBG(),
+      segmentWidth: 719,
+      startX: -719,
+      blockIndex: 0
+    };
+  }
+
+  /**
+   * Erstellt die Hintergrund-Loop über die gesamte Levelbreite
+   * @param {Object} config - Konfiguration für Hintergrunderstellung
+   */
+  createBackgroundLoop(config) {
+    while (config.startX < this.levelWidth) {
+      let block = config.backgrounds[config.blockIndex % config.backgrounds.length];
+      this.addBackgroundLayers(block, config.startX);
+      config.startX += config.segmentWidth;
+      config.blockIndex++;
+    }
+  }
+
+  /**
+   * Fügt alle Hintergrund-Schichten für eine Position hinzu
+   * @param {Object} block - Hintergrund-Block mit allen Schichten
+   * @param {number} x - X-Position für die Schichten
+   */
+  addBackgroundLayers(block, x) {
+    this.backgroundObjects.push(new BackgroundObject(block.air, x, 480));
+    this.backgroundObjects.push(new BackgroundObject(block.third, x, 400));
+    this.backgroundObjects.push(new BackgroundObject(block.second, x, 400));
+    this.backgroundObjects.push(new BackgroundObject(block.first, x, 400));
+  }
 
   /**
    * Definiert die verfügbaren Hintergrund-Segmente

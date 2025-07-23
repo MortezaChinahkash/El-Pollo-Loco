@@ -31,6 +31,19 @@ class Statusbar extends DrawableObject {
    */
   initImages() {
     this.IMAGES = {
+      ...this.getHealthBarImages(),
+      ...this.getCoinBarImages(),
+      ...this.getBottleBarImages(),
+      ...this.getEndbossBarImages()
+    };
+  }
+
+  /**
+   * Liefert die Bildpfade für die Gesundheits-Statusleiste
+   * @returns {Object} Gesundheitsleisten-Bildpfade
+   */
+  getHealthBarImages() {
+    return {
       health: [
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png",
@@ -38,7 +51,16 @@ class Statusbar extends DrawableObject {
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/blue/60.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png",
-      ],
+      ]
+    };
+  }
+
+  /**
+   * Liefert die Bildpfade für die Münzen-Statusleiste
+   * @returns {Object} Münzleisten-Bildpfade
+   */
+  getCoinBarImages() {
+    return {
       coins: [
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png",
@@ -46,7 +68,16 @@ class Statusbar extends DrawableObject {
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/60.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/80.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png",
-      ],
+      ]
+    };
+  }
+
+  /**
+   * Liefert die Bildpfade für die Flaschen-Statusleiste
+   * @returns {Object} Flaschenleisten-Bildpfade
+   */
+  getBottleBarImages() {
+    return {
       bottles: [
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png",
@@ -54,7 +85,16 @@ class Statusbar extends DrawableObject {
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png",
-      ],
+      ]
+    };
+  }
+
+  /**
+   * Liefert die Bildpfade für die Endboss-Statusleiste
+   * @returns {Object} Endboss-Leisten-Bildpfade
+   */
+  getEndbossBarImages() {
+    return {
       endboss: [
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/orange/0.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/orange/20.png",
@@ -62,8 +102,9 @@ class Statusbar extends DrawableObject {
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/orange/60.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/orange/80.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/orange/100.png",
-      ],
-    };  }
+      ]
+    };
+  }
 
   /**
    * Startet die Synchronisation der Statusleiste mit einem verknüpften Objekt

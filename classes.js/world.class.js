@@ -159,34 +159,53 @@ class World {
 
     this.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
-        if (this.character.isJumpingOn(enemy)) {
-  enemy.hit(this.character.damage);
-
-  if (!(enemy instanceof Endboss) && typeof soundManager !== "undefined") {
-    soundManager.playSound("jump_on_enemy", 0.3);
-  }
-
-  // Bounce nach oben
-  this.character.speedY = 15;
-  this.character.y = enemy.y - this.character.height + enemy.offset.top;
-
-  // Exakt dieselbe Jump-Up Animation wie beim Absprung
-  this.character.animationManager.hasJumpedDown = false;
-  this.character.animationManager.hasJumpedUp = false;
-  this.character.animationManager.handleJumpAnimation();}
- else {
-          // KEIN Schaden durch Endboss, wenn dieser stirbt oder tot ist
-          const isEndboss = enemy instanceof Endboss;
-          const isBossDyingOrDead =
-            isEndboss && (enemy.isDying || enemy.isDead());
-
-          if (!isBossDyingOrDead) {
-            // Seitliche Kollision → Schaden an Spieler
-            this.character.hit(enemy.damage);
-          }
-        }
+        this.handleCharacterEnemyCollision(enemy);
       }
     });
+  }
+
+  /**
+   * Behandelt Kollision zwischen Charakter und Gegner
+   * @param {Enemy} enemy - Der Gegner, mit dem kollidiert wurde
+   */
+  handleCharacterEnemyCollision(enemy) {
+    if (this.character.isJumpingOn(enemy)) {
+      this.handleJumpOnEnemy(enemy);
+    } else {
+      this.handleSideCollisionWithEnemy(enemy);
+    }
+  }
+
+  /**
+   * Behandelt das Springen auf einen Gegner
+   * @param {Enemy} enemy - Der Gegner, auf den gesprungen wurde
+   */
+  handleJumpOnEnemy(enemy) {
+    enemy.hit(this.character.damage);
+
+    if (!(enemy instanceof Endboss) && typeof soundManager !== "undefined") {
+      soundManager.playSound("jump_on_enemy", 0.3);
+    }
+
+    this.character.speedY = 15;
+    this.character.y = enemy.y - this.character.height + enemy.offset.top;
+
+    this.character.animationManager.hasJumpedDown = false;
+    this.character.animationManager.hasJumpedUp = false;
+    this.character.animationManager.handleJumpAnimation();
+  }
+
+  /**
+   * Behandelt seitliche Kollision mit Gegner
+   * @param {Enemy} enemy - Der Gegner bei seitlicher Kollision
+   */
+  handleSideCollisionWithEnemy(enemy) {
+    const isEndboss = enemy instanceof Endboss;
+    const isBossDyingOrDead = isEndboss && (enemy.isDying || enemy.isDead());
+
+    if (!isBossDyingOrDead) {
+      this.character.hit(enemy.damage);
+    }
   }
 
   bottleHitEnemy() {
