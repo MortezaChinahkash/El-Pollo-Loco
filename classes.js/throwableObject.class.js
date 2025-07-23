@@ -149,7 +149,7 @@ class ThrowableObject extends movableObject {
   }
 
   /**
-   * Startet die Splash-Animation und plant Entfernung
+   * Starts the splash animation and schedules removal
    */
   startSplashAnimation() {
     this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
@@ -179,7 +179,7 @@ class ThrowableObject extends movableObject {
   }
 
   /**
-   * Startet die Fall-Animation des Objekts
+   * Starts the falling animation of the object
    */
   startFallingAnimation() {
     const targetY = 370;
