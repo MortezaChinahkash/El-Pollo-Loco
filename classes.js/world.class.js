@@ -130,7 +130,7 @@ class World {
   }
 
   /**
-   * Führt die Hauptspiel-Logik aus
+   * Executes the main game logic
    */
   runGameLogic() {
     this.checkCollision();
@@ -141,7 +141,7 @@ class World {
   }
 
   /**
-   * Bereinigt markierte Objekte
+   * Cleans up marked objects
    */
   cleanupObjects() {
     this.throwableObject = this.throwableObject.filter(
