@@ -320,8 +320,8 @@ class World {
   }
 
   /**
-   * Fügt ein einzelnes Objekt zur Karte hinzu und behandelt Bildrichtung
-   * @param {DrawableObject} mo - Das Objekt das gezeichnet werden soll
+   * Adds a single object to the map and handles image direction
+   * @param {DrawableObject} mo - The object to be drawn
    */
   addToMap(mo) {
     if (mo.otherDirection) this.flipImage(mo);
