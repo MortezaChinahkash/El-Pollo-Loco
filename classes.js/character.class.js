@@ -159,7 +159,7 @@ class Character extends movableObject {
   }
 
   /**
-   * Führt einen Sprung aus
+   * Performs a jump
    */
   jump() {
     this.executeJumpMechanics();
