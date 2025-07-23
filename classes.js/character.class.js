@@ -51,7 +51,7 @@ class Character extends movableObject {
   }
 
   /**
-   * Initialisiert Inventar
+   * Initializes inventory
    */
   setupInventory() {
     this.coins = 0;
