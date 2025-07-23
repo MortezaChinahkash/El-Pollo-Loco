@@ -1,6 +1,6 @@
 /**
- * Basisklasse für alle beweglichen Objekte im Spiel
- * Erweitert DrawableObject um Bewegung, Kollision und Physik
+ * Base class for all movable objects in the game
+ * Extends DrawableObject with movement, collision and physics
  */
 class movableObject extends DrawableObject {
   speed = 1;
@@ -16,8 +16,8 @@ class movableObject extends DrawableObject {
     right: 0,  };
 
   /**
-   * Wendet Schwerkraft auf das Objekt an
-   * Reduziert vertikale Geschwindigkeit kontinuierlich
+   * Applies gravity to the object
+   * Continuously reduces vertical velocity
    */
   applyGravity() {
     setInterval(() => {
@@ -45,8 +45,8 @@ class movableObject extends DrawableObject {
 }
 
   /**
-   * Reduziert die Energie des Objekts um den angegebenen Schaden
-   * @param {number} damage - Der zu verursachende Schaden
+   * Reduces the object's energy by the specified damage
+   * @param {number} damage - The damage to be dealt
    */
   hit(damage) {
     this.energy -= damage;
