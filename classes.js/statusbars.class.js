@@ -5,10 +5,10 @@ class Statusbar extends DrawableObject {
   IMAGES = {};
 
   /**
-   * Erstellt eine neue Statusleiste für verschiedene Spielwerte
-   * @param {string} type - Typ der Statusleiste ('health', 'coins', 'bottles', 'endboss')
-   * @param {Object} [linkedObject=null] - Objekt mit dem die Statusleiste synchronisiert wird
-   * @param {number} [maxValue=100] - Maximaler Wert der Statusleiste
+   * Creates a new status bar for various game values
+   * @param {string} type - Type of status bar ('health', 'coins', 'bottles', 'endboss')
+   * @param {Object} [linkedObject=null] - Object with which the status bar is synchronized
+   * @param {number} [maxValue=100] - Maximum value of the status bar
    */
   constructor(type, linkedObject = null, maxValue = 100) {
     super();
