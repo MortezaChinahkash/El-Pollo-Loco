@@ -93,7 +93,7 @@ class CharacterInputManager {
   }
 
   /**
-   * Verwaltet Laufgeräusch
+   * Manages running sound
    */
   playRunningSound(moved) {
     const isActuallyRunning =
