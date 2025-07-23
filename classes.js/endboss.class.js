@@ -1,6 +1,6 @@
 /**
- * Endboss-Klasse für den Hauptgegner des Spiels
- * Erweitert movableObject um komplexe KI, Angriffsverhalten und Animationen
+ * Endboss class for the main enemy of the game
+ * Extends movableObject with complex AI, attack behavior and animations
  */
 class Endboss extends movableObject {
   isDeadState = false;
@@ -54,10 +54,10 @@ class Endboss extends movableObject {
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png",  ];
 
   /**
-   * Erstellt einen neuen Endboss mit angegebenen Eigenschaften
-   * @param {number} levelWidth - Breite des Levels für Positionierung
-   * @param {number} damage - Schaden den der Boss verursacht
-   * @param {number} energy - Lebenspunkte des Bosses
+   * Creates a new Endboss with specified properties
+   * @param {number} levelWidth - Width of the level for positioning
+   * @param {number} damage - Damage that the boss deals
+   * @param {number} energy - Health points of the boss
    */
   constructor(levelWidth, damage, energy) {
     super();
@@ -72,8 +72,8 @@ class Endboss extends movableObject {
     this.loadImages(this.IMAGES_DEAD);
     this.applyGravity();  }
   /**
-   * Aktiviert den Endboss und startet dessen Eingangssequenz
-   * Boss bewegt sich ins Level und beginnt dann mit Angriffen
+   * Activates the endboss and starts its entrance sequence
+   * Boss moves into the level and then begins attacking
    */
   activate() {
     this.activated = true;
@@ -188,10 +188,10 @@ class Endboss extends movableObject {
   }
 
   /**
-   * Bereitet eine einmalige Animation vor
-   * @param {Array} images - Bilder für die Animation
-   * @param {Function} onComplete - Callback nach Abschluss
-   * @param {number} interval - Intervall zwischen Frames
+   * Prepares a one-time animation
+   * @param {Array} images - Images for the animation
+   * @param {Function} onComplete - Callback after completion
+   * @param {number} interval - Interval between frames
    */
   setupSingleAnimation(images, onComplete, interval) {
     this.stopCurrentAnimation();
@@ -201,10 +201,10 @@ class Endboss extends movableObject {
   }
 
   /**
-   * Startet den Animations-Loop
-   * @param {Array} images - Bilder für die Animation
-   * @param {Function} onComplete - Callback nach Abschluss
-   * @param {number} interval - Intervall zwischen Frames
+   * Starts the animation loop
+   * @param {Array} images - Images for the animation
+   * @param {Function} onComplete - Callback after completion
+   * @param {number} interval - Interval between frames
    */
   startAnimationLoop(images, onComplete, interval) {
     this.currentAnimationInterval = setInterval(() => {
@@ -219,8 +219,8 @@ class Endboss extends movableObject {
   }
 
   /**
-   * Beendet die Animation und ruft Callback auf
-   * @param {Function} onComplete - Callback nach Abschluss
+   * Finishes the animation and calls callback
+   * @param {Function} onComplete - Callback after completion
    */
   finishAnimation(onComplete) {
     clearInterval(this.currentAnimationInterval);
@@ -256,7 +256,7 @@ class Endboss extends movableObject {
   }
 
   /**
-   * Bereitet die Tod-Animation vor
+   * Prepares the death animation
    */
   setupDeathAnimation() {
     this.isDying = true;
@@ -266,7 +266,7 @@ class Endboss extends movableObject {
   }
 
   /**
-   * Startet den Tod-Animations-Loop
+   * Starts the death animation loop
    */
   startDeathAnimationLoop() {
     this.deathInterval = setInterval(() => {
