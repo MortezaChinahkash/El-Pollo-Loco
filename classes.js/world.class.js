@@ -285,8 +285,8 @@ class World {
   }
 
   /**
-   * Zeichnet Hintergrundobjekte und Spielelemente in der richtigen Reihenfolge
-   * Sortiert Gegner nach Y-Position für korrekte Tiefenwirkung
+   * Draws background objects and game elements in the correct order
+   * Sorts enemies by Y-position for correct depth effect
    */
   drawBackgroundAndGameElements() {
     this.addObjectsToMap(this.level.backgroundObjects);
