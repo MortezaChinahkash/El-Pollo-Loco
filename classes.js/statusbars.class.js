@@ -3,6 +3,7 @@ class Statusbar extends DrawableObject {
   type;
   maxValue = 100;
   IMAGES = {};
+
   /**
    * Erstellt eine neue Statusleiste für verschiedene Spielwerte
    * @param {string} type - Typ der Statusleiste ('health', 'coins', 'bottles', 'endboss')

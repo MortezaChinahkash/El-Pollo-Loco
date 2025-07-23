@@ -5,6 +5,7 @@ class CollectableItem extends movableObject {
     left: 20,
     right: 10,
   };
+
   /**
    * Erstellt ein neues sammelbarebares Objekt (Münze oder Flasche)
    * @param {number} x - X-Position des Objekts

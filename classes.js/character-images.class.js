@@ -20,6 +20,7 @@ class CharacterImages {
     "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-19.png",
     "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
+
   /**
    * Standard Idle-Animation Bilder
    */
@@ -35,6 +36,7 @@ class CharacterImages {
     "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-9.png",
     "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-10.png",
   ];
+
   /**
    * Lauf-Animation Bilder
    */
@@ -46,6 +48,7 @@ class CharacterImages {
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-25.png",
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-26.png",
   ];
+
   /**
    * Sprung nach oben Animation Bilder
    */
@@ -56,6 +59,7 @@ class CharacterImages {
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-34.png",
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-35.png",
   ];
+
   /**
    * Sprung nach unten Animation Bilder
    */
@@ -65,6 +69,7 @@ class CharacterImages {
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-38.png",
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-39.png",
   ];
+
   /**
    * Verletzungs-Animation Bilder
    */
@@ -73,6 +78,7 @@ class CharacterImages {
     "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-42.png",
     "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-43.png",
   ];
+
   /**
    * Todes-Animation Bilder
    */

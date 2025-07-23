@@ -314,6 +314,24 @@ def remove_excessive_empty_lines(content):
                     # Add exactly 1 empty line before JSDoc
                     final_lines.append('')
         
+        # Check if current line is a class variable/property and next is JSDoc
+        elif (current_line.endswith('];') or current_line.endswith('};') or 
+              (current_line.endswith(';') and ('=' in current_line or current_line.strip().endswith(':')))) and i + 1 < len(result_lines):
+            # Look ahead to see if next non-empty line is JSDoc
+            next_line_index = i + 1
+            
+            # Skip any existing empty lines
+            while (next_line_index < len(result_lines) and 
+                   result_lines[next_line_index].strip() == ''):
+                next_line_index += 1
+            
+            # If there's a next line that's JSDoc, ensure 1 empty line before JSDoc
+            if next_line_index < len(result_lines):
+                next_line = result_lines[next_line_index].strip()
+                if next_line.startswith('/**'):
+                    # Add exactly 1 empty line before JSDoc
+                    final_lines.append('')
+        
         i += 1
     
     # Ensure file ends with single newline

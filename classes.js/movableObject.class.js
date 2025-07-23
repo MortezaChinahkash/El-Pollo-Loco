@@ -14,6 +14,7 @@ class movableObject extends DrawableObject {
     bottom: 0,
     left: 0,
     right: 0,  };
+
   /**
    * Wendet Schwerkraft auf das Objekt an
    * Reduziert vertikale Geschwindigkeit kontinuierlich

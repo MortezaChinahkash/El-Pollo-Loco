@@ -14,6 +14,7 @@ class Character extends movableObject {
   hasFullyDied = false;
   world;
   camera_x = 0;
+
   /**
    * Erstellt eine neue Character-Instanz
    * Initialisiert alle Bilder, Eigenschaften und startet die Schwerkraft

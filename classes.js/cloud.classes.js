@@ -4,6 +4,7 @@ class Cloud extends movableObject {
     y;
     width = 400;
     speed = 0.06;
+
     /**
      * Erstellt eine neue Wolke für den Hintergrund
      * @param {number} levelWidth - Die Breite des Levels für die Positionierung

@@ -22,6 +22,7 @@ class Chicken extends movableObject {
   ];
   IMAGES_DEAD = [
     "img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/2_dead/dead.png",  ];
+
   /**
    * Erstellt ein neues Chicken mit zufälligen Eigenschaften
    * @param {number} levelWidth - Breite des Levels für Positionierung

@@ -7,6 +7,7 @@ let currentLevel;
 
 let cachedElements = {};
 
+
 /**
  * Gets cached DOM element by ID to improve performance
  * @param {string} id - Element ID to retrieve
@@ -250,6 +251,7 @@ function hideMobileControls() {
 }
 
 window.forceMobileControls = forceMobileControls;
+
 
 /**
  * Sets up the audio system and loads all game sounds

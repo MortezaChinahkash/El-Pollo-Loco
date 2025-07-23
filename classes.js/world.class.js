@@ -16,6 +16,7 @@ class World {
   lastBottleThrowTime = 0;
   gameWon = false;
   gameOver = false;
+
   /**
    * Erstellt eine neue World-Instanz und initialisiert alle Spielelemente
    * @param {HTMLCanvasElement} canvas - Das Canvas-Element für die Darstellung

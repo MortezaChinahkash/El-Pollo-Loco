@@ -52,6 +52,7 @@ class Endboss extends movableObject {
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G24.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png",  ];
+
   /**
    * Erstellt einen neuen Endboss mit angegebenen Eigenschaften
    * @param {number} levelWidth - Breite des Levels für Positionierung

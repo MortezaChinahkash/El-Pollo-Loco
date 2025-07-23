@@ -6,6 +6,7 @@ class DrawableObject {
     height = 300;
     imageCache = [];
     currentImage = 0;
+
   /**
    * Zeichnet das Objekt auf den Canvas
    * @param {CanvasRenderingContext2D} ctx - Der Canvas-Rendering-Kontext
