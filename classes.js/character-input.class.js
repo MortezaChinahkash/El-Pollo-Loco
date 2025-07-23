@@ -1,6 +1,6 @@
 /**
  * Character Input Manager
- * Verwaltet alle Eingaben für den Character
+ * Manages all inputs for the character
  * @author Morteza Chinahkash
  * @version 1.0.0
  */
@@ -14,7 +14,7 @@ class CharacterInputManager {
   }
 
   /**
-   * Verarbeitet Benutzereingaben
+   * Processes user input and handles character movement
    */
   handleInput() {
     if (this.shouldIgnoreInput()) {
