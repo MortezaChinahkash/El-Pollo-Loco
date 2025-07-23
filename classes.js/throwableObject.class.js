@@ -203,7 +203,7 @@ class ThrowableObject extends movableObject {
   }
 
   /**
-   * Startet das Ausblenden und markiert das Objekt zur Löschung
+   * Starts the fade out and marks the object for deletion
    */
   startOpacityFade() {
     const fadeSpeed = 0.02;
