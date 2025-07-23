@@ -37,9 +37,9 @@ class CharacterAudioManager {
   }
 
   /**
-   * Spielt Sound ab wenn vom Endboss getroffen
-   * @param {number} now - Aktueller Zeitstempel
-   * @param {Object} source - Schadenquelle
+   * Plays sound when hit by endboss
+   * @param {number} now - Current timestamp
+   * @param {Object} source - Damage source
    */
   playSoundWhenMeetingEndboss(now, source) {
     if (
@@ -53,7 +53,7 @@ class CharacterAudioManager {
   }
 
   /**
-   * Spielt Orale-Sound einmalig ab
+   * Plays Orale sound once
    */
   playOraleSound() {
     if (!this.hasPlayedOrale && typeof soundManager !== "undefined") {
