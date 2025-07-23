@@ -138,9 +138,9 @@ class Character extends movableObject {
   }
 
   /**
-   * Prüft ob der Charakter auf einen Gegner springt
-   * @param {Object} enemy - Der Gegner-Objekt
-   * @returns {boolean} True wenn der Charakter auf den Gegner springt
+   * Checks if the character is jumping on an enemy
+   * @param {Object} enemy - The enemy object
+   * @returns {boolean} True if the character is jumping on the enemy
    */
   isJumpingOn(enemy) {
     return (
