@@ -342,24 +342,34 @@ function startMusicWhenNotMuted(isMuted) {
  * Detects touch devices and adjusts UI interface accordingly
  */
 function touchDetection() {
-  // Einfache Touch-Gerät-Erkennung
-  const isTouchDevice = 
-    (navigator.maxTouchPoints > 0) ||
+  const isTouchDevice = detectTouchDevice();
+  adjustUIForDevice(isTouchDevice);
+}
+
+/**
+ * Detects if the current device supports touch input
+ * @returns {boolean} True if touch device, false otherwise
+ */
+function detectTouchDevice() {
+  return (navigator.maxTouchPoints > 0) ||
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
     (window.orientation !== undefined) ||
     ("ontouchstart" in window);
-  
+}
+
+/**
+ * Adjusts UI elements based on device type
+ * @param {boolean} isTouchDevice - Whether device supports touch
+ */
+function adjustUIForDevice(isTouchDevice) {
   const desktopWelcome = document.getElementById("desktop-welcome");
   const mobileWelcome = document.getElementById("mobile-welcome");
   const mobileControls = document.getElementById("mobile-controls");
   
   if (isTouchDevice) {
-    // Touch-Gerät: Desktop verstecken, Mobile anzeigen
     if (desktopWelcome) desktopWelcome.style.display = "none";
     if (mobileWelcome) mobileWelcome.style.display = "flex";
-    // Mobile Controls NICHT hier anzeigen - nur im aktiven Spiel
   } else {
-    // Desktop: Desktop anzeigen, Mobile verstecken
     if (desktopWelcome) desktopWelcome.style.display = "flex";
     if (mobileWelcome) mobileWelcome.style.display = "none";
     if (mobileControls) mobileControls.style.display = "none";
@@ -404,9 +414,8 @@ window.addEventListener(
   "keydown",
   () => {
     if (!world) {
-      hideWelcomeMessages(); // Explizit Willkommensnachrichten verstecken
+      hideWelcomeMessages();
       init();
-      // Add delay to prevent audio interruption
       setTimeout(() => {
         if (soundManager && !soundManager.isMuted) {
           soundManager.playMusic("background", 0.2);
@@ -451,16 +460,12 @@ function setupMobileControls() {
   const btnRight = getCachedElement("btn-right");
   const btnJump = getCachedElement("btn-jump");
   const btnThrow = getCachedElement("btn-throw");
-
   btnLeft.addEventListener("touchstart", () => (keyboard.LEFT = true), { passive: true });
   btnLeft.addEventListener("touchend", () => (keyboard.LEFT = false), { passive: true });
-
   btnRight.addEventListener("touchstart", () => (keyboard.RIGHT = true), { passive: true });
   btnRight.addEventListener("touchend", () => (keyboard.RIGHT = false), { passive: true });
-
   btnJump.addEventListener("touchstart", () => (keyboard.UP = true), { passive: true });
   btnJump.addEventListener("touchend", () => (keyboard.UP = false), { passive: true });
-
   btnThrow.addEventListener("touchstart", () => (keyboard.SPACE = true), { passive: true });
   btnThrow.addEventListener("touchend", () => (keyboard.SPACE = false), { passive: true });
 }

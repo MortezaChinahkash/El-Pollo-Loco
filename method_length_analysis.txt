@@ -1,5 +1,5 @@
 METHOD LENGTH ANALYSIS REPORT
-Generated: 23.07.2025 10:50
+Generated: 23.07.2025 10:53
 ================================================================================
 Analyzing 25 TypeScript/JavaScript files for methods > 14 lines...
 Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
@@ -82,16 +82,6 @@ File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.j
      Code lines: 15 | Total lines: 24
      Declaration: showWinScreen() {...
 
-File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
---------------------------------------------------------------------------------
-  Method: setupHelpButton (Line 149-168)
-     Code lines: 15 | Total lines: 20
-     Declaration: function setupHelpButton() {...
-
-  Method: touchDetection (Line 320-343)
-     Code lines: 16 | Total lines: 24
-     Declaration: function touchDetection() {...
-
 ================================================================================
 === TOP 10 LONGEST METHODS ===
 ================================================================================
@@ -137,8 +127,8 @@ File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.j
 
 === SUMMARY ===
 Files analyzed: 25
-Files with long methods: 8
-Total methods > 14 lines: 17
-Average length: 18.4 lines
+Files with long methods: 7
+Total methods > 14 lines: 15
+Average length: 18.7 lines
 Longest method: initImages (35 lines)
 Consider refactoring methods longer than 20-25 lines
