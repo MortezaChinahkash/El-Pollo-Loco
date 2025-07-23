@@ -386,8 +386,8 @@ class World {
  }
 
  /**
-  * Zeigt den Gewinn-Bildschirm und Buttons
-  * @param {Image} img - Das Gewinn-Bild
+  * Shows the win screen and buttons
+  * @param {Image} img - The win image
   */
  displayWinScreen(img) {
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
