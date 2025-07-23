@@ -372,7 +372,7 @@ class World {
  }
 
  /**
-  * Lädt und zeigt das Gewinn-Bild
+  * Loads and displays the win image
   */
  loadWinImage() {
   const img = new Image();
