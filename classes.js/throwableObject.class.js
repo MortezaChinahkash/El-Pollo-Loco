@@ -194,7 +194,7 @@ class ThrowableObject extends movableObject {
   }
 
   /**
-   * Plant das Ausblenden des Objekts nach einer Verzögerung
+   * Schedules the fading of the object after a delay
    */
   scheduleOpacityFade() {
     setTimeout(() => {
