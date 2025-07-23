@@ -79,25 +79,36 @@ class Level {
    */
   defineBG() {
     return [
-      {
-        air: "img/img_pollo_locco/img/5_background/layers/air.png",
-        third:
-          "img/img_pollo_locco/img/5_background/layers/3_third_layer/1.png",
-        second:
-          "img/img_pollo_locco/img/5_background/layers/2_second_layer/1.png",
-        first:
-          "img/img_pollo_locco/img/5_background/layers/1_first_layer/1.png",
-      },
-      {
-        air: "img/img_pollo_locco/img/5_background/layers/air.png",
-        third:
-          "img/img_pollo_locco/img/5_background/layers/3_third_layer/2.png",
-        second:
-          "img/img_pollo_locco/img/5_background/layers/2_second_layer/2.png",
-        first:
-          "img/img_pollo_locco/img/5_background/layers/1_first_layer/2.png",
-      },
-    ];  }
+      this.getBackgroundSet1(),
+      this.getBackgroundSet2()
+    ];
+  }
+
+  /**
+   * Liefert das erste Hintergrund-Set
+   * @returns {Object} Erstes Hintergrund-Set mit allen Schichten
+   */
+  getBackgroundSet1() {
+    return {
+      air: "img/img_pollo_locco/img/5_background/layers/air.png",
+      third: "img/img_pollo_locco/img/5_background/layers/3_third_layer/1.png",
+      second: "img/img_pollo_locco/img/5_background/layers/2_second_layer/1.png",
+      first: "img/img_pollo_locco/img/5_background/layers/1_first_layer/1.png",
+    };
+  }
+
+  /**
+   * Liefert das zweite Hintergrund-Set
+   * @returns {Object} Zweites Hintergrund-Set mit allen Schichten
+   */
+  getBackgroundSet2() {
+    return {
+      air: "img/img_pollo_locco/img/5_background/layers/air.png",
+      third: "img/img_pollo_locco/img/5_background/layers/3_third_layer/2.png",
+      second: "img/img_pollo_locco/img/5_background/layers/2_second_layer/2.png",
+      first: "img/img_pollo_locco/img/5_background/layers/1_first_layer/2.png",
+    };
+  }
   
   /**
    * Generiert Wolken für das Level basierend auf der Levelbreite
