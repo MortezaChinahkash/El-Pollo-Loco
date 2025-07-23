@@ -38,9 +38,9 @@ class SoundManager {
       audio.currentTime = 0;
     }  }
   /**
-   * Spielt einen Sound-Effekt einmalig ab
-   * @param {string} name - Name des Sounds
-   * @param {number} [volume=1.0] - Lautstärke (0.0 bis 1.0)
+   * Plays a sound effect once
+   * @param {string} name - Name of the sound
+   * @param {number} [volume=1.0] - Volume (0.0 to 1.0)
    */
   playSound(name, volume = 1.0) {
     if (this.isMuted) return;
@@ -53,10 +53,10 @@ class SoundManager {
       sound.play().catch(() => {});
     } catch {}  }
   /**
-   * Spielt Hintergrundmusik in Dauerschleife ab
-   * Stoppt vorherige Musik und startet neue
-   * @param {string} name - Name der Musikdatei
-   * @param {number} [volume=0.5] - Lautstärke (0.0 bis 1.0)
+   * Plays background music in continuous loop
+   * Stops previous music and starts new
+   * @param {string} name - Name of the music file
+   * @param {number} [volume=0.5] - Volume (0.0 to 1.0)
    */
   playMusic(name, volume = 0.5) {
     const music = this.sounds[name];
