@@ -1,5 +1,5 @@
 JSDOC COVERAGE ANALYSIS REPORT
-Generated: 23.07.2025 11:16
+Generated: 23.07.2025 11:23
 ================================================================================
 Analyzing 24 TypeScript/JavaScript files for missing JSDoc...
 Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
@@ -9,117 +9,61 @@ Excluded directories: node_modules, .git, dist, build, .angular, coverage, .vsco
 
 File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
 --------------------------------------------------------------------------------
-  Method: createNewBottle (Line 112)
-     Type: Method
-     Declaration: createNewBottle() {...
-
-  Method: run (Line 121)
-     Type: Method
-     Declaration: run() {...
-
-  Method: activateBoss (Line 162)
-     Type: Method
-     Declaration: activateBoss() {...
-
-  Method: checkCollision (Line 178)
-     Type: Method
-     Declaration: checkCollision() {...
-
-  Method: bottleHitEnemy (Line 232)
-     Type: Method
-     Declaration: bottleHitEnemy() {...
-
-  Method: respawnAfterSplash (Line 252)
-     Type: Method
-     Declaration: respawnAfterSplash(bottle) {...
-
-  Method: draw (Line 259)
-     Type: Method
-     Declaration: draw() {...
-
-  Method: drawBackgroundAndGameElements (Line 274)
-     Type: Method
-     Declaration: drawBackgroundAndGameElements() {...
-
-  Method: drawHUDElements (Line 284)
-     Type: Method
-     Declaration: drawHUDElements() {...
-
-  Method: addObjectsToMap (Line 293)
-     Type: Method
-     Declaration: addObjectsToMap(objects) {...
-
-  Method: addToMap (Line 297)
-     Type: Method
-     Declaration: addToMap(mo) {...
-
-  Method: flipImage (Line 306)
-     Type: Method
-     Declaration: flipImage(mo) {...
-
-  Method: flipImageBack (Line 313)
+  Method: flipImageBack (Line 361)
      Type: Method
      Declaration: flipImageBack(mo) {...
 
-  Method: showWinScreen (Line 318)
+  Method: showWinScreen (Line 366)
      Type: Method
      Declaration: showWinScreen() {...
 
-  Method: showGameOverScreen (Line 361)
+  Method: showGameOverScreen (Line 409)
      Type: Method
      Declaration: showGameOverScreen() {...
 
-  Method: showRestartButton (Line 385)
+  Method: showRestartButton (Line 433)
      Type: Method
      Declaration: showRestartButton() {...
 
-  Method: showNextLevelButton (Line 395)
+  Method: showNextLevelButton (Line 443)
      Type: Method
      Declaration: showNextLevelButton() {...
 
 File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
 --------------------------------------------------------------------------------
-  Method: unknown_method (Line 378)
+  Method: unknown_method (Line 382)
      Type: Method
      Declaration: () => {...
 
-  Method: unknown_method (Line 394)
+  Method: unknown_method (Line 402)
      Type: Method
      Declaration: () => {...
-
-  Method: addEventListener (Line 408)
-     Type: Method
-     Declaration: window.addEventListener("keydown", (button) => {...
-
-  Method: addEventListener (Line 416)
-     Type: Method
-     Declaration: window.addEventListener("keyup", (button) => {...
 
 ================================================================================
 === MISSING JSDOC BY METHOD TYPE ===
 ================================================================================
-Method: 21 methods missing JSDoc
-  - createNewBottle in world.class.js
-  - run in world.class.js
-  - activateBoss in world.class.js
-  ... and 18 more
+Method: 7 methods missing JSDoc
+  - flipImageBack in world.class.js
+  - showWinScreen in world.class.js
+  - showGameOverScreen in world.class.js
+  ... and 4 more
 
 ================================================================================
 === TOP 10 FILES WITH MOST MISSING JSDOC ===
 ================================================================================
- 1. world.class.js (17 missing)
+ 1. world.class.js (5 missing)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
-    Methods: createNewBottle, run, activateBoss, checkCollision, bottleHitEnemy ... and 12 more
+    Methods: flipImageBack, showWinScreen, showGameOverScreen, showRestartButton, showNextLevelButton
 
- 2. game.js (4 missing)
+ 2. game.js (2 missing)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\js\game.js
-    Methods: unknown_method, unknown_method, addEventListener, addEventListener
+    Methods: unknown_method, unknown_method
 
 === OVERALL SUMMARY ===
 Files analyzed: 24
 Files with missing JSDoc: 2
-Total methods missing JSDoc: 21
-Estimated JSDoc coverage: 91.2%
+Total methods missing JSDoc: 7
+Estimated JSDoc coverage: 97.1%
 
 === RECOMMENDATIONS ===
 • Add JSDoc comments to all public methods and functions
