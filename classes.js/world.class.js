@@ -362,7 +362,7 @@ class World {
  }
 
  /**
-  * Versteckt UI-Elemente für den Gewinn-Bildschirm
+  * Hides UI elements for the win screen
   */
  hideUIForWinScreen() {
   const mobileControls = document.getElementById("mobile-controls");
