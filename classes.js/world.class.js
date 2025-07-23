@@ -397,8 +397,8 @@ class World {
  }
 
   /**
-   * Zeigt den Game-Over-Bildschirm an
-   * Versteckt mobile Controls und spielt Game-Over-Sound ab
+   * Shows the game over screen
+   * Hides mobile controls and plays game over sound
    */
   showGameOverScreen() {
   this.gameOver = true;
