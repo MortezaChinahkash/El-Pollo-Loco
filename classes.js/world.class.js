@@ -81,8 +81,8 @@ class World {
       (item) => !item.markedForDeletion
     );  }
   /**
-   * Prüft ob neue Flaschen geworfen werden können
-   * Verhindert Werfen während Boss-Eingang
+   * Checks if new bottles can be thrown
+   * Prevents throwing during boss entrance
    */
   checkThrowObjects() {
     const now = Date.now();
