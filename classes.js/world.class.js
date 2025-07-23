@@ -89,8 +89,8 @@ class World {
     if (this.character.world.level.boss?.movingIn) return;
     this.checkInventory(now);  }
   /**
-   * Überprüft Inventar und ermöglicht Flaschenwerfen mit Cooldown
-   * @param {number} now - Aktueller Zeitstempel
+   * Checks inventory and allows bottle throwing with cooldown
+   * @param {number} now - Current timestamp
    */
   checkInventory(now) {
     if (
@@ -105,8 +105,8 @@ class World {
   }
 
   /**
-   * Erstellt eine neue Flasche und fügt sie zu den werfbaren Objekten hinzu
-   * Wird aufgerufen wenn der Spieler eine Flasche wirft
+   * Creates a new bottle and adds it to the throwable objects
+   * Called when the player throws a bottle
    */
   createNewBottle() {
     this.character.resetMovementTimer();
@@ -118,8 +118,8 @@ class World {
   }
 
   /**
-   * Startet die Hauptspiel-Schleife mit 60 FPS
-   * Führt kontinuierlich Spiellogik, Aufräumarbeiten und Zustandsprüfungen durch
+   * Starts the main game loop at 60 FPS
+   * Continuously executes game logic, cleanup and state checks
    */
   run() {
     setInterval(() => {
