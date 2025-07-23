@@ -63,7 +63,7 @@ class CharacterAudioManager {
   }
 
   /**
-   * Startet Laufgeräusch
+   * Starts running sound
    */
   startRunningSound() {
     if (this.canStartRunningSound()) {
@@ -72,7 +72,8 @@ class CharacterAudioManager {
   }
 
   /**
-   * Prüft ob Laufgeräusch gestartet werden kann
+   * Checks if running sound can be started
+   * @returns {boolean} True if running sound can be started
    */
   canStartRunningSound() {
     return !this.runningSoundInstance &&
@@ -82,7 +83,7 @@ class CharacterAudioManager {
   }
 
   /**
-   * Initialisiert Laufgeräusch
+   * Initializes running sound
    */
   initializeRunningSound() {
     const sound = soundManager.sounds["running"];
@@ -93,7 +94,8 @@ class CharacterAudioManager {
   }
 
   /**
-   * Setzt Sound-Eigenschaften
+   * Sets sound properties
+   * @param {HTMLAudioElement} sound - The audio element to configure
    */
   setupRunningSoundProperties(sound) {
     this.runningSoundInstance = sound;
