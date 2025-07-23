@@ -206,8 +206,8 @@ class World {
   }
 
   /**
-   * Behandelt das Springen auf einen Gegner
-   * @param {Enemy} enemy - Der Gegner, auf den gesprungen wurde
+   * Handles jumping on an enemy
+   * @param {Enemy} enemy - The enemy that was jumped on
    */
   handleJumpOnEnemy(enemy) {
     enemy.hit(this.character.damage);
