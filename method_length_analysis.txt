@@ -1,5 +1,5 @@
 METHOD LENGTH ANALYSIS REPORT
-Generated: 23.07.2025 11:00
+Generated: 23.07.2025 11:03
 ================================================================================
 Analyzing 25 TypeScript/JavaScript files for methods > 14 lines...
 Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
@@ -38,33 +38,15 @@ File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.j
      Code lines: 15 | Total lines: 17
      Declaration: playDeathAnimation() {...
 
-File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\level.class.js
---------------------------------------------------------------------------------
-  Method: defineBG (Line 80-100)
-     Code lines: 19 | Total lines: 21
-     Declaration: defineBG() {...
-
 File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\throwableObject.class.js
 --------------------------------------------------------------------------------
-  Method: throw (Line 62-82)
-     Code lines: 15 | Total lines: 21
-     Declaration: throw() {...
-
-  Method: splash (Line 90-110)
+  Method: splash (Line 109-129)
      Code lines: 15 | Total lines: 21
      Declaration: splash() {...
 
-  Method: fadeOutAndRemove (Line 122-145)
-     Code lines: 19 | Total lines: 24
-     Declaration: fadeOutAndRemove() {...
-
 File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
 --------------------------------------------------------------------------------
-  Method: run (Line 121-139)
-     Code lines: 16 | Total lines: 19
-     Declaration: run() {...
-
-  Method: showWinScreen (Line 297-320)
+  Method: showWinScreen (Line 318-341)
      Code lines: 15 | Total lines: 24
      Declaration: showWinScreen() {...
 
@@ -79,42 +61,34 @@ File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.j
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103748\js\uiUtils.js
     Line: 91-118
 
- 3. defineBG (19 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\level.class.js
-    Line: 80-100
-
- 4. fadeOutAndRemove (19 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\throwableObject.class.js
-    Line: 122-145
-
- 5. hideWelcomeMessages (18 lines)
+ 3. hideWelcomeMessages (18 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103342\js\uiUtils.js
     Line: 9-38
 
- 6. hideWelcomeMessages (18 lines)
+ 4. hideWelcomeMessages (18 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\backups\console_log_backup_20250723_103748\js\uiUtils.js
     Line: 9-38
 
- 7. run (16 lines)
-    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
-    Line: 121-139
-
- 8. playFullAnimationOnce (15 lines)
+ 5. playFullAnimationOnce (15 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
     Line: 158-174
 
- 9. playDeathAnimation (15 lines)
+ 6. playDeathAnimation (15 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\endboss.class.js
     Line: 185-201
 
-10. throw (15 lines)
+ 7. splash (15 lines)
     File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\throwableObject.class.js
-    Line: 62-82
+    Line: 109-129
+
+ 8. showWinScreen (15 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
+    Line: 318-341
 
 === SUMMARY ===
 Files analyzed: 25
-Files with long methods: 6
-Total methods > 14 lines: 12
-Average length: 17.2 lines
+Files with long methods: 5
+Total methods > 14 lines: 8
+Average length: 17.1 lines
 Longest method: forceMobileControls (22 lines)
 Consider refactoring methods longer than 20-25 lines

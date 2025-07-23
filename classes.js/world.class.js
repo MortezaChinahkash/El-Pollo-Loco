@@ -317,27 +317,45 @@ class World {
 
  showWinScreen() {
   this.gameWon = true;
-  
-  // Mobile Controls verstecken bei Win Screen
+  this.hideUIForWinScreen();
+  this.loadWinImage();
+ }
+
+ /**
+  * Versteckt UI-Elemente für den Gewinn-Bildschirm
+  */
+ hideUIForWinScreen() {
   const mobileControls = document.getElementById("mobile-controls");
   if (mobileControls) {
     mobileControls.style.display = "none";
   }
-  
+ }
+
+ /**
+  * Lädt und zeigt das Gewinn-Bild
+  */
+ loadWinImage() {
   const img = new Image();
   img.src = "img/img_pollo_locco/img/You won, you lost/You won A.png";
 
-  // 🎵 Sound abspielen, wenn Spiel gewonnen wurde
   if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
     soundManager.playSound("won", 0.4);
   }
 
   img.onload = () => {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
-    this.showRestartButton();
-    this.showNextLevelButton();
+    this.displayWinScreen(img);
   };
+ }
+
+ /**
+  * Zeigt den Gewinn-Bildschirm und Buttons
+  * @param {Image} img - Das Gewinn-Bild
+  */
+ displayWinScreen(img) {
+  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+  this.showRestartButton();
+  this.showNextLevelButton();
  }
 
   showGameOverScreen() {

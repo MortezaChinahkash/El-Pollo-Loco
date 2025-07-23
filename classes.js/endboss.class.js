@@ -157,20 +157,48 @@ class Endboss extends movableObject {
 
   playFullAnimationOnce(images, onComplete, interval = 120) {
     if (this.isAnimating) return;
+    this.setupSingleAnimation(images, onComplete, interval);
+  }
+
+  /**
+   * Bereitet eine einmalige Animation vor
+   * @param {Array} images - Bilder für die Animation
+   * @param {Function} onComplete - Callback nach Abschluss
+   * @param {number} interval - Intervall zwischen Frames
+   */
+  setupSingleAnimation(images, onComplete, interval) {
     this.stopCurrentAnimation();
     this.isAnimating = true;
     this.currentImage = 0;
+    this.startAnimationLoop(images, onComplete, interval);
+  }
+
+  /**
+   * Startet den Animations-Loop
+   * @param {Array} images - Bilder für die Animation  
+   * @param {Function} onComplete - Callback nach Abschluss
+   * @param {number} interval - Intervall zwischen Frames
+   */
+  startAnimationLoop(images, onComplete, interval) {
     this.currentAnimationInterval = setInterval(() => {
       if (this.currentImage < images.length) {
         const path = images[this.currentImage];
         this.img = this.imageCache[path];
         this.currentImage++;
       } else {
-        clearInterval(this.currentAnimationInterval);
-        this.isAnimating = false;
-        if (onComplete) onComplete();
+        this.finishAnimation(onComplete);
       }
     }, interval);
+  }
+
+  /**
+   * Beendet die Animation und ruft Callback auf
+   * @param {Function} onComplete - Callback nach Abschluss
+   */
+  finishAnimation(onComplete) {
+    clearInterval(this.currentAnimationInterval);
+    this.isAnimating = false;
+    if (onComplete) onComplete();
   }
 
   stopCurrentAnimation() {

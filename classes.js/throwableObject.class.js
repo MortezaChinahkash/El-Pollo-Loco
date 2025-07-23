@@ -108,12 +108,26 @@ class ThrowableObject extends movableObject {
 
   splash() {
     if (this.isSplashing) return;
+    this.setSplashState();
+    this.handleSplashSounds();
+    this.startSplashAnimation();
+  }
+
+  /**
+   * Setzt den Splash-Zustand und stoppt Bewegung
+   */
+  setSplashState() {
     this.isSplashing = true;
     clearInterval(this.gravityInterval);
     clearInterval(this.rotationInterval);
     this.speedY = 0;
     this.speedX = 0;
+  }
 
+  /**
+   * Behandelt Sound-Effekte beim Splash
+   */
+  handleSplashSounds() {
     if (this.flySoundInstance) {
       this.flySoundInstance.pause();
       this.flySoundInstance.currentTime = 0;
@@ -123,7 +137,12 @@ class ThrowableObject extends movableObject {
     if (!soundManager.isMuted) {
       soundManager.playSound("throw_splash", 0.4);
     }
+  }
 
+  /**
+   * Startet die Splash-Animation und plant Entfernung
+   */
+  startSplashAnimation() {
     this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
     setTimeout(() => this.fadeOutAndRemove(), 1000);
   }
