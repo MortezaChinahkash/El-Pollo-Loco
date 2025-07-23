@@ -222,8 +222,8 @@ class World {
   }
 
   /**
-   * Behandelt seitliche Kollision mit Gegner
-   * @param {Enemy} enemy - Der Gegner bei seitlicher Kollision
+   * Handles side collision with enemy
+   * @param {Enemy} enemy - The enemy in side collision
    */
   handleSideCollisionWithEnemy(enemy) {
     const isEndboss = enemy instanceof Endboss;
@@ -234,8 +234,8 @@ class World {
   }
 
   /**
-   * Behandelt Kollisionen zwischen geworfenen Flaschen und Gegnern
-   * Fügt Schaden zu und spielt entsprechende Sounds ab
+   * Handles collisions between thrown bottles and enemies
+   * Deals damage and plays appropriate sounds
    */
   bottleHitEnemy() {
     this.throwableObject.forEach((bottle) => {
