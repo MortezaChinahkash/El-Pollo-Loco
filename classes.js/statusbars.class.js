@@ -55,8 +55,8 @@ class Statusbar extends DrawableObject {
   }
 
   /**
-   * Liefert die Bildpfade für die Münzen-Statusleiste
-   * @returns {Object} Münzleisten-Bildpfade
+   * Returns the image paths for the coin status bar
+   * @returns {Object} Coin bar image paths
    */
   getCoinBarImages() {
     return {
