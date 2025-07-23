@@ -6,6 +6,10 @@
  */
 
 class CharacterInputManager {
+  /**
+   * Creates a new character input manager
+   * @param {Character} character - The character to manage input for
+   */
   constructor(character) {
     this.character = character;
   }

@@ -1,0 +1,20 @@
+JSDOC COVERAGE ANALYSIS REPORT
+Generated: 23.07.2025 10:37
+================================================================================
+Analyzing 24 TypeScript/JavaScript files for missing JSDoc...
+Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
+TypeScript files: 0
+JavaScript files: 24
+Excluded directories: node_modules, .git, dist, build, .angular, coverage, .vscode, .idea
+
+================================================================================
+=== MISSING JSDOC BY METHOD TYPE ===
+================================================================================
+================================================================================
+=== TOP 10 FILES WITH MOST MISSING JSDOC ===
+================================================================================
+=== OVERALL SUMMARY ===
+Files analyzed: 24
+Files with missing JSDoc: 0
+Total methods missing JSDoc: 0
+Perfect! All methods have JSDoc documentation!

@@ -8,6 +8,11 @@ let currentLevel;
 // Performance optimization: Cache DOM elements
 let cachedElements = {};
 
+/**
+ * Gets cached DOM element by ID to improve performance
+ * @param {string} id - Element ID to retrieve
+ * @returns {HTMLElement} Cached DOM element
+ */
 function getCachedElement(id) {
   if (!cachedElements[id]) {
     cachedElements[id] = document.getElementById(id);
@@ -24,6 +29,9 @@ function init(levelWidth = 5000, levelNumber = 1) {
   getCachedElement("overlay-buttons").style.display = "flex";
 }
 
+/**
+ * Sets up the main game UI and interface elements
+ */
 function setupUI() {
   canvas = getCachedElement("canvas");
   canvas.style.display = "block";
@@ -48,12 +56,12 @@ function setupUI() {
     
     // Nur bei Touch-Geräten nachträglich aktivieren, auf Desktop niemals
     if (!isDisplayed && isTouchDeviceDetected()) {
-      console.log("Backup: Mobile Controls werden nachträglich aktiviert");
+
       mobileControls.style.setProperty("display", "flex", "important");
       mobileControls.style.setProperty("visibility", "visible", "important");
     } else if (isDisplayed && !isTouchDeviceDetected()) {
       // Sicherheit: Falls Mobile Controls auf Desktop angezeigt werden, verstecken
-      console.log("Sicherheit: Mobile Controls auf Desktop versteckt");
+
       mobileControls.style.setProperty("display", "none", "important");
       mobileControls.style.setProperty("visibility", "hidden", "important");
     }
@@ -67,37 +75,11 @@ function setupUI() {
   if (homeBtn) homeBtn.style.display = "none";
 }
 
-function hideWelcomeMessages() {
-  // Alle Willkommensnachrichten mit verschiedenen Selektoren verstecken
-  const desktopWelcome = document.getElementById("desktop-welcome");
-  const mobileWelcome = document.getElementById("mobile-welcome");
-  
-  // Zusätzlich nach Klassen suchen
-  const desktopWelcomeClass = document.querySelector(".desktop-welcome");
-  const mobileWelcomeClass = document.querySelector(".mobile-welcome");
-  const allStartMessages = document.querySelectorAll(".start-message");
-  
-  if (desktopWelcome) {
-    desktopWelcome.style.display = "none";
-  }
-  if (mobileWelcome) {
-    mobileWelcome.style.display = "none";
-  }
-  if (desktopWelcomeClass) {
-    desktopWelcomeClass.style.display = "none";
-  }
-  if (mobileWelcomeClass) {
-    mobileWelcomeClass.style.display = "none";
-  }
-  
-  // Sicherheit: Alle Start-Nachrichten verstecken
-  allStartMessages.forEach((message, index) => {
-    if (message.parentElement && (message.parentElement.id === 'desktop-welcome' || message.parentElement.id === 'mobile-welcome' || message.parentElement.classList.contains('desktop-welcome') || message.parentElement.classList.contains('mobile-welcome'))) {
-      message.parentElement.style.display = "none";
-    }
-  });
-}
+// Diese Funktionen sind in uiUtils.js ausgelagert
 
+/**
+ * Sets up all overlay button functionalities
+ */
 function setupOverlayButtons() {
   setupMuteButton();
   setupFullscreenButton();
@@ -105,6 +87,9 @@ function setupOverlayButtons() {
   setupHomeButton();
 }
 
+/**
+ * Sets up mute button functionality and state management
+ */
 function setupMuteButton() {
   const muteBtn = getCachedElement("muteBtn");
 
@@ -124,6 +109,9 @@ function setupMuteButton() {
   };
 }
 
+/**
+ * Sets up fullscreen toggle button functionality
+ */
 function setupFullscreenButton() {
   const fullscreenBtn = getCachedElement("fullscreenBtn");
   fullscreenBtn.onclick = () => {
@@ -138,6 +126,9 @@ function setupFullscreenButton() {
   };
 }
 
+/**
+ * Sets up help overlay button and click handlers
+ */
 function setupHelpButton() {
   const helpBtn = getCachedElement("helpBtn");
   const helpOverlay = getCachedElement("helpOverlay");
@@ -159,6 +150,9 @@ function setupHelpButton() {
   });
 }
 
+/**
+ * Sets up home button to reload the page
+ */
 function setupHomeButton() {
   const homeBtn = getCachedElement("homeBtn");
   
@@ -168,49 +162,38 @@ function setupHomeButton() {
   });
 }
 
+/**
+ * Initializes a level with specified dimensions
+ * @param {number} levelWidth - Width of the level
+ * @param {number} levelNumber - Level number
+ * @returns {Level} Created level instance
+ */
 function initializeLevel(levelWidth, levelNumber) {
   return createLevel(levelWidth, levelNumber);
 }
 
+/**
+ * Initializes the game world with the current level
+ * @param {Level} currentLevel - Level to initialize world with
+ */
 function initializeGameWorld(currentLevel) {
   world = new World(canvas, keyboard, currentLevel);
 }
 
+/**
+ * Sets up input handling for touch and mobile controls
+ */
 function setupInput() {
   touchDetection();
   setupMobileControls();
   // Mobile Controls werden in setupUI() aktiviert, nicht hier
 }
 
-function showMobileControlsForGameplay() {
-  const isTouchDevice = 
-    "ontouchstart" in window ||
-    navigator.maxTouchPoints > 0 ||
-    navigator.msMaxTouchPoints > 0 ||
-    (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
-    
-  const mobileControls = getCachedElement("mobile-controls");
-  
-  // Nur auf Touch-Geräten anzeigen, auf Desktop IMMER versteckt lassen
-  if (isTouchDevice && mobileControls) {
-    // Explizite CSS-Übersteuerung für Touch-Geräte
-    mobileControls.style.setProperty("display", "flex", "important");
-    mobileControls.style.setProperty("visibility", "visible", "important");
-    mobileControls.style.setProperty("position", "fixed", "important");
-    mobileControls.style.setProperty("bottom", "10px", "important");
-    mobileControls.style.setProperty("z-index", "1000", "important");
-    
-    console.log("Mobile Controls aktiviert für Touch-Gerät");
-  } else {
-    // Desktop: Mobile Controls explizit verstecken
-    if (mobileControls) {
-      mobileControls.style.setProperty("display", "none", "important");
-      mobileControls.style.setProperty("visibility", "hidden", "important");
-    }
-    console.log("Desktop-Gerät erkannt - Mobile Controls bleiben versteckt");
-  }
-}
+// showMobileControlsForGameplay ist in uiUtils.js ausgelagert
 
+/**
+ * Hides mobile controls by setting display and visibility to hidden
+ */
 function hideMobileControls() {
   const mobileControls = getCachedElement("mobile-controls");
   if (mobileControls) {
@@ -219,57 +202,14 @@ function hideMobileControls() {
   }
 }
 
-function isTouchDeviceDetected() {
-  // Verbesserte Touch-Detection mit mehreren Prüfungen
-  const hasTouchScreen = "ontouchstart" in window ||
-    navigator.maxTouchPoints > 0 ||
-    navigator.msMaxTouchPoints > 0;
-    
-  const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  
-  const hasCoarsePointer = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
-  
-  const hasOrientation = window.orientation !== undefined;
-  
-  // Nur als Touch-Gerät erkennen wenn mindestens 2 Kriterien erfüllt sind
-  const touchIndicators = [hasTouchScreen, isMobileUserAgent, hasCoarsePointer, hasOrientation];
-  const touchCount = touchIndicators.filter(Boolean).length;
-  
-  return touchCount >= 2 || (hasTouchScreen && isMobileUserAgent);
-}
-
-// Notfall-Funktion: Mobile Controls manuell einblenden
-function forceMobileControls() {
-  const mobileControls = document.getElementById("mobile-controls");
-  
-  if (!isTouchDeviceDetected()) {
-    console.warn("⚠️ Warnung: Mobile Controls sollten nicht auf Desktop-Geräten aktiviert werden!");
-    console.log("Touch-Device-Detection:", {
-      ontouchstart: "ontouchstart" in window,
-      maxTouchPoints: navigator.maxTouchPoints,
-      userAgent: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
-      coarsePointer: window.matchMedia && window.matchMedia("(pointer: coarse)").matches,
-      orientation: window.orientation !== undefined
-    });
-  }
-  
-  if (mobileControls) {
-    mobileControls.style.setProperty("display", "flex", "important");
-    mobileControls.style.setProperty("visibility", "visible", "important");
-    mobileControls.style.setProperty("position", "fixed", "important");
-    mobileControls.style.setProperty("bottom", "10px", "important");
-    mobileControls.style.setProperty("z-index", "1000", "important");
-    mobileControls.style.setProperty("width", "100%", "important");
-    mobileControls.style.setProperty("justify-content", "space-between", "important");
-    console.log("Mobile Controls manuell aktiviert!");
-    return true;
-  }
-  return false;
-}
+// Diese Funktionen sind in uiUtils.js ausgelagert
 
 // Globale Verfügbarkeit für Debugging
 window.forceMobileControls = forceMobileControls;
 
+/**
+ * Sets up the audio system and loads all game sounds
+ */
 function setupAudio() {
   if (!soundManager) {
     soundManager = new SoundManager();
@@ -321,6 +261,9 @@ function setupAudio() {
   }, 200);
 }
 
+/**
+ * Loads mute state from localStorage if not already loaded
+ */
 function loadMuteStateFromLocalStorage() {
   if (muteStateAlreadyLoaded) return;
 
@@ -332,6 +275,10 @@ function loadMuteStateFromLocalStorage() {
   muteStateAlreadyLoaded = true; 
 }
 
+/**
+ * Updates mute button display based on current mute state
+ * @param {boolean} isMuted - Current mute state
+ */
 function refreshMuteButton(isMuted) {
   const muteBtn = getCachedElement("muteBtn");
   if (muteBtn) {
@@ -339,6 +286,10 @@ function refreshMuteButton(isMuted) {
   }
 }
 
+/**
+ * Starts background music if not muted
+ * @param {boolean} isMuted - Current mute state
+ */
 function startMusicWhenNotMuted(isMuted) {
   if (!isMuted) {
     try {
@@ -349,6 +300,9 @@ function startMusicWhenNotMuted(isMuted) {
   }
 }
 
+/**
+ * Detects touch devices and adjusts UI interface accordingly
+ */
 function touchDetection() {
   // Einfache Touch-Gerät-Erkennung
   const isTouchDevice = 
@@ -441,9 +395,19 @@ window.addEventListener("keyup", (button) => {
   if (button.keyCode == 32) keyboard.SPACE = false;
 });
 
+/**
+ * Creates a new level with specified parameters
+ * @param {number} levelWidth - Width of the level
+ * @param {number} levelNumber - Level number
+ * @returns {Level} New level instance
+ */
 function createLevel(levelWidth, levelNumber) {
   return new Level([], [], [], levelWidth, levelNumber);
 }
+
+/**
+ * Sets up mobile control button event listeners
+ */
 function setupMobileControls() {
   const btnLeft = getCachedElement("btn-left");
   const btnRight = getCachedElement("btn-right");

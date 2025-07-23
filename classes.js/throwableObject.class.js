@@ -28,6 +28,11 @@ class ThrowableObject extends movableObject {
     "img/img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png"
   ];
 
+  /**
+   * Creates a new throwable object (bottle)
+   * @param {number} x - Initial x position
+   * @param {number} y - Initial y position
+   */
   constructor(x, y) {
     super();
     this.x = x;

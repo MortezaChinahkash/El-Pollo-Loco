@@ -6,6 +6,10 @@
  */
 
 class CharacterAudioManager {
+  /**
+   * Creates a new character audio manager
+   * @param {Character} character - The character to manage audio for
+   */
   constructor(character) {
     this.character = character;
     this.lastHurtSoundTime = 0;

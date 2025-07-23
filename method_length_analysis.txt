@@ -1,0 +1,49 @@
+METHOD LENGTH ANALYSIS REPORT
+Generated: 23.07.2025 10:37
+================================================================================
+Analyzing 24 TypeScript/JavaScript files for methods > 14 lines...
+Search directory: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco
+TypeScript files: 0
+JavaScript files: 24
+Excluded directories: node_modules, .git, dist, build, .angular, coverage
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\chicken.class.js
+--------------------------------------------------------------------------------
+  Method: constructor (Line 34-49)
+     Code lines: 15 | Total lines: 16
+     Declaration: constructor(levelWidth, damage) {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\collectableItem.class.js
+--------------------------------------------------------------------------------
+  Method: constructor (Line 16-37)
+     Code lines: 17 | Total lines: 22
+     Declaration: constructor(x, y, type) {...
+
+File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
+--------------------------------------------------------------------------------
+  Method: constructor (Line 26-52)
+     Code lines: 27 | Total lines: 27
+     Declaration: constructor(canvas, keyboard, level) {...
+
+================================================================================
+=== TOP 10 LONGEST METHODS ===
+================================================================================
+ 1. constructor (27 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\world.class.js
+    Line: 26-52
+
+ 2. constructor (17 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\collectableItem.class.js
+    Line: 16-37
+
+ 3. constructor (15 lines)
+    File: C:\Users\china\OneDrive\Desktop\Developer Akademie\El Pollo Loco\classes.js\chicken.class.js
+    Line: 34-49
+
+=== SUMMARY ===
+Files analyzed: 24
+Files with long methods: 3
+Total methods > 14 lines: 3
+Average length: 19.7 lines
+Longest method: constructor (27 lines)
+Consider refactoring methods longer than 20-25 lines

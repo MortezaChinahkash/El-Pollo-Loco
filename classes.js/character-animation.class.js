@@ -6,6 +6,10 @@
  */
 
 class CharacterAnimationManager {
+  /**
+   * Creates a new character animation manager
+   * @param {Character} character - The character to manage animations for
+   */
   constructor(character) {
     this.character = character;
     this.hasJumpedUp = false;
