@@ -74,7 +74,7 @@ class SoundManager {
       this.music.play().catch(() => {});
     }  }
   /**
-   * Pausiert die aktuell abspielende Hintergrundmusik
+   * Pauses the currently playing background music
    */
   pauseMusic() {
     if (this.music) this.music.pause();  }
