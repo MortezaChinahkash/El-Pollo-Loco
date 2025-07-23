@@ -1,12 +1,12 @@
 /**
  * Character Image Constants
- * Alle Bild-Arrays für Character-Animationen
+ * All image arrays for character animations
  * @author Morteza Chinahkash
  * @version 2.0.0
  */
 class CharacterImages {
   /**
-   * Lange Idle-Animation Bilder
+   * Long idle animation images
    */
   static IMAGES_IDLE_LONG = [
     "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-11.png",
@@ -22,7 +22,7 @@ class CharacterImages {
   ];
 
   /**
-   * Standard Idle-Animation Bilder
+   * Standard idle animation images
    */
   static IMAGES_IDLE = [
     "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png",
@@ -38,7 +38,7 @@ class CharacterImages {
   ];
 
   /**
-   * Lauf-Animation Bilder
+   * Walking animation images
    */
   static IMAGES_WALKING = [
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png",
@@ -50,7 +50,7 @@ class CharacterImages {
   ];
 
   /**
-   * Sprung nach oben Animation Bilder
+   * Jump up animation images
    */
   static IMAGES_JUMP_UP = [
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-31.png",
