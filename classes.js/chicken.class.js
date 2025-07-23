@@ -7,7 +7,7 @@ class Chicken extends movableObject {
   energy = 100;
   damage;
   isVisible = true;
-  opacity = 1; // ✅ Sichtbarkeit starten bei voll sichtbar
+  opacity = 1;
   markedForDeletion = false;
 
   offset = {

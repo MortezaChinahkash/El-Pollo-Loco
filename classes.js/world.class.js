@@ -180,7 +180,7 @@ class World {
   ) {
     boss.activate();
 
-    // 🎵 Ay Dios Mio Sound beim ersten Erscheinen
+
     if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
       soundManager.playSound("ay_dios_mio", 0.3);
     }
@@ -256,7 +256,7 @@ class World {
           if (!enemy.markedForDeletion && bottle.isColliding(enemy)) {
             enemy.hit(this.character.damage);
 
-            // 🎯 Wenn Boss getroffen → Sound abspielen
+
             if (enemy instanceof Endboss && !soundManager.isMuted) {
               soundManager.playSound("bottle_hit_boss", 0.5);
             }
@@ -306,10 +306,10 @@ class World {
   drawBackgroundAndGameElements() {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.clouds);
-    this.addObjectsToMap(this.collectableItems); // Flaschen auf dem Boden zuerst
-    this.addObjectsToMap(this.throwableObject); // Geworfene Flaschen zuerst
+    this.addObjectsToMap(this.collectableItems);
+    this.addObjectsToMap(this.throwableObject);
     let sortedEnemies = [...this.enemies].sort((a, b) => a.y - b.y);
-    this.addObjectsToMap(sortedEnemies); // Enemies über den Flaschen
+    this.addObjectsToMap(sortedEnemies);
     this.addToMap(this.character);
   }
 
@@ -322,7 +322,7 @@ class World {
     this.coinBar.draw(this.ctx);
     this.bottleBar.draw(this.ctx);
     this.ctx.font = "30px Arial";
-    this.ctx.fillStyle = "#ffffff"; // weißer Text
+    this.ctx.fillStyle = "#ffffff";
     this.ctx.fillText("Level " + this.level.levelNumber, 40, 90);
   }
 
@@ -342,7 +342,7 @@ class World {
     if (mo.otherDirection) this.flipImage(mo);
     if (mo.img) {
       mo.draw(this.ctx);
-      // mo.drawCollisionFrame(this.ctx);
+
     }
     if (mo.otherDirection) this.flipImageBack(mo);
   }
@@ -420,17 +420,17 @@ class World {
    */
   showGameOverScreen() {
   this.gameOver = true;
-  
-  // Mobile Controls verstecken bei Game Over Screen
+
+
   const mobileControls = document.getElementById("mobile-controls");
   if (mobileControls) {
     mobileControls.style.display = "none";
   }
-  
+
   const img = new Image();
   img.src = "img/img_pollo_locco/img/You won, you lost/Game Over.png";
 
-  // 🎵 Game Over Sound abspielen
+
   if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
     soundManager.playSound("lost", 0.4);
   }

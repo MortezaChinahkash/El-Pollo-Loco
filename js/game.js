@@ -5,7 +5,7 @@ let soundManager;
 let muteStateAlreadyLoaded = false;
 let currentLevel;
 
-// Performance optimization: Cache DOM elements
+
 let cachedElements = {};
 
 /**
@@ -294,7 +294,7 @@ function loadMuteStateFromLocalStorage() {
   soundManager.isMuted = isMuted;
   refreshMuteButton(isMuted);
   startMusicWhenNotMuted(isMuted);
-  muteStateAlreadyLoaded = true; 
+  muteStateAlreadyLoaded = true;
 }
 
 /**
@@ -381,7 +381,7 @@ window.addEventListener(
   "touchend",
   () => {
     if (!world) {
-      hideWelcomeMessages(); 
+      hideWelcomeMessages();
       init();
       setTimeout(() => {
         if (soundManager && !soundManager.isMuted) {

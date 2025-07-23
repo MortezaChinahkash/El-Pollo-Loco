@@ -18,7 +18,7 @@ class Endboss extends movableObject {
   width = 250;
   height = 300;
   y = 110;
-  speed = 25; // Reduziert von 35 auf 25 für bessere Balance
+  speed = 25;
 
   IMAGES_WALKING = [
     "img/img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -101,12 +101,12 @@ class Endboss extends movableObject {
   startAlert() {
     this.alertInterval = setInterval(() => {
       if (!this.isDead() && !this.isDying && !this.jumpingAttack && !this.isAnimating) {
-        this.loopAnimation(this.IMAGES_ALERT, 160); // Erhöht von 120 auf 160 für langsamere Alert-Animation
+        this.loopAnimation(this.IMAGES_ALERT, 160);
       } else if (this.isDead() || this.isDying) {
         clearInterval(this.alertInterval);
         this.playDeathAnimation();
       }
-    }, 400); // Erhöht von 300 auf 400 für weniger häufige Alert-Checks
+    }, 400);
   }
 
   /**
@@ -121,11 +121,11 @@ class Endboss extends movableObject {
       const player = this.world?.character;
       if (!player) return;
       const distanceToPlayer = Math.abs(this.x - player.x);
-      const step = 5; // Reduziert von 8 auf 5 für moderatere Geschwindigkeit
+      const step = 5;
       this.otherDirection = player.x < this.x;
       this.walkToPlayer(player, step);
       this.handleJumpAttack(player, distanceToPlayer);
-    }, 1000 / 45); // Reduziert von 60 auf 45 FPS für weniger aggressive Angriffe
+    }, 1000 / 45);
   }
 
   /**
@@ -135,7 +135,7 @@ class Endboss extends movableObject {
    */
   walkToPlayer(player,step){
     if (!this.jumpingAttack && !this.isAnimating) {
-      this.loopAnimation(this.IMAGES_WALKING, 180); // Erhöht von 150 auf 180 für langsamere Animation
+      this.loopAnimation(this.IMAGES_WALKING, 180);
       if (this.x < player.x - 10) this.x += step;
       else if (this.x > player.x + 10) this.x -= step;
     }
@@ -151,7 +151,7 @@ class Endboss extends movableObject {
       this.jumpingAttack = true;
       this.speedY = 25;
       const direction = player.x < this.x ? -1 : 1;
-      this.x += direction * 120; // Erhöht von 75 auf 120 für weitere Sprünge um den Character zu treffen
+      this.x += direction * 120;
       this.playFullAnimationOnce(this.IMAGES_ATTACK, () => {
         this.jumpingAttack = false;
       }, 120);
@@ -207,7 +207,7 @@ class Endboss extends movableObject {
 
   /**
    * Startet den Animations-Loop
-   * @param {Array} images - Bilder für die Animation  
+   * @param {Array} images - Bilder für die Animation
    * @param {Function} onComplete - Callback nach Abschluss
    * @param {number} interval - Intervall zwischen Frames
    */

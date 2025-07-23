@@ -36,7 +36,7 @@ class movableObject extends DrawableObject {
    * @returns {boolean} True wenn Kollision erkannt wird
    */
   isColliding(mo) {
-  const buffer = 5; // ← 5 Pixel Puffer, kannst du anpassen
+  const buffer = 5;
 
   return (
     this.x + this.width - this.offset.right > mo.x + mo.offset.left + buffer &&
