@@ -99,6 +99,7 @@ class CharacterInputManager {
 
   /**
    * Manages running sound
+   * @param {boolean} moved - Whether the character is currently moving
    */
   playRunningSound(moved) {
     const isActuallyRunning =
