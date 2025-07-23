@@ -116,7 +116,7 @@ function forceMobileControls() {
  * Logs warning when mobile controls are forced on desktop
  */
 function logMobileControlsWarning() {
-  console.warn("⚠️ Warnung: Mobile Controls sollten nicht auf Desktop-Geräten aktiviert werden!");
+  console.warn("⚠️ Warning: Mobile Controls should not be activated on desktop devices!");
 }
 
 

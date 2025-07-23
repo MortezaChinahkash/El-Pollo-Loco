@@ -83,8 +83,8 @@ class Level {
   }
 
   /**
-   * Liefert das erste Hintergrund-Set
-   * @returns {Object} Erstes Hintergrund-Set mit allen Schichten
+   * Returns the first background set
+   * @returns {Object} First background set with all layers
    */
   getBackgroundSet1() {
     return {
@@ -96,8 +96,8 @@ class Level {
   }
 
   /**
-   * Liefert das zweite Hintergrund-Set
-   * @returns {Object} Zweites Hintergrund-Set mit allen Schichten
+   * Returns the second background set
+   * @returns {Object} Second background set with all layers
    */
   getBackgroundSet2() {
     return {
