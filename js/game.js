@@ -402,8 +402,8 @@ if (document.readyState === 'loading') {
 
 
 /**
- * Event Listener für Touch-Ende - startet das Spiel bei Touch-Eingabe
- * Initialisiert das Spiel und spielt Hintergrundmusik ab
+ * Event Listener for touch end - starts the game on touch input
+ * Initializes the game and plays background music
  */
 window.addEventListener(
   "touchend",
@@ -422,8 +422,8 @@ window.addEventListener(
 );
 
 /**
- * Event Listener für Tasten-Eingabe - startet das Spiel bei Tastendruck
- * Initialisiert das Spiel und spielt Hintergrundmusik ab
+ * Event Listener for key input - starts the game on key press
+ * Initializes the game and plays background music
  */
 window.addEventListener(
   "keydown",

@@ -16,8 +16,8 @@ class Character extends movableObject {
   camera_x = 0;
 
   /**
-   * Erstellt eine neue Character-Instanz
-   * Initialisiert alle Bilder, Eigenschaften und startet die Schwerkraft
+   * Creates a new Character instance
+   * Initializes all images, properties and starts gravity
    */
   constructor() {
     super();
@@ -30,7 +30,7 @@ class Character extends movableObject {
   }
 
   /**
-   * Richtet alle Manager-Klassen ein
+   * Sets up all manager classes
    */
   setupManagers() {
     this.audioManager = new CharacterAudioManager(this);
