@@ -255,8 +255,8 @@ class World {
   }
 
   /**
-   * Behandelt das Respawning von Flaschen nach dem Aufprall
-   * @param {ThrowableObject} bottle - Die Flasche die gespawnt werden soll
+   * Handles respawning of bottles after impact
+   * @param {ThrowableObject} bottle - The bottle that should be spawned
    */
   respawnAfterSplash(bottle) {
     if (bottle.isSplashing && !bottle.respawnHandled) {
