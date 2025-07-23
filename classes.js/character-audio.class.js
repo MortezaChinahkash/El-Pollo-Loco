@@ -162,7 +162,9 @@ class CharacterAudioManager {
   }
 
   /**
-   * Konfiguriert und spielt Sprunggeräusch ab
+   * Configures and plays jump sound
+   * @param {HTMLAudioElement} sound - The audio element to configure
+   * @param {number} now - Current timestamp
    */
   configureAndPlayJumpSound(sound, now) {
     sound.pause();
