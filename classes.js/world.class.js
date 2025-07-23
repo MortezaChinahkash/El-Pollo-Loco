@@ -163,8 +163,8 @@ class World {
   }
 
   /**
-   * Aktiviert den Endboss wenn der Spieler die Trigger-Position erreicht
-   * Spielt auch den "Ay Dios Mio" Sound beim ersten Erscheinen ab
+   * Activates the endboss when the player reaches the trigger position
+   * Also plays the "Ay Dios Mio" sound on first appearance
    */
   activateBoss() {
   const boss = this.level.enemies.find((e) => e instanceof Endboss);
@@ -181,8 +181,8 @@ class World {
 }
 
   /**
-   * Überprüft alle Kollisionen im Spiel
-   * Behandelt Kollisionen zwischen Spieler und Gegnern sowie Sammelobjekten
+   * Checks all collisions in the game
+   * Handles collisions between player and enemies as well as collectible items
    */
   checkCollision() {
     if (this.character.isDeadState || this.character.isHurt) return;
