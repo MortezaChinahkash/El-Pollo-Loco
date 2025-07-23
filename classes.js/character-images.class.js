@@ -71,7 +71,7 @@ class CharacterImages {
   ];
 
   /**
-   * Verletzungs-Animation Bilder
+   * Hurt animation images
    */
   static IMAGES_HURT = [
     "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-41.png",
