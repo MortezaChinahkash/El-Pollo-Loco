@@ -25,8 +25,8 @@ class Statusbar extends DrawableObject {
       this.startSyncWithObject(linkedObject);
     }  }
   /**
-   * Initialisiert die Bildpfade für alle Statusleisten-Typen
-   * Definiert für jeden Typ die entsprechenden Bilder für verschiedene Füllstände
+   * Initializes the image paths for all status bar types
+   * Defines the corresponding images for different fill levels for each type
    */
   initImages() {
     this.IMAGES = {
