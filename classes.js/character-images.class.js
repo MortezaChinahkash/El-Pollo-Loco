@@ -80,7 +80,7 @@ class CharacterImages {
   ];
 
   /**
-   * Todes-Animation Bilder
+   * Death animation images
    */
   static IMAGES_DEAD = [
     "img/img_pollo_locco/img/2_character_pepe/5_dead/D-51.png",
