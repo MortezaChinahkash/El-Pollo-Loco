@@ -103,12 +103,11 @@ class SoundManager {
     this.isMuted = !this.isMuted;
     if (this.music) {
       if (!this.isMuted) {
-        // Unmuting: start music from beginning
+        // Unmuting: continue from current position
         this.music.muted = false;
-        this.music.currentTime = 0;
         this.music.play().catch(() => {});
       } else {
-        // Muting: pause and mute
+        // Muting: pause but keep current position
         this.music.pause();
         this.music.muted = true;
       }
