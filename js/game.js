@@ -215,14 +215,11 @@ function loadAllGameSounds() {
 function startBackgroundMusic() {
   setTimeout(() => {
     try {
-      // Always setup music reference
       soundManager.setupMusic("background", 0.2);
       if (!soundManager.isMuted) {
-        // If not muted, start playing from beginning
         soundManager.music.currentTime = 0;
         soundManager.music.play().catch(() => {});
       } else {
-        // If muted, set to beginning but don't play
         soundManager.music.currentTime = 0;
       }
     } catch (error) {
