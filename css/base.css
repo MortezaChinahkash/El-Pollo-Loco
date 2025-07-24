@@ -1,0 +1,129 @@
+/**
+ * Base CSS - Core Performance and Foundation Styles
+ * Contains performance optimizations, reset styles, and core body/html settings
+ */
+
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  touch-action: manipulation;
+  overscroll-behavior: contain;
+  /* Hardware acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-image: url(../img/ChatGPT\ Image\ 5.\ Mai\ 2025\,\ 14_01_04.png);
+  background-size: cover;
+  background-position: center;
+  /* Optimize background rendering */
+  background-attachment: fixed;
+  will-change: transform;
+  /* Reserviere Platz für Desktop Welcome Message um Layout-Shift zu vermeiden */
+  padding-top: 120px;
+  padding-bottom: 60px; /* Platz für den Footer */
+  box-sizing: border-box;
+}
+
+/* Footer Styles */
+#game-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.footer-info p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  text-align: left;
+}
+
+#impressum-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  transition: all 0.3s ease;
+  padding: 5px 15px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+#impressum-link:hover {
+  color: #FFD700;
+  background: rgba(255, 215, 0, 0.1);
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Desktop spezifische Footer Anpassungen */
+@media (pointer: fine) and (hover: hover) and (min-width: 1025px) {
+  #game-footer {
+    position: fixed;
+    bottom: 0;
+    margin-top: 0;
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  #impressum-link {
+    font-size: 14px;
+    padding: 8px 20px;
+  }
+  
+  .footer-info p {
+    font-size: 12px;
+  }
+}
+
+/* Responsive Footer für kleinere Bildschirme */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+  }
+  
+  .footer-info {
+    align-items: center;
+    order: 2;
+  }
+  
+  #impressum-link {
+    order: 1;
+  }
+}

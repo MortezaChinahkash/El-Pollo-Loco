@@ -1,0 +1,60 @@
+/**
+ * Game CSS - Canvas and Game Container Styles
+ * Contains game-specific elements like canvas, loading screen, and containers
+ */
+
+canvas {
+  background-color: black;
+  box-shadow: 1px 1px 50px 15px;
+  position: relative;
+  /* Hardware acceleration for canvas */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+}
+
+#canvas-container {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+}
+
+#loading-screen {
+  text-align: center;
+  width: 780px;
+  height: 480px;
+  background-image: url(../img/img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png);
+  background-size: 100% 100%;
+  background-position: center;
+  color: rgb(0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  font-family: sans-serif;
+  z-index: 999;
+  position: relative;
+}
+
+.intro-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 50px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  width: 720px;
+  height: 100px;
+}

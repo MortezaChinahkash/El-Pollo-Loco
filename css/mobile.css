@@ -1,0 +1,449 @@
+/**
+ * Mobile CSS - Touch Controls and Responsive Design
+ * Contains mobile-specific styles, touch controls, and responsive layouts
+ */
+
+#mobile-controls {
+  display: none; /* Standardmäßig versteckt, wird durch JavaScript überschrieben */
+}
+
+/* Mobile Controls nur auf Touch-Geräten anzeigen */
+@media (pointer: coarse), (hover: none), (max-width: 1024px) {
+  #mobile-controls {
+    display: none; /* Wird durch JavaScript überschrieben wenn Touch erkannt */
+  }
+  
+  /* Mobile Startbildschirm-Text wird jetzt durch JavaScript gesteuert */
+  
+  .start-message {
+    max-width: 90%;
+    padding: 30px 20px;
+    margin: 20px auto;
+  }
+  
+  .start-message h1 {
+    font-size: 2em;
+  }
+  
+  .start-message p {
+    font-size: 1.1em;
+  }
+}
+
+/* Desktop-spezifisch: Mobile Controls verstecken */
+@media (pointer: fine) and (hover: hover) and (min-width: 1025px) {
+  #mobile-controls {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  
+  /* Desktop Welcome Message weit oben positionieren */
+  .desktop-welcome {
+    position: absolute;
+    top: 20px;
+  }
+  
+  /* Stelle sicher, dass body padding-top auf Desktop hat */
+  body {
+    padding-top: 120px !important;
+  }
+}
+
+#mobile-controls button {
+  user-select: none;
+  width: 70px;
+  height: 70px;
+  font-size: 28px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+}
+
+#mobile-controls button:active {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* Home Button für alle Touch/Mobile Kontexte */
+@media (pointer: coarse), (hover: none), (max-width: 900px) {
+  #homeBtn {
+    width: 250px !important;
+    font-size: 20px !important;
+    padding: 15px 30px !important;
+    background-color: #2196F3 !important;
+    color: #ffffff !important;
+    border: white 3px solid !important;
+    border-radius: 25px !important;
+    text-align: center !important;
+    z-index: 2100 !important;
+    pointer-events: auto !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important;
+  }
+  
+  /* Verbesserte Mobile Control Buttons für Touch-Geräte */
+  #mobile-controls button {
+    width: 70px !important;
+    height: 70px !important;
+    font-size: 28px !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    border: 3px solid rgba(255, 255, 255, 0.9) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
+  }
+}
+
+/* Regeln für Touch-Geräte (einschließlich iPads) */
+@media (pointer: coarse), (hover: none) {
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  body {
+    flex-direction: column;
+    justify-content: flex-start;
+    background-attachment: scroll;
+    /* Entferne padding-top für Touch-Geräte */
+    padding-top: 0 !important;
+  }
+
+  #helpBtn {
+    display: none;
+  }
+
+  canvas {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: none !important;
+    object-fit: fill;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+  }
+
+  #canvas-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  #overlay-buttons {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1100;
+  }
+
+  .button-container {
+    justify-content: space-around;
+    width: 100%;
+    gap: 12px;
+    align-items: center;
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+  }
+
+  #loading-screen {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  /* Desktop-Intro wird durch JavaScript gesteuert - CSS überschreibt nicht */
+  
+  /* Mobile-Intro wird durch JavaScript gesteuert - CSS überschreibt nicht */
+
+  .start-message {
+    max-width: 90%;
+    padding: 20px 15px; /* Kleinere Padding auf Touch-Geräten */
+    margin: 10px auto;
+  }
+
+  .start-message h1 {
+    font-size: 1.8em; /* Kleinere Schrift auf Touch-Geräten */
+  }
+
+  .start-message p {
+    font-size: 1em; /* Kleinere Schrift auf Touch-Geräten */
+  }
+
+  #restartBtn,
+  #nextLevelBtn {
+    width: 250px;
+    font-size: 20px;
+    padding: 15px 30px;
+    background-color: #e292478a;
+    color: #ffffff;
+    border: white 2px solid;
+    border-radius: 25px;
+    text-align: center;
+    z-index: 2100;
+    pointer-events: auto;
+  }
+
+  #mobile-controls {
+    display: none; /* Standardmäßig versteckt, wird durch JavaScript aktiviert */
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    padding: 0 20px; /* Padding hinzugefügt für Touch-Geräte */
+    justify-content: space-between;
+    margin: 10px;
+    z-index: 1000;
+  }
+
+  .left-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .right-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  #mobile-controls button {
+    display: block;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    color: white;
+  }
+
+  /* Touch-Geräte: Footer verstecken wenn Spiel aktiv ist */
+  body:has(canvas[style*="display: block"]) #game-footer {
+    display: none;
+  }
+}
+
+/* Fallback für ältere Browser und kleinere Bildschirme */
+@media (max-width: 900px) {
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  body {
+    flex-direction: column;
+    justify-content: flex-start;
+    background-attachment: scroll; /* Bessere Performance auf mobilen Geräten */
+    /* Entferne padding-top für kleinere Bildschirme */
+    padding-top: 0 !important;
+  }
+
+  #helpBtn {
+    display: none;
+  }
+
+  canvas {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: none !important;
+    object-fit: fill;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+  }
+
+  #canvas-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  #overlay-buttons {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1100;
+  }
+
+  .button-container {
+    justify-content: space-around;
+    width: 100%;
+    gap: 12px;
+    align-items: center;
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+  }
+
+  #loading-screen {
+    width: 100vw;
+    height: 100vh;
+    aspect-ratio: 3 / 2;
+  }
+
+  /* Desktop-Intro wird durch JavaScript gesteuert - CSS überschreibt nicht */
+  
+  /* Mobile-Intro wird durch JavaScript gesteuert - CSS überschreibt nicht */
+
+  .start-message {
+    max-width: 90%;
+    padding: 20px 15px; /* Kleinere Padding auf Touch-Geräten */
+    margin: 10px auto;
+  }
+
+  .start-message h1 {
+    font-size: 1.8em; /* Kleinere Schrift auf Touch-Geräten */
+  }
+
+  .start-message p {
+    font-size: 1em; /* Kleinere Schrift auf Touch-Geräten */
+  }
+
+  #restartBtn,
+  #nextLevelBtn {
+    width: 250px;
+    font-size: 20px;
+    padding: 15px 30px;
+    background-color: #e292478a;
+    color: #ffffff;
+    border: white 2px solid;
+    border-radius: 25px;
+    text-align: center;
+    z-index: 2100;
+    pointer-events: auto;
+  }
+
+  #mobile-controls {
+    display: none; /* Standardmäßig versteckt, wird durch JavaScript aktiviert */
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    justify-content: space-between;
+    margin: 10px;
+    z-index: 1000;
+  }
+
+  .left-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .right-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  #mobile-controls button {
+    display: block;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    color: white;
+  }
+
+  /* Kleinere Bildschirme: Footer verstecken wenn Spiel aktiv ist */
+  body:has(canvas[style*="display: block"]) #game-footer {
+    display: none;
+  }
+}
+
+@media screen and (orientation: portrait) and (max-width: 900px) {
+  body::before {
+    content: "🔄 Bitte drehe dein Gerät ins Querformat für das beste Spielerlebnis! 📱➡️💻";
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.95);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+  }
+
+  canvas,
+  #mobile-controls,
+  .button-container,
+  #loading-screen,
+  #restartBtn,
+  #nextLevelBtn {
+    display: none !important;
+  }
+}
+
+/* Querformat-Hinweis für alle Touch-Geräte im Hochformat */
+@media screen and (orientation: portrait) and (pointer: coarse), 
+       screen and (orientation: portrait) and (hover: none),
+       screen and (orientation: portrait) and (max-width: 900px) {
+  body::before {
+    content: "🔄 Bitte drehe dein Gerät ins Querformat für das beste Spielerlebnis! 📱➡️💻";
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.95);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+  }
+
+  canvas,
+  #mobile-controls,
+  .button-container,
+  #loading-screen,
+  #restartBtn,
+  #nextLevelBtn {
+    display: none !important;
+  }
+}
