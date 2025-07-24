@@ -323,10 +323,12 @@ function adjustUIForDevice(isTouchDevice) {
   const desktopWelcome = document.getElementById("desktop-welcome");
   const mobileWelcome = document.getElementById("mobile-welcome");
   const mobileControls = document.getElementById("mobile-controls");
+  const mobileImpressumBtn = document.getElementById("mobile-impressum-btn");
   
   if (isTouchDevice) {
     if (desktopWelcome) desktopWelcome.style.display = "none";
     if (mobileWelcome) mobileWelcome.style.display = "flex";
+    if (mobileImpressumBtn) mobileImpressumBtn.style.display = "block";
     
     // Mobile Controls bleiben vorerst versteckt bis das Spiel startet
     if (mobileControls) {
@@ -336,6 +338,7 @@ function adjustUIForDevice(isTouchDevice) {
   } else {
     if (desktopWelcome) desktopWelcome.style.display = "flex";
     if (mobileWelcome) mobileWelcome.style.display = "none";
+    if (mobileImpressumBtn) mobileImpressumBtn.style.display = "none";
     if (mobileControls) mobileControls.style.display = "none";
   }
 }
@@ -353,45 +356,90 @@ if (document.readyState === 'loading') {
 
 
 /**
- * Event Listener for touch end - starts the game on touch input
- * Initializes the game and plays background music
+ * Event Listener für Touch end - startet das Spiel nur bei Touch auf Loading Screen
+ * Initialisiert das Spiel und spielt Hintergrundmusik ab
  */
-window.addEventListener(
-  "touchend",
-  () => {
-    if (!world) {
-      hideWelcomeMessages();
-      init();
-      setTimeout(() => {
-        if (soundManager && !soundManager.isMuted) {
-          soundManager.playMusic("background", 0.2);
+function setupGameStartListeners() {
+  const loadingScreen = document.getElementById("loading-screen");
+  const mobileWelcome = document.getElementById("mobile-welcome");
+  
+  // Touch-Listener nur auf Loading Screen beschränken
+  if (loadingScreen) {
+    loadingScreen.addEventListener(
+      "touchend",
+      (e) => {
+        // Prüfe ob das Touch-Event vom Impressum Button oder dessen Eltern kommt
+        if (e.target.id === 'mobile-impressum-btn' || 
+            e.target.closest('#mobile-impressum-btn')) {
+          e.preventDefault();
+          e.stopPropagation();
+          return; // Spiel nicht starten bei Impressum-Klick
         }
-      }, 100);
-    }
-  },
-  { once: true }
-);
-
-
-/**
- * Event Listener for key input - starts the game on key press
- * Initializes the game and plays background music
- */
-window.addEventListener(
-  "keydown",
-  () => {
-    if (!world) {
-      hideWelcomeMessages();
-      init();
-      setTimeout(() => {
-        if (soundManager && !soundManager.isMuted) {
-          soundManager.playMusic("background", 0.2);
+        
+        if (!world) {
+          hideWelcomeMessages();
+          init();
+          setTimeout(() => {
+            if (soundManager && !soundManager.isMuted) {
+              soundManager.playMusic("background", 0.2);
+            }
+          }, 100);
         }
-      }, 100);
-    }
-  },
-  { once: true }
-);
+      },
+      { once: true }
+    );
+  }
+  
+  // Keyboard-Listener für Desktop bleibt global
+  window.addEventListener(
+    "keydown",
+    () => {
+      if (!world) {
+        hideWelcomeMessages();
+        init();
+        setTimeout(() => {
+          if (soundManager && !soundManager.isMuted) {
+            soundManager.playMusic("background", 0.2);
+          }
+        }, 100);
+      }
+    },
+    { once: true }
+  );
+}
+
+// Impressum Button Setup für Mobile
+function setupMobileImpressumButton() {
+  const impressumBtn = document.getElementById("mobile-impressum-btn");
+  
+  if (impressumBtn) {
+    // Verwende touchend statt click für bessere Touch-Unterstützung
+    impressumBtn.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      e.stopPropagation(); // Verhindert das Weiterleiten an den loading-screen
+      e.stopImmediatePropagation(); // Stoppt alle anderen Event Listener
+      
+      // Kurze Verzögerung für bessere UX
+      setTimeout(() => {
+        window.location.href = "impressum.html";
+      }, 50);
+    }, { passive: false });
+    
+    // Fallback für Desktops (obwohl Button nur auf Mobile sichtbar ist)
+    impressumBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = "impressum.html";
+    });
+  }
+}
+
+// Setup beim DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+  touchDetection();
+  setupGameStartListeners();
+  setupMobileImpressumButton();
+});
 
 
 /**
@@ -479,9 +527,6 @@ function setupMobileControls() {
     keyboard.SPACE = false;
   }, { passive: false });
 }
-document.addEventListener('DOMContentLoaded', function() {
-  touchDetection();
-});
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', touchDetection);
 } else {
