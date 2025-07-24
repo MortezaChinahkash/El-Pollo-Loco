@@ -72,18 +72,14 @@ function hideWelcomeElements() {
  * Configures mobile controls based on device detection
  */
 function configureMobileControls() {
-  showMobileControlsForGameplay();
-  setTimeout(() => {
-    const mobileControls = getCachedElement("mobile-controls");
-    const isDisplayed = window.getComputedStyle(mobileControls).display !== "none";
-    if (!isDisplayed && isTouchDeviceDetected()) {
-      mobileControls.style.setProperty("display", "flex", "important");
-      mobileControls.style.setProperty("visibility", "visible", "important");
-    } else if (isDisplayed && !isTouchDeviceDetected()) {
-      mobileControls.style.setProperty("display", "none", "important");
-      mobileControls.style.setProperty("visibility", "hidden", "important");
-    }
-  }, 100);
+  // Mobile controls bleiben vorerst versteckt - werden erst beim Spielstart angezeigt
+  const mobileControls = getCachedElement("mobile-controls");
+  const isTouchDevice = detectTouchDevice();
+  
+  if (!isTouchDevice && mobileControls) {
+    mobileControls.style.setProperty("display", "none", "important");
+    mobileControls.style.setProperty("visibility", "hidden", "important");
+  }
 }
 
 
@@ -155,6 +151,24 @@ function initializeGameWorld(currentLevel) {
 function setupInput() {
   touchDetection();
   setupMobileControls();
+  showMobileControlsForGame(); // Mobile controls beim Spielstart anzeigen
+}
+
+
+/**
+ * Zeigt mobile controls nur während des Spiels an (nicht auf Loading Screen)
+ */
+function showMobileControlsForGame() {
+  const isTouchDevice = detectTouchDevice();
+  const mobileControls = document.getElementById("mobile-controls");
+  
+  if (isTouchDevice && mobileControls) {
+    mobileControls.style.setProperty("display", "flex", "important");
+    mobileControls.style.setProperty("visibility", "visible", "important");
+    mobileControls.style.setProperty("position", "fixed", "important");
+    mobileControls.style.setProperty("bottom", "20px", "important");
+    mobileControls.style.setProperty("z-index", "2001", "important");
+  }
 }
 
 
@@ -314,13 +328,10 @@ function adjustUIForDevice(isTouchDevice) {
     if (desktopWelcome) desktopWelcome.style.display = "none";
     if (mobileWelcome) mobileWelcome.style.display = "flex";
     
-    // WICHTIG: Mobile Controls für Touch-Geräte IMMER anzeigen
+    // Mobile Controls bleiben vorerst versteckt bis das Spiel startet
     if (mobileControls) {
-      mobileControls.style.setProperty("display", "flex", "important");
-      mobileControls.style.setProperty("visibility", "visible", "important");
-      mobileControls.style.setProperty("position", "fixed", "important");
-      mobileControls.style.setProperty("bottom", "20px", "important");
-      mobileControls.style.setProperty("z-index", "2001", "important");
+      mobileControls.style.setProperty("display", "none", "important");
+      mobileControls.style.setProperty("visibility", "hidden", "important");
     }
   } else {
     if (desktopWelcome) desktopWelcome.style.display = "flex";
