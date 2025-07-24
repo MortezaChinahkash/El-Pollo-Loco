@@ -283,10 +283,21 @@ function touchDetection() {
  * @returns {boolean} True if touch device, false otherwise
  */
 function detectTouchDevice() {
-  return (navigator.maxTouchPoints > 0) ||
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    (window.orientation !== undefined) ||
-    ("ontouchstart" in window);
+  // Erweiterte Touch-Detection für alle Bildschirmgrößen
+  const hasTouchScreen = "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0;
+  
+  const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  const hasCoarsePointer = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+  
+  const hasOrientation = window.orientation !== undefined;
+  
+  // Kleinere Bildschirme werden als Touch-Geräte behandelt
+  const isSmallScreen = window.innerWidth <= 768 || window.innerHeight <= 600;
+  
+  return hasTouchScreen || isMobileUserAgent || hasCoarsePointer || hasOrientation || isSmallScreen;
 }
 
 
@@ -298,9 +309,19 @@ function adjustUIForDevice(isTouchDevice) {
   const desktopWelcome = document.getElementById("desktop-welcome");
   const mobileWelcome = document.getElementById("mobile-welcome");
   const mobileControls = document.getElementById("mobile-controls");
+  
   if (isTouchDevice) {
     if (desktopWelcome) desktopWelcome.style.display = "none";
     if (mobileWelcome) mobileWelcome.style.display = "flex";
+    
+    // WICHTIG: Mobile Controls für Touch-Geräte IMMER anzeigen
+    if (mobileControls) {
+      mobileControls.style.setProperty("display", "flex", "important");
+      mobileControls.style.setProperty("visibility", "visible", "important");
+      mobileControls.style.setProperty("position", "fixed", "important");
+      mobileControls.style.setProperty("bottom", "20px", "important");
+      mobileControls.style.setProperty("z-index", "2001", "important");
+    }
   } else {
     if (desktopWelcome) desktopWelcome.style.display = "flex";
     if (mobileWelcome) mobileWelcome.style.display = "none";
@@ -409,14 +430,43 @@ function setupMobileControls() {
   const btnRight = getCachedElement("btn-right");
   const btnJump = getCachedElement("btn-jump");
   const btnThrow = getCachedElement("btn-throw");
-  btnLeft.addEventListener("touchstart", () => (keyboard.LEFT = true), { passive: true });
-  btnLeft.addEventListener("touchend", () => (keyboard.LEFT = false), { passive: true });
-  btnRight.addEventListener("touchstart", () => (keyboard.RIGHT = true), { passive: true });
-  btnRight.addEventListener("touchend", () => (keyboard.RIGHT = false), { passive: true });
-  btnJump.addEventListener("touchstart", () => (keyboard.UP = true), { passive: true });
-  btnJump.addEventListener("touchend", () => (keyboard.UP = false), { passive: true });
-  btnThrow.addEventListener("touchstart", () => (keyboard.SPACE = true), { passive: true });
-  btnThrow.addEventListener("touchend", () => (keyboard.SPACE = false), { passive: true });
+  
+  // Event-Listener mit besserer Touch-Behandlung
+  btnLeft.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.LEFT = true;
+  }, { passive: false });
+  btnLeft.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.LEFT = false;
+  }, { passive: false });
+  
+  btnRight.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.RIGHT = true;
+  }, { passive: false });
+  btnRight.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.RIGHT = false;
+  }, { passive: false });
+  
+  btnJump.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.UP = true;
+  }, { passive: false });
+  btnJump.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.UP = false;
+  }, { passive: false });
+  
+  btnThrow.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.SPACE = true;
+  }, { passive: false });
+  btnThrow.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.SPACE = false;
+  }, { passive: false });
 }
 document.addEventListener('DOMContentLoaded', function() {
   touchDetection();

@@ -726,12 +726,21 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
   }
 
   canvas,
-  #mobile-controls,
   .button-container,
   #loading-screen,
   #restartBtn,
   #nextLevelBtn {
     display: none !important;
+  }
+  
+  /* Mobile controls sollen im Portrait-Modus SICHTBAR bleiben für kleine Geräte */
+  #mobile-controls {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 2001 !important;
   }
 }
 
@@ -759,12 +768,21 @@ body:has(canvas[style*="display: block"]) .mobile-welcome {
   }
 
   canvas,
-  #mobile-controls,
   .button-container,
   #loading-screen,
   #restartBtn,
   #nextLevelBtn {
     display: none !important;
+  }
+  
+  /* Mobile controls sollen im Portrait-Modus SICHTBAR bleiben für kleine Geräte */
+  #mobile-controls {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 2001 !important;
   }
 }
 
