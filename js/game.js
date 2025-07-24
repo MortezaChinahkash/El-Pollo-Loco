@@ -323,12 +323,12 @@ function adjustUIForDevice(isTouchDevice) {
   const desktopWelcome = document.getElementById("desktop-welcome");
   const mobileWelcome = document.getElementById("mobile-welcome");
   const mobileControls = document.getElementById("mobile-controls");
-  const mobileImpressumBtn = document.getElementById("mobile-impressum-btn");
+  const impressumWrapper = document.getElementById("impressum-wrapper");
   
   if (isTouchDevice) {
     if (desktopWelcome) desktopWelcome.style.display = "none";
     if (mobileWelcome) mobileWelcome.style.display = "flex";
-    if (mobileImpressumBtn) mobileImpressumBtn.style.display = "block";
+    if (impressumWrapper) impressumWrapper.style.display = "block";
     
     // Mobile Controls bleiben vorerst versteckt bis das Spiel startet
     if (mobileControls) {
@@ -338,7 +338,7 @@ function adjustUIForDevice(isTouchDevice) {
   } else {
     if (desktopWelcome) desktopWelcome.style.display = "flex";
     if (mobileWelcome) mobileWelcome.style.display = "none";
-    if (mobileImpressumBtn) mobileImpressumBtn.style.display = "none";
+    if (impressumWrapper) impressumWrapper.style.display = "none";
     if (mobileControls) mobileControls.style.display = "none";
   }
 }
@@ -361,20 +361,35 @@ if (document.readyState === 'loading') {
  */
 function setupGameStartListeners() {
   const loadingScreen = document.getElementById("loading-screen");
-  const mobileWelcome = document.getElementById("mobile-welcome");
   
   // Touch-Listener nur auf Loading Screen beschränken
   if (loadingScreen) {
     loadingScreen.addEventListener(
       "touchend",
       (e) => {
-        // Prüfe ob das Touch-Event vom Impressum Button oder dessen Eltern kommt
+        // Mehrfache Prüfung für Impressum Button und Wrapper
         if (e.target.id === 'mobile-impressum-btn' || 
-            e.target.closest('#mobile-impressum-btn')) {
+            e.target.id === 'impressum-wrapper' ||
+            e.target.closest('#mobile-impressum-btn') ||
+            e.target.closest('#impressum-wrapper') ||
+            e.target.classList.contains('mobile-impressum-btn') ||
+            e.target.classList.contains('impressum-wrapper')) {
+          console.log("Impressum Button/Wrapper detected - preventing game start");
           e.preventDefault();
           e.stopPropagation();
-          return; // Spiel nicht starten bei Impressum-Klick
+          return false; // Spiel nicht starten bei Impressum-Klick
         }
+        
+        // Prüfe auch ob das Event von einem Child des Impressum Wrappers kommt
+        const impressumWrapper = document.getElementById('impressum-wrapper');
+        if (impressumWrapper && impressumWrapper.contains(e.target)) {
+          console.log("Touch inside Impressum Wrapper - preventing game start");
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
+        
+        console.log("Touch on loading screen - starting game");
         
         if (!world) {
           hideWelcomeMessages();
@@ -410,25 +425,56 @@ function setupGameStartListeners() {
 
 // Impressum Button Setup für Mobile
 function setupMobileImpressumButton() {
+  const impressumWrapper = document.getElementById("impressum-wrapper");
   const impressumBtn = document.getElementById("mobile-impressum-btn");
   
-  if (impressumBtn) {
-    // Verwende touchend statt click für bessere Touch-Unterstützung
-    impressumBtn.addEventListener("touchend", (e) => {
+  if (impressumWrapper && impressumBtn) {
+    // Wrapper Events - verhindert Bubbling zum Loading Screen
+    impressumWrapper.addEventListener("touchstart", (e) => {
       e.preventDefault();
-      e.stopPropagation(); // Verhindert das Weiterleiten an den loading-screen
-      e.stopImmediatePropagation(); // Stoppt alle anderen Event Listener
-      
-      // Kurze Verzögerung für bessere UX
-      setTimeout(() => {
-        window.location.href = "impressum.html";
-      }, 50);
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      console.log("Touch start on wrapper - preventing bubbling");
     }, { passive: false });
     
-    // Fallback für Desktops (obwohl Button nur auf Mobile sichtbar ist)
+    impressumWrapper.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+    }, { passive: false });
+    
+    impressumWrapper.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      console.log("Touch end on wrapper - preventing bubbling");
+    }, { passive: false });
+    
+    // Button Events - öffnet Impressum
+    impressumBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      console.log("Touch start on button");
+    }, { passive: false });
+    
+    impressumBtn.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      
+      console.log("Impressum Button clicked - opening impressum.html");
+      
+      // Sofort zur Impressum Seite weiterleiten
+      window.location.href = "impressum.html";
+    }, { passive: false });
+    
+    // Fallback für Desktop-Debugging
     impressumBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
+      console.log("Click event on button - opening impressum.html");
       window.location.href = "impressum.html";
     });
   }

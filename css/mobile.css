@@ -8,11 +8,16 @@
 }
 
 /* Mobile Impressum Button - nur für Touch-Geräte */
-.mobile-impressum-btn {
+.impressum-wrapper {
   position: absolute;
   top: 20px;
   left: 20px;
   z-index: 1000;
+  /* Wrapper verhindert Event Bubbling */
+  pointer-events: auto;
+}
+
+.mobile-impressum-btn {
   background: rgba(0, 0, 0, 0.7);
   color: white;
   border: 2px solid rgba(255, 255, 255, 0.3);
@@ -24,6 +29,7 @@
   transition: all 0.3s ease;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  pointer-events: auto;
 }
 
 .mobile-impressum-btn:hover,

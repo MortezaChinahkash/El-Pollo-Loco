@@ -52,8 +52,10 @@
     <div id="loading-screen">
       <!-- Mobile Willkommensnachricht - auf dem Loading Screen -->
       <div id="mobile-welcome" class="mobile-welcome">
-        <!-- Impressum Button nur für Mobile View - oben links -->
-        <button id="mobile-impressum-btn" class="mobile-impressum-btn">Impressum</button>
+        <!-- Impressum Button Wrapper - verhindert Event Bubbling -->
+        <div id="impressum-wrapper" class="impressum-wrapper">
+          <button id="mobile-impressum-btn" class="mobile-impressum-btn">Impressum</button>
+        </div>
         <div class="start-message">
           <h1>¡El Pollo Loco!</h1>
           <p>Tippe zum Starten</p>
