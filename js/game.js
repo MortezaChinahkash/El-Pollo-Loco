@@ -214,12 +214,14 @@ function loadAllGameSounds() {
  */
 function startBackgroundMusic() {
   setTimeout(() => {
-    if (!soundManager.isMuted) {
-      try {
-        soundManager.playMusic("background", 0.2);
-      } catch (error) {
-        console.warn("Audio playback failed:", error);
+    try {
+      // Always setup music reference, but only play if not muted
+      soundManager.setupMusic("background", 0.2);
+      if (!soundManager.isMuted) {
+        soundManager.music.play().catch(() => {});
       }
+    } catch (error) {
+      console.warn("Audio playback failed:", error);
     }
   }, 200);
 }

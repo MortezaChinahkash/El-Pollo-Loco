@@ -59,12 +59,11 @@ class SoundManager {
     } catch {}  }
 
   /**
-   * Plays background music in continuous loop
-   * Stops previous music and starts new
+   * Sets up background music reference without playing
    * @param {string} name - Name of the music file
    * @param {number} [volume=0.5] - Volume (0.0 to 1.0)
    */
-  playMusic(name, volume = 0.5) {
+  setupMusic(name, volume = 0.5) {
     const music = this.sounds[name];
     if (!music) return;
     if (this.music && this.music !== music && !this.music.paused) {
@@ -76,7 +75,17 @@ class SoundManager {
     this.music.loop = true;
     this.music.volume = volume;
     this.music.currentTime = 0;
-    if (!this.isMuted && this.music.paused) {
+  }
+
+  /**
+   * Plays background music in continuous loop
+   * Stops previous music and starts new
+   * @param {string} name - Name of the music file
+   * @param {number} [volume=0.5] - Volume (0.0 to 1.0)
+   */
+  playMusic(name, volume = 0.5) {
+    this.setupMusic(name, volume);
+    if (!this.isMuted) {
       this.music.play().catch(() => {});
     }  }
 
@@ -93,9 +102,15 @@ class SoundManager {
   toggleMute() {
     this.isMuted = !this.isMuted;
     if (this.music) {
-      this.music.muted = this.isMuted;
-      if (!this.isMuted && this.music.paused) {
+      if (!this.isMuted) {
+        // Unmuting: start music from beginning
+        this.music.muted = false;
+        this.music.currentTime = 0;
         this.music.play().catch(() => {});
+      } else {
+        // Muting: pause and mute
+        this.music.pause();
+        this.music.muted = true;
       }
     }
     localStorage.setItem("soundMuted", this.isMuted ? "true" : "false");  }
