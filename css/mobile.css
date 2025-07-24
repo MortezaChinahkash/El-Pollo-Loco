@@ -51,6 +51,16 @@
     max-width: 90%;
     padding: 30px 20px;
     margin: 20px auto;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    transition: transform 0.2s ease;
+  }
+  
+  .start-message:active {
+    transform: scale(0.98);
   }
   
   .start-message h1 {

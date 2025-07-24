@@ -356,15 +356,16 @@ if (document.readyState === 'loading') {
 
 
 /**
- * Event Listener für Touch end - startet das Spiel nur bei Touch auf Loading Screen
+ * Event Listener für Touch end - startet das Spiel nur bei Touch auf Welcome Text
  * Initialisiert das Spiel und spielt Hintergrundmusik ab
  */
 function setupGameStartListeners() {
-  const loadingScreen = document.getElementById("loading-screen");
+  const mobileWelcome = document.getElementById("mobile-welcome");
+  const mobileStartMessage = mobileWelcome ? mobileWelcome.querySelector(".start-message") : null;
   
-  // Touch-Listener nur auf Loading Screen beschränken
-  if (loadingScreen) {
-    loadingScreen.addEventListener(
+  // Touch-Listener nur auf Mobile Welcome Text beschränken
+  if (mobileStartMessage) {
+    mobileStartMessage.addEventListener(
       "touchend",
       (e) => {
         // Mehrfache Prüfung für Impressum Button und Wrapper
@@ -389,7 +390,7 @@ function setupGameStartListeners() {
           return false;
         }
         
-        console.log("Touch on loading screen - starting game");
+        console.log("Touch on mobile welcome (fallback) - starting game");
         
         if (!world) {
           hideWelcomeMessages();
