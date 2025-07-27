@@ -196,3 +196,20 @@ function setupMobileImpressumButton() {
     setupButtonEvents(impressumBtn);
   }
 }
+
+/**
+ * Shows mobile controls only during gameplay (not on loading screen)
+ */
+function showMobileControlsForGame() {
+  const isTouchDevice = detectTouchDevice();
+  const mobileControls = document.getElementById("mobile-controls");
+  
+  if (isTouchDevice && mobileControls) {
+    mobileControls.style.setProperty("display", "flex", "important");
+    mobileControls.style.setProperty("visibility", "visible", "important");
+    mobileControls.style.setProperty("position", "fixed", "important");
+    mobileControls.style.setProperty("bottom", "20px", "important");
+    mobileControls.style.setProperty("z-index", "2001", "important");
+  }
+}
+

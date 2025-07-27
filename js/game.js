@@ -100,23 +100,6 @@ function setupInput() {
 
 
 /**
- * Shows mobile controls only during gameplay (not on loading screen)
- */
-function showMobileControlsForGame() {
-  const isTouchDevice = detectTouchDevice();
-  const mobileControls = document.getElementById("mobile-controls");
-  
-  if (isTouchDevice && mobileControls) {
-    mobileControls.style.setProperty("display", "flex", "important");
-    mobileControls.style.setProperty("visibility", "visible", "important");
-    mobileControls.style.setProperty("position", "fixed", "important");
-    mobileControls.style.setProperty("bottom", "20px", "important");
-    mobileControls.style.setProperty("z-index", "2001", "important");
-  }
-}
-
-
-/**
  * Hides mobile controls by setting display and visibility to hidden
  */
 function hideMobileControls() {
@@ -342,7 +325,6 @@ function setupMobileTouchListener(startMessage) {
       console.log("Touch inside Impressum Wrapper - preventing game start");
       e.preventDefault(); e.stopPropagation(); return false;
     }
-    console.log("Touch on mobile welcome - starting game");
     startGame();
   }, { once: true });
 }
@@ -366,7 +348,6 @@ function setupGameStartListeners() {
   if (mobileStartMessage) {
     setupMobileTouchListener(mobileStartMessage);
   }
-  
   setupDesktopKeyboardListener();
 }
 
