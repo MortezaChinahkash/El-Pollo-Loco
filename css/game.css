@@ -17,6 +17,8 @@ canvas {
   position: relative;
   width: fit-content;
   height: fit-content;
+ border: 2px solid black;
+
 }
 
 #loading-screen {
@@ -34,6 +36,8 @@ canvas {
   font-family: sans-serif;
   z-index: 999;
   position: relative;
+   border: 1px solid black;
+   box-shadow: 1px 1px 50px 15px;
 }
 
 .intro-text {
