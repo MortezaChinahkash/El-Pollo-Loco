@@ -72,7 +72,6 @@ function hideWelcomeElements() {
  * Configures mobile controls based on device detection
  */
 function configureMobileControls() {
-  // Mobile controls bleiben vorerst versteckt - werden erst beim Spielstart angezeigt
   const mobileControls = getCachedElement("mobile-controls");
   const isTouchDevice = detectTouchDevice();
   
@@ -151,12 +150,12 @@ function initializeGameWorld(currentLevel) {
 function setupInput() {
   touchDetection();
   setupMobileControls();
-  showMobileControlsForGame(); // Mobile controls beim Spielstart anzeigen
+  showMobileControlsForGame(); // Show mobile controls when game starts
 }
 
 
 /**
- * Zeigt mobile controls nur während des Spiels an (nicht auf Loading Screen)
+ * Shows mobile controls only during gameplay (not on loading screen)
  */
 function showMobileControlsForGame() {
   const isTouchDevice = detectTouchDevice();
@@ -297,50 +296,49 @@ function touchDetection() {
  * @returns {boolean} True if touch device, false otherwise
  */
 function detectTouchDevice() {
-  // Erweiterte Touch-Detection für alle Bildschirmgrößen
   const hasTouchScreen = "ontouchstart" in window ||
     navigator.maxTouchPoints > 0 ||
     navigator.msMaxTouchPoints > 0;
-  
   const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  
   const hasCoarsePointer = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
-  
   const hasOrientation = window.orientation !== undefined;
-  
-  // Kleinere Bildschirme werden als Touch-Geräte behandelt
-  const isSmallScreen = window.innerWidth <= 768 || window.innerHeight <= 600;
-  
+  const isSmallScreen = window.innerWidth <= 768 || window.innerHeight <= 600;  
   return hasTouchScreen || isMobileUserAgent || hasCoarsePointer || hasOrientation || isSmallScreen;
 }
 
+
+/**
+ * Gets UI elements for device adjustment
+ * @returns {Object} Object containing UI elements
+ */
+function getUIElements() {
+  return {
+    desktop: document.getElementById("desktop-welcome"),
+    mobile: document.getElementById("mobile-welcome"),
+    controls: document.getElementById("mobile-controls"),
+    impressum: document.getElementById("impressum-wrapper")
+  };
+}
+
+/**
+ * Sets element visibility based on device type
+ * @param {Object} elements - UI elements object
+ * @param {boolean} isTouchDevice - Whether device supports touch
+ */
+function setElementVisibility(elements, isTouchDevice) {
+  elements.desktop.style.display = isTouchDevice ? "none" : "flex";
+  elements.mobile.style.display = isTouchDevice ? "flex" : "none";
+  elements.impressum.style.display = isTouchDevice ? "block" : "none";
+}
 
 /**
  * Adjusts UI elements based on device type
  * @param {boolean} isTouchDevice - Whether device supports touch
  */
 function adjustUIForDevice(isTouchDevice) {
-  const desktopWelcome = document.getElementById("desktop-welcome");
-  const mobileWelcome = document.getElementById("mobile-welcome");
-  const mobileControls = document.getElementById("mobile-controls");
-  const impressumWrapper = document.getElementById("impressum-wrapper");
-  
-  if (isTouchDevice) {
-    if (desktopWelcome) desktopWelcome.style.display = "none";
-    if (mobileWelcome) mobileWelcome.style.display = "flex";
-    if (impressumWrapper) impressumWrapper.style.display = "block";
-    
-    // Mobile Controls bleiben vorerst versteckt bis das Spiel startet
-    if (mobileControls) {
-      mobileControls.style.setProperty("display", "none", "important");
-      mobileControls.style.setProperty("visibility", "hidden", "important");
-    }
-  } else {
-    if (desktopWelcome) desktopWelcome.style.display = "flex";
-    if (mobileWelcome) mobileWelcome.style.display = "none";
-    if (impressumWrapper) impressumWrapper.style.display = "none";
-    if (mobileControls) mobileControls.style.display = "none";
-  }
+  const elements = getUIElements();
+  setElementVisibility(elements, isTouchDevice);
+  if (elements.controls) elements.controls.style.setProperty("display", "none", "important");
 }
 document.addEventListener('DOMContentLoaded', function() {
   touchDetection();
@@ -356,132 +354,143 @@ if (document.readyState === 'loading') {
 
 
 /**
- * Event Listener für Touch end - startet das Spiel nur bei Touch auf Welcome Text
- * Initialisiert das Spiel und spielt Hintergrundmusik ab
+ * Checks if touch target is impressum related
+ * @param {Event} e - Touch event
+ * @returns {boolean} True if target is impressum related
+ */
+function isImpressumTarget(e) {
+  return e.target.id === 'mobile-impressum-btn' || 
+         e.target.id === 'impressum-wrapper' ||
+         e.target.closest('#mobile-impressum-btn') ||
+         e.target.closest('#impressum-wrapper') ||
+         e.target.classList.contains('mobile-impressum-btn') ||
+         e.target.classList.contains('impressum-wrapper');
+}
+
+/**
+ * Starts the game and initializes audio
+ */
+function startGame() {
+  if (!world) {
+    hideWelcomeMessages();
+    init();
+    setTimeout(() => {
+      if (soundManager && !soundManager.isMuted) {
+        soundManager.playMusic("background", 0.2);
+      }
+    }, 100);
+  }
+}
+
+/**
+ * Sets up mobile touch listener for game start
+ * @param {HTMLElement} startMessage - Mobile start message element
+ */
+function setupMobileTouchListener(startMessage) {
+  startMessage.addEventListener("touchend", (e) => {
+    if (isImpressumTarget(e)) {
+      console.log("Impressum Button/Wrapper detected - preventing game start");
+      e.preventDefault(); e.stopPropagation(); return false;
+    }
+    const impressumWrapper = document.getElementById('impressum-wrapper');
+    if (impressumWrapper && impressumWrapper.contains(e.target)) {
+      console.log("Touch inside Impressum Wrapper - preventing game start");
+      e.preventDefault(); e.stopPropagation(); return false;
+    }
+    console.log("Touch on mobile welcome - starting game");
+    startGame();
+  }, { once: true });
+}
+
+/**
+ * Sets up keyboard listener for desktop game start
+ */
+function setupDesktopKeyboardListener() {
+  window.addEventListener("keydown", () => {
+    startGame();
+  }, { once: true });
+}
+
+/**
+ * Sets up game start listeners for mobile and desktop
  */
 function setupGameStartListeners() {
   const mobileWelcome = document.getElementById("mobile-welcome");
   const mobileStartMessage = mobileWelcome ? mobileWelcome.querySelector(".start-message") : null;
   
-  // Touch-Listener nur auf Mobile Welcome Text beschränken
   if (mobileStartMessage) {
-    mobileStartMessage.addEventListener(
-      "touchend",
-      (e) => {
-        // Mehrfache Prüfung für Impressum Button und Wrapper
-        if (e.target.id === 'mobile-impressum-btn' || 
-            e.target.id === 'impressum-wrapper' ||
-            e.target.closest('#mobile-impressum-btn') ||
-            e.target.closest('#impressum-wrapper') ||
-            e.target.classList.contains('mobile-impressum-btn') ||
-            e.target.classList.contains('impressum-wrapper')) {
-          console.log("Impressum Button/Wrapper detected - preventing game start");
-          e.preventDefault();
-          e.stopPropagation();
-          return false; // Spiel nicht starten bei Impressum-Klick
-        }
-        
-        // Prüfe auch ob das Event von einem Child des Impressum Wrappers kommt
-        const impressumWrapper = document.getElementById('impressum-wrapper');
-        if (impressumWrapper && impressumWrapper.contains(e.target)) {
-          console.log("Touch inside Impressum Wrapper - preventing game start");
-          e.preventDefault();
-          e.stopPropagation();
-          return false;
-        }
-        
-        console.log("Touch on mobile welcome (fallback) - starting game");
-        
-        if (!world) {
-          hideWelcomeMessages();
-          init();
-          setTimeout(() => {
-            if (soundManager && !soundManager.isMuted) {
-              soundManager.playMusic("background", 0.2);
-            }
-          }, 100);
-        }
-      },
-      { once: true }
-    );
+    setupMobileTouchListener(mobileStartMessage);
   }
   
-  // Keyboard-Listener für Desktop bleibt global
-  window.addEventListener(
-    "keydown",
-    () => {
-      if (!world) {
-        hideWelcomeMessages();
-        init();
-        setTimeout(() => {
-          if (soundManager && !soundManager.isMuted) {
-            soundManager.playMusic("background", 0.2);
-          }
-        }, 100);
-      }
-    },
-    { once: true }
-  );
+  setupDesktopKeyboardListener();
 }
 
-// Impressum Button Setup für Mobile
+/**
+ * Prevents event bubbling for impressum wrapper
+ * @param {HTMLElement} wrapper - Impressum wrapper element
+ */
+function setupWrapperEvents(wrapper) {
+  const preventBubbling = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+  };
+  
+  wrapper.addEventListener("touchstart", (e) => {
+    preventBubbling(e);
+    console.log("Touch start on wrapper - preventing bubbling");
+  }, { passive: false });
+  
+  wrapper.addEventListener("touchmove", preventBubbling, { passive: false });
+  wrapper.addEventListener("touchend", (e) => {
+    preventBubbling(e);
+    console.log("Touch end on wrapper - preventing bubbling");
+  }, { passive: false });
+}
+
+/**
+ * Sets up button events for impressum navigation
+ * @param {HTMLElement} btn - Impressum button element
+ */
+function setupButtonEvents(btn) {
+  const preventBubbling = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+  };
+  
+  btn.addEventListener("touchstart", (e) => {
+    preventBubbling(e);
+    console.log("Touch start on button");
+  }, { passive: false });
+  
+  btn.addEventListener("touchend", (e) => {
+    preventBubbling(e);
+    console.log("Impressum Button clicked - opening impressum.html");
+    window.location.href = "impressum.html";
+  }, { passive: false });
+  
+  btn.addEventListener("click", (e) => {
+    preventBubbling(e);
+    console.log("Click event on button - opening impressum.html");
+    window.location.href = "impressum.html";
+  });
+}
+
+/**
+ * Sets up mobile impressum button with event prevention
+ */
 function setupMobileImpressumButton() {
   const impressumWrapper = document.getElementById("impressum-wrapper");
   const impressumBtn = document.getElementById("mobile-impressum-btn");
   
   if (impressumWrapper && impressumBtn) {
-    // Wrapper Events - verhindert Bubbling zum Loading Screen
-    impressumWrapper.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      console.log("Touch start on wrapper - preventing bubbling");
-    }, { passive: false });
-    
-    impressumWrapper.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-    }, { passive: false });
-    
-    impressumWrapper.addEventListener("touchend", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      console.log("Touch end on wrapper - preventing bubbling");
-    }, { passive: false });
-    
-    // Button Events - öffnet Impressum
-    impressumBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      console.log("Touch start on button");
-    }, { passive: false });
-    
-    impressumBtn.addEventListener("touchend", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      
-      console.log("Impressum Button clicked - opening impressum.html");
-      
-      // Sofort zur Impressum Seite weiterleiten
-      window.location.href = "impressum.html";
-    }, { passive: false });
-    
-    // Fallback für Desktop-Debugging
-    impressumBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      console.log("Click event on button - opening impressum.html");
-      window.location.href = "impressum.html";
-    });
+    setupWrapperEvents(impressumWrapper);
+    setupButtonEvents(impressumBtn);
   }
 }
 
-// Setup beim DOMContentLoaded
+// Setup on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
   touchDetection();
   setupGameStartListeners();
@@ -537,42 +546,14 @@ function setupMobileControls() {
   const btnJump = getCachedElement("btn-jump");
   const btnThrow = getCachedElement("btn-throw");
   
-  // Event-Listener mit besserer Touch-Behandlung
-  btnLeft.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    keyboard.LEFT = true;
-  }, { passive: false });
-  btnLeft.addEventListener("touchend", (e) => {
-    e.preventDefault();
-    keyboard.LEFT = false;
-  }, { passive: false });
-  
-  btnRight.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    keyboard.RIGHT = true;
-  }, { passive: false });
-  btnRight.addEventListener("touchend", (e) => {
-    e.preventDefault();
-    keyboard.RIGHT = false;
-  }, { passive: false });
-  
-  btnJump.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    keyboard.UP = true;
-  }, { passive: false });
-  btnJump.addEventListener("touchend", (e) => {
-    e.preventDefault();
-    keyboard.UP = false;
-  }, { passive: false });
-  
-  btnThrow.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    keyboard.SPACE = true;
-  }, { passive: false });
-  btnThrow.addEventListener("touchend", (e) => {
-    e.preventDefault();
-    keyboard.SPACE = false;
-  }, { passive: false });
+  btnLeft.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.LEFT = true; }, { passive: false });
+  btnLeft.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.LEFT = false; }, { passive: false });
+  btnRight.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.RIGHT = true; }, { passive: false });
+  btnRight.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.RIGHT = false; }, { passive: false });
+  btnJump.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.UP = true; }, { passive: false });
+  btnJump.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.UP = false; }, { passive: false });
+  btnThrow.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.SPACE = true; }, { passive: false });
+  btnThrow.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.SPACE = false; }, { passive: false });
 }
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', touchDetection);
