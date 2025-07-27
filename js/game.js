@@ -68,61 +68,6 @@ function hideWelcomeElements() {
 }
 
 
-/**
- * Configures mobile controls based on device detection
- */
-function configureMobileControls() {
-  const mobileControls = getCachedElement("mobile-controls");
-  const isTouchDevice = detectTouchDevice();
-  
-  if (!isTouchDevice && mobileControls) {
-    mobileControls.style.setProperty("display", "none", "important");
-    mobileControls.style.setProperty("visibility", "hidden", "important");
-  }
-}
-
-
-/**
- * Hides game control buttons (restart, next level, home)
- */
-function hideGameControlButtons() {
-  const restartBtn = getCachedElement("restartBtn");
-  const nextBtn = getCachedElement("nextLevelBtn");
-  const homeBtn = getCachedElement("homeBtn");
-  if (restartBtn) restartBtn.style.display = "none";
-  if (nextBtn) nextBtn.style.display = "none";
-  if (homeBtn) homeBtn.style.display = "none";
-}
-
-
-/**
- * Sets up all overlay button functionalities
- */
-function setupOverlayButtons() {
-  setupMuteButton();
-  setupFullscreenButton();
-  setupHelpButton();
-  setupHomeButton();
-}
-
-
-/**
- * Sets up mute button functionality and state management
- */
-function setupMuteButton() {
-  const muteBtn = getCachedElement("muteBtn");
-  muteBtn.onclick = () => {
-    if (soundManager) {
-      soundManager.toggleMute();
-      localStorage.setItem(
-        "soundMuted",
-        soundManager.isMuted ? "true" : "false"
-      );
-      muteBtn.textContent = soundManager.isMuted ? "🔊" : "🔇";
-    }
-  };
-}
-
 
 /**
  * Initializes a level with specified dimensions
@@ -425,70 +370,7 @@ function setupGameStartListeners() {
   setupDesktopKeyboardListener();
 }
 
-/**
- * Prevents event bubbling for impressum wrapper
- * @param {HTMLElement} wrapper - Impressum wrapper element
- */
-function setupWrapperEvents(wrapper) {
-  const preventBubbling = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
-  };
-  
-  wrapper.addEventListener("touchstart", (e) => {
-    preventBubbling(e);
-    console.log("Touch start on wrapper - preventing bubbling");
-  }, { passive: false });
-  
-  wrapper.addEventListener("touchmove", preventBubbling, { passive: false });
-  wrapper.addEventListener("touchend", (e) => {
-    preventBubbling(e);
-    console.log("Touch end on wrapper - preventing bubbling");
-  }, { passive: false });
-}
 
-/**
- * Sets up button events for impressum navigation
- * @param {HTMLElement} btn - Impressum button element
- */
-function setupButtonEvents(btn) {
-  const preventBubbling = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
-  };
-  
-  btn.addEventListener("touchstart", (e) => {
-    preventBubbling(e);
-    console.log("Touch start on button");
-  }, { passive: false });
-  
-  btn.addEventListener("touchend", (e) => {
-    preventBubbling(e);
-    console.log("Impressum Button clicked - opening impressum.html");
-    window.location.href = "impressum.html";
-  }, { passive: false });
-  
-  btn.addEventListener("click", (e) => {
-    preventBubbling(e);
-    console.log("Click event on button - opening impressum.html");
-    window.location.href = "impressum.html";
-  });
-}
-
-/**
- * Sets up mobile impressum button with event prevention
- */
-function setupMobileImpressumButton() {
-  const impressumWrapper = document.getElementById("impressum-wrapper");
-  const impressumBtn = document.getElementById("mobile-impressum-btn");
-  
-  if (impressumWrapper && impressumBtn) {
-    setupWrapperEvents(impressumWrapper);
-    setupButtonEvents(impressumBtn);
-  }
-}
 
 // Setup on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
