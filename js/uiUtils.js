@@ -11,7 +11,6 @@ function hideWelcomeMessages() {
   hideAllStartMessages();
 }
 
-
 /**
  * Hides welcome elements by their IDs
  */
@@ -25,7 +24,6 @@ function hideWelcomeElementsById() {
     mobileWelcome.style.display = "none";
   }
 }
-
 
 /**
  * Hides welcome elements by their CSS classes
@@ -41,7 +39,6 @@ function hideWelcomeElementsByClass() {
   }
 }
 
-
 /**
  * Hides all start message elements
  */
@@ -55,7 +52,6 @@ function hideAllStartMessages() {
   });
 }
 
-
 /**
  * Checks if element is a welcome parent container
  * @param {HTMLElement} parent - Parent element to check
@@ -68,7 +64,6 @@ function isWelcomeParent(parent) {
          parent.classList.contains('mobile-welcome');
 }
 
-
 /**
  * Enhanced touch device detection using multiple criteria
  * @returns {boolean} True if touch device is detected
@@ -78,7 +73,6 @@ function isTouchDeviceDetected() {
   const touchCount = touchIndicators.filter(Boolean).length;
   return touchCount >= 2 || (touchIndicators[0] && touchIndicators[1]);
 }
-
 
 /**
  * Gets array of touch detection indicators
@@ -93,7 +87,6 @@ function getTouchIndicators() {
   const hasOrientation = window.orientation !== undefined;
   return [hasTouchScreen, isMobileUserAgent, hasCoarsePointer, hasOrientation];
 }
-
 
 /**
  * Emergency function to manually show mobile controls (for debugging)
@@ -125,7 +118,6 @@ function applyForcedMobileStyles(mobileControls) {
   mobileControls.style.setProperty("justify-content", "space-between", "important");
 }
 
-
 /**
  * Shows mobile controls for touch devices during gameplay
  */
@@ -139,7 +131,6 @@ function showMobileControlsForGameplay() {
   }
 }
 
-
 /**
  * Detects basic touch device capabilities
  * @returns {boolean} True if basic touch device detected
@@ -150,7 +141,6 @@ function detectBasicTouchDevice() {
     navigator.msMaxTouchPoints > 0 ||
     (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
 }
-
 
 /**
  * Shows mobile controls for touch devices
@@ -163,7 +153,6 @@ function showMobileControlsForTouch(mobileControls) {
   mobileControls.style.setProperty("bottom", "10px", "important");
   mobileControls.style.setProperty("z-index", "1000", "important");
 }
-
 
 /**
  * Hides mobile controls for desktop devices
