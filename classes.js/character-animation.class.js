@@ -1,6 +1,6 @@
 /**
  * Character Animation Manager
- * Verwaltet alle Animationen für den Character
+ * Manages all animations for the character
  * @author Morteza Chinahkash
  * @version 1.0.0
  */
@@ -18,7 +18,7 @@ class CharacterAnimationManager {
   }
 
   /**
-   * Verwaltet Character-Animationen
+   * Manages character animations
    */
   charAnimations() {
     if (this.shouldStopAnimations()) {
@@ -90,7 +90,7 @@ class CharacterAnimationManager {
   }
 
   /**
-   * Verwaltet Sprunganimationen
+   * Manages jump animations
    */
   handleJumpAnimation() {
     if (this.character.speedY > 0 && !this.hasJumpedUp) {
@@ -136,7 +136,7 @@ class CharacterAnimationManager {
   }
 
   /**
-   * Animiert einzelnes Bild der Todessequenz
+   * Animates single frame of death sequence
    */
   animateDeadSequence() {
     let path = this.character.IMAGES_DEAD[this.character.currentImage];
@@ -145,7 +145,7 @@ class CharacterAnimationManager {
   }
 
   /**
-   * Beendet Todessequenz
+   * Ends death sequence
    */
   endDeadSequence(interval) {
     clearInterval(interval);
