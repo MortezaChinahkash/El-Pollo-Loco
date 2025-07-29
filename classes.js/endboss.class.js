@@ -70,7 +70,8 @@ class Endboss extends movableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_DEAD);
-    this.applyGravity();  }
+    this.applyGravity();  
+  }
 
   /**
    * Activates the endboss and starts its entrance sequence
