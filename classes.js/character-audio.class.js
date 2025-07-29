@@ -21,6 +21,8 @@ class CharacterAudioManager {
     this.isRunningSoundPlaying = false;
     this.lastBossHitSoundTime = 0;
     this.ayDiosMioCooldown = 2000;
+    this.snoreSoundInstance = null;
+    this.isSnoringSoundPlaying = false;
   }
 
   /**
@@ -173,5 +175,72 @@ class CharacterAudioManager {
     sound.volume = 0.1;
     sound.play().catch(() => {});
     this.lastJumpSoundTime = now;
+  }
+
+  /**
+   * Starts snoring sound for long idle state
+   */
+  startSnoreSound() {
+    if (this.canStartSnoreSound()) {
+      this.initializeSnoreSound();
+    }
+  }
+
+  /**
+   * Checks if snore sound can be started
+   * @returns {boolean} True if snore sound can be started
+   */
+  canStartSnoreSound() {
+    return !this.snoreSoundInstance &&
+           !this.isSnoringSoundPlaying &&
+           typeof soundManager !== "undefined" &&
+           !soundManager.isMuted;
+  }
+
+  /**
+   * Initializes snore sound
+   */
+  initializeSnoreSound() {
+    const sound = soundManager.sounds["snore"];
+    if (sound && sound.paused) {
+      this.setupSnoreSoundProperties(sound);
+      this.playSnoreSoundWithCallback(sound);
+    }
+  }
+
+  /**
+   * Sets snore sound properties
+   * @param {HTMLAudioElement} sound - The audio element to configure
+   */
+  setupSnoreSoundProperties(sound) {
+    this.snoreSoundInstance = sound;
+    sound.loop = true;
+    sound.volume = 0.5;
+    sound.currentTime = 0;
+  }
+
+  /**
+   * Plays snore sound with callback
+   * @param {HTMLAudioElement} sound - The audio element to play
+   */
+  playSnoreSoundWithCallback(sound) {
+    sound.play()
+      .then(() => {
+        this.isSnoringSoundPlaying = true;
+      })
+      .catch(() => {});
+  }
+
+  /**
+   * Stops snoring sound
+   */
+  stopSnoreSound() {
+    if (this.snoreSoundInstance) {
+      if (!this.snoreSoundInstance.paused) {
+        this.snoreSoundInstance.pause();
+      }
+      this.snoreSoundInstance = null;
+    }
+    this.isSnoringSoundPlaying = false;
   }
 }

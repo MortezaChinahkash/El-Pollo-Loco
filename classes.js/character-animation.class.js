@@ -23,6 +23,7 @@ class CharacterAnimationManager {
   charAnimations() {
     if (this.shouldStopAnimations()) {
       this.character.audioManager.stopRunningSound();
+      this.character.audioManager.stopSnoreSound();
       return;
     }
     this.handleMovementAnimations();
@@ -44,8 +45,10 @@ class CharacterAnimationManager {
     if (bossIsEntering) {
       this.handleBossEnteringAnimation();
     } else if (this.character.isAboveGround()) {
+      this.character.audioManager.stopSnoreSound();
       this.handleJumpAnimation();
     } else if (this.isMoving()) {
+      this.character.audioManager.stopSnoreSound();
       this.character.playAnimation(this.character.IMAGES_WALKING);
     } else {
       this.handleIdleAnimation();
@@ -57,6 +60,7 @@ class CharacterAnimationManager {
    */
   handleBossEnteringAnimation() {
     this.character.audioManager.stopRunningSound();
+    this.character.audioManager.stopSnoreSound();
     this.character.playAnimation(this.character.IMAGES_IDLE);
   }
 
@@ -74,8 +78,10 @@ class CharacterAnimationManager {
     const timeSinceLastMove = Date.now() - this.character.lastMovementTime;
     if (timeSinceLastMove >= this.character.idleThreshold) {
       this.character.playAnimation(this.character.IMAGES_IDLE_LONG);
+      this.character.audioManager.startSnoreSound();
     } else {
       this.character.playAnimation(this.character.IMAGES_IDLE);
+      this.character.audioManager.stopSnoreSound();
     }
   }
 

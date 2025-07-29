@@ -4,6 +4,16 @@
  */
 
 /**
+ * Safely prevents default behavior on touch events
+ * @param {Event} e - Touch event to prevent default on
+ */
+function safePreventDefault(e) {
+  if (e.cancelable) {
+    e.preventDefault();
+  }
+}
+
+/**
  * Enters fullscreen mode for the document
  */
 function enterFullscreen() {
@@ -37,7 +47,7 @@ function setupFullscreenButton() {
   const fullscreenBtn = getCachedElement("fullscreenBtn");
   fullscreenBtn.addEventListener("click", toggleFullscreen);
   fullscreenBtn.addEventListener("touchend", (e) => {
-    e.preventDefault();
+    safePreventDefault(e);
     toggleFullscreen();
   }, { passive: false });
 }
@@ -194,7 +204,7 @@ function setupWrapperEvents(wrapper) {
  * @param {Event} e - Event object to prevent bubbling
  */
 function preventEventBubbling(e) {
-  e.preventDefault();
+  safePreventDefault(e);
   e.stopPropagation();
   e.stopImmediatePropagation();
 }

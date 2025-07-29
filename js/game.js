@@ -20,6 +20,16 @@ function getCachedElement(id) {
 }
 
 /**
+ * Safely prevents default behavior on touch events
+ * @param {Event} e - Touch event to prevent default on
+ */
+function safePreventDefault(e) {
+  if (e.cancelable) {
+    e.preventDefault();
+  }
+}
+
+/**
  * Initializes the game with specified level parameters
  * @param {number} levelWidth - Width of the game level (default: 5000)
  * @param {number} levelNumber - Level number to initialize (default: 1)
@@ -373,15 +383,25 @@ function createLevel(levelWidth, levelNumber) {
 }
 
 /**
+ * Safely prevents default behavior on touch events
+ * @param {Event} e - Touch event to prevent default on
+ */
+function safePreventDefault(e) {
+  if (e.cancelable) {
+    e.preventDefault();
+  }
+}
+
+/**
  * Sets up event listeners for left and right movement buttons
  */
 function setupMovementControls() {
   const btnLeft = getCachedElement("btn-left");
   const btnRight = getCachedElement("btn-right");
-  btnLeft.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.LEFT = true; }, { passive: false });
-  btnLeft.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.LEFT = false; }, { passive: false });
-  btnRight.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.RIGHT = true; }, { passive: false });
-  btnRight.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.RIGHT = false; }, { passive: false });
+  btnLeft.addEventListener("touchstart", (e) => { safePreventDefault(e); keyboard.LEFT = true; }, { passive: false });
+  btnLeft.addEventListener("touchend", (e) => { safePreventDefault(e); keyboard.LEFT = false; }, { passive: false });
+  btnRight.addEventListener("touchstart", (e) => { safePreventDefault(e); keyboard.RIGHT = true; }, { passive: false });
+  btnRight.addEventListener("touchend", (e) => { safePreventDefault(e); keyboard.RIGHT = false; }, { passive: false });
 }
 
 /**
@@ -390,10 +410,10 @@ function setupMovementControls() {
 function setupActionControls() {
   const btnJump = getCachedElement("btn-jump");
   const btnThrow = getCachedElement("btn-throw");
-  btnJump.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.UP = true; }, { passive: false });
-  btnJump.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.UP = false; }, { passive: false });
-  btnThrow.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.SPACE = true; }, { passive: false });
-  btnThrow.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.SPACE = false; }, { passive: false });
+  btnJump.addEventListener("touchstart", (e) => { safePreventDefault(e); keyboard.UP = true; }, { passive: false });
+  btnJump.addEventListener("touchend", (e) => { safePreventDefault(e); keyboard.UP = false; }, { passive: false });
+  btnThrow.addEventListener("touchstart", (e) => { safePreventDefault(e); keyboard.SPACE = true; }, { passive: false });
+  btnThrow.addEventListener("touchend", (e) => { safePreventDefault(e); keyboard.SPACE = false; }, { passive: false });
 }
 
 /**
