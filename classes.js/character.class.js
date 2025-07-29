@@ -1,5 +1,5 @@
 class Character extends movableObject {
-  x = 90;
+  x = 40;
   y = 138;
   width = 150;
   height = 300;
@@ -27,6 +27,8 @@ class Character extends movableObject {
     this.setupInventory();
     this.loadAllImages();
     this.applyGravity();
+    // Set initial position after all initialization
+    this.x = 150; // Start position away from mobile controls
   }
 
   /**
@@ -189,9 +191,9 @@ class Character extends movableObject {
   setLevelWidth(camLimit) {
     const boss = this.world.level.boss;
     if (boss?.movingIn) {
-      this.world.camera_x = Math.min(0, -(this.x - 25));
+      this.world.camera_x = Math.min(0, -(this.x - 100));
     } else {
-      this.world.camera_x = Math.min(25, -(this.x - 25));
+      this.world.camera_x = Math.min(25, -(this.x - 100));
       this.world.camera_x = Math.max(this.world.camera_x, -camLimit);
     }
   }
