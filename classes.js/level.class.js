@@ -24,7 +24,8 @@ class Level {
     this.generateClouds();
     this.generateChickens();
     this.generateEndboss();
-    this.generateCollectables();  }
+    this.generateCollectables();  
+  }
 
   /**
    * Generates background objects for the entire level
@@ -118,7 +119,8 @@ class Level {
     const numberOfClouds = Math.floor(this.levelWidth / 700);
     for (let i = 0; i < numberOfClouds; i++) {
       this.clouds.push(new Cloud(this.levelWidth));
-    }  }
+    }  
+  }
 
   /**
    * Generates chicken enemies for the level
@@ -133,7 +135,8 @@ class Level {
       const chickenDamage = 1 + this.levelNumber * 0.1;
       const chicken = new Chicken(this.levelWidth, chickenDamage);
       this.enemies.push(chicken);
-    }  }
+    }
+  }
 
   /**
    * Generates the endboss for the level
@@ -144,7 +147,8 @@ class Level {
     const energy = 200 + this.levelNumber * 50;
     const boss = new Endboss(this.levelWidth, bossDamage, energy);
     this.boss = boss;
-    this.enemies.push(boss);  }
+    this.enemies.push(boss);  
+  }
 
   /**
    * Generates collectable objects (coins and bottles) for the level

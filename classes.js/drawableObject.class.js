@@ -12,7 +12,8 @@ class DrawableObject {
    * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
    */
   draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);  }
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);  
+  }
 
   /**
    * Loads a single image from a path
@@ -20,7 +21,8 @@ class DrawableObject {
    */
   loadImage(path) {
     this.img = new Image();
-    this.img.src = path;  }
+    this.img.src = path;  
+    }
 
   /**
    * Loads multiple images and stores them in imageCache

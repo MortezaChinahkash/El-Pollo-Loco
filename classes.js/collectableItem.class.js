@@ -56,7 +56,8 @@ class CollectableItem extends movableObject {
       coin: 'img/img_pollo_locco/img/8_coin/coin_1.png',
       bottle: 'img/img_pollo_locco/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'
     };
-    return images[this.type];  }
+    return images[this.type];
+  }
 
   /**
    * Collects the object and adds it to the character's inventory
@@ -74,7 +75,8 @@ class CollectableItem extends movableObject {
       character.bottles++;
       soundManager?.playSound("bottle", 0.1);
     }
-    this.markedForDeletion = true;  }
+    this.markedForDeletion = true;  
+  }
 
   /**
    * Draws the collectable object on the canvas
@@ -87,7 +89,8 @@ class CollectableItem extends movableObject {
     ctx.globalAlpha = this.opacity;
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     ctx.globalAlpha = 1;
-    ctx.restore();  }
+    ctx.restore();  
+  }
 
   /**
    * Starts the floating animation for coins

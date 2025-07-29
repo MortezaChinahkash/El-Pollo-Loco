@@ -166,7 +166,8 @@ class Statusbar extends DrawableObject {
     if (this.percentage >= 60) return 3;
     if (this.percentage >= 30) return 2;
     if (this.percentage > 0) return 1;
-    return 0;  }
+    return 0;  
+  }
 
   /**
    * Determines the initial X position based on the status bar type
@@ -180,7 +181,8 @@ class Statusbar extends DrawableObject {
         return 460;
       default:
         return 40;
-    }  }
+    }  
+  }
 
   /**
    * Returns the initial Y position for all status bars

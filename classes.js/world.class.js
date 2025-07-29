@@ -33,30 +33,26 @@ class World {
     this.clouds = level.clouds;
     this.backgroundObjects = level.backgroundObjects;
     this.collectableItems = level.collectableItems || [];
-    this.maxBottles = this.collectableItems.filter(
-      (i) => i.type === "bottle"
-    ).length;
+    this.maxBottles = this.collectableItems.filter((i) => i.type === "bottle").length;
     this.END_BOSS_TRIGGER_X = this.level.levelWidth - 690;
     this.setWorld();
     this.healthBar = new Statusbar("health", this.character);
     this.coinBar = new Statusbar("coins", this.character, 10);
     this.bottleBar = new Statusbar("bottles", this.character, this.maxBottles);
-    this.endbossBar = new Statusbar(
-      "endboss",
-      this.level.boss,
-      this.level.boss.energy
-    );
+    this.endbossBar = new Statusbar("endboss", this.level.boss, this.level.boss.energy);
     this.level.boss.world = this;
     this.draw();
     this.run();
-    this.bottleSpawnCount = 0;  }
+    this.bottleSpawnCount = 0;
+  }
 
   /**
    * Connects the character to the world and starts its animation
    */
   setWorld() {
     this.character.world = this;
-    this.character.animate();  }
+    this.character.animate();
+  }
 
   /**
    * Creates a new bottle at random position in the level
@@ -68,7 +64,8 @@ class World {
     const y = 370;
     const newBottle = new CollectableItem(x, y, "bottle");
     this.collectableItems.push(newBottle);
-    this.bottleSpawnCount++;  }
+    this.bottleSpawnCount++;
+  }
 
   /**
    * Checks collisions between character and collectable items
@@ -82,7 +79,8 @@ class World {
     });
     this.collectableItems = this.collectableItems.filter(
       (item) => !item.markedForDeletion
-    );  }
+    );  
+  }
 
   /**
    * Checks if new bottles can be thrown
@@ -91,7 +89,8 @@ class World {
   checkThrowObjects() {
     const now = Date.now();
     if (this.character.world.level.boss?.movingIn) return;
-    this.checkInventory(now);  }
+    this.checkInventory(now);  
+  }
 
   /**
    * Checks inventory and allows bottle throwing with cooldown

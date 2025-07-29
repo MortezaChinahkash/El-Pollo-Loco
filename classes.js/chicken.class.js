@@ -15,13 +15,16 @@ class Chicken extends movableObject {
     left: 0,
     right: 0,
   };
+
   IMAGES_WALKING = [
     "img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
     "img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
     "img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
   ];
+
   IMAGES_DEAD = [
-    "img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/2_dead/dead.png",  ];
+    "img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/2_dead/dead.png",
+  ];
 
   /**
    * Creates a new Chicken with random properties

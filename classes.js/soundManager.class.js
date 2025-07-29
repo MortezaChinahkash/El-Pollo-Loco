@@ -119,7 +119,8 @@ class SoundManager {
    * @param {number} value - Volume between 0.0 and 1.0
    */
   setMusicVolume(value) {
-    if (this.music) this.music.volume = Math.min(Math.max(value, 0), 1);  }
+    if (this.music) this.music.volume = Math.min(Math.max(value, 0), 1);  
+  }
 
   /**
    * Sets the volume of a specific sound effect
