@@ -14,7 +14,6 @@ function getSoundDefinitions() {
   ];
 }
 
-
 /**
  * Gets background and music sound definitions
  * @returns {Array} Background sounds array
@@ -24,7 +23,6 @@ function getBackgroundSounds() {
     { key: "background", src: "audio/flamenco-guitar-duo-flamenco-spanish-guitar-music-1614.mp3", loop: true }
   ];
 }
-
 
 /**
  * Gets player action sound definitions
@@ -41,7 +39,6 @@ function getPlayerSounds() {
     { key: "snore", src: "audio/snoring-8486.mp3" }
   ];
 }
-
 
 /**
  * Gets game object sound definitions
