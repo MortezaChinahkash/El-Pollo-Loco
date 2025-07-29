@@ -4,20 +4,42 @@
  */
 
 /**
- * Sets up fullscreen toggle button functionality
+ * Enters fullscreen mode for the document
+ */
+function enterFullscreen() {
+  const elem = document.documentElement;
+  elem.requestFullscreen()
+    .catch((err) => console.warn("Vollbild-Modus fehlgeschlagen:", err));
+}
+
+/**
+ * Exits fullscreen mode
+ */
+function exitFullscreen() {
+  document.exitFullscreen();
+}
+
+/**
+ * Toggles fullscreen mode on/off
+ */
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    enterFullscreen();
+  } else {
+    exitFullscreen();
+  }
+}
+
+/**
+ * Sets up fullscreen toggle button functionality with touch and click support
  */
 function setupFullscreenButton() {
   const fullscreenBtn = getCachedElement("fullscreenBtn");
-  fullscreenBtn.onclick = () => {
-    const elem = document.documentElement;
-    if (!document.fullscreenElement) {
-      elem
-        .requestFullscreen()
-        .catch((err) => console.warn("Vollbild-Modus fehlgeschlagen:", err));
-    } else {
-      document.exitFullscreen();
-    }
-  };
+  fullscreenBtn.addEventListener("click", toggleFullscreen);
+  fullscreenBtn.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    toggleFullscreen();
+  }, { passive: false });
 }
 
 /**
@@ -90,7 +112,6 @@ function configureMobileControls() {
   }
 }
 
-
 /**
  * Hides game control buttons (restart, next level, home)
  */
@@ -103,7 +124,6 @@ function hideGameControlButtons() {
   if (homeBtn) homeBtn.style.display = "none";
 }
 
-
 /**
  * Sets up all overlay button functionalities
  */
@@ -113,7 +133,6 @@ function setupOverlayButtons() {
   setupHelpButton();
   setupHomeButton();
 }
-
 
 /**
  * Sets up mute button functionality and state management
@@ -133,26 +152,88 @@ function setupMuteButton() {
 }
 
 /**
+ * Sets up touchstart event for impressum wrapper
+ * @param {HTMLElement} wrapper - Impressum wrapper element
+ */
+function setupWrapperTouchStart(wrapper) {
+  wrapper.addEventListener("touchstart", (e) => {
+    preventEventBubbling(e);
+    console.log("Touch start on wrapper - preventing bubbling");
+  }, { passive: false });
+}
+
+/**
+ * Sets up touchmove event for impressum wrapper
+ * @param {HTMLElement} wrapper - Impressum wrapper element
+ */
+function setupWrapperTouchMove(wrapper) {
+  wrapper.addEventListener("touchmove", preventEventBubbling, { passive: false });
+}
+
+/**
+ * Sets up touchend event for impressum wrapper
+ * @param {HTMLElement} wrapper - Impressum wrapper element
+ */
+function setupWrapperTouchEnd(wrapper) {
+  wrapper.addEventListener("touchend", (e) => {
+    preventEventBubbling(e);
+    console.log("Touch end on wrapper - preventing bubbling");
+  }, { passive: false });
+}
+
+/**
  * Prevents event bubbling for impressum wrapper
  * @param {HTMLElement} wrapper - Impressum wrapper element
  */
 function setupWrapperEvents(wrapper) {
-  const preventBubbling = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
-  };
-  
-  wrapper.addEventListener("touchstart", (e) => {
-    preventBubbling(e);
-    console.log("Touch start on wrapper - preventing bubbling");
+  setupWrapperTouchStart(wrapper);
+  setupWrapperTouchMove(wrapper);
+  setupWrapperTouchEnd(wrapper);
+}
+
+/**
+ * Prevents event bubbling for touch and click events
+ * @param {Event} e - Event object to prevent bubbling
+ */
+function preventEventBubbling(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+}
+
+/**
+ * Sets up touchstart event for impressum button
+ * @param {HTMLElement} btn - Impressum button element
+ */
+function setupButtonTouchStart(btn) {
+  btn.addEventListener("touchstart", (e) => {
+    preventEventBubbling(e);
+    console.log("Touch start on button");
   }, { passive: false });
-  
-  wrapper.addEventListener("touchmove", preventBubbling, { passive: false });
-  wrapper.addEventListener("touchend", (e) => {
-    preventBubbling(e);
-    console.log("Touch end on wrapper - preventing bubbling");
+}
+
+/**
+ * Sets up touchend event for impressum button navigation
+ * @param {HTMLElement} btn - Impressum button element
+ */
+function setupButtonTouchEnd(btn) {
+  btn.addEventListener("touchend", (e) => {
+    preventEventBubbling(e);
+    console.log("Impressum Button clicked - opening impressum.html");
+    window.location.href = "impressum.html";
   }, { passive: false });
+}
+
+/**
+ * Sets up click event for impressum button navigation
+ * @param {HTMLElement} btn - Impressum button element
+ */
+function setupButtonClick(btn) {
+  btn.addEventListener("click", (e) => {
+    preventEventBubbling(e);
+    console.log("Click event on button - opening impressum.html");
+    window.location.href = "impressum.html";
+  });
 }
 
 /**
@@ -160,28 +241,9 @@ function setupWrapperEvents(wrapper) {
  * @param {HTMLElement} btn - Impressum button element
  */
 function setupButtonEvents(btn) {
-  const preventBubbling = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
-  };
-  
-  btn.addEventListener("touchstart", (e) => {
-    preventBubbling(e);
-    console.log("Touch start on button");
-  }, { passive: false });
-  
-  btn.addEventListener("touchend", (e) => {
-    preventBubbling(e);
-    console.log("Impressum Button clicked - opening impressum.html");
-    window.location.href = "impressum.html";
-  }, { passive: false });
-  
-  btn.addEventListener("click", (e) => {
-    preventBubbling(e);
-    console.log("Click event on button - opening impressum.html");
-    window.location.href = "impressum.html";
-  });
+  setupButtonTouchStart(btn);
+  setupButtonTouchEnd(btn);
+  setupButtonClick(btn);
 }
 
 /**

@@ -19,7 +19,6 @@ function getCachedElement(id) {
   return cachedElements[id];
 }
 
-
 /**
  * Initializes the game with specified level parameters
  * @param {number} levelWidth - Width of the game level (default: 5000)
@@ -34,7 +33,6 @@ function init(levelWidth = 5000, levelNumber = 1) {
   getCachedElement("overlay-buttons").style.display = "flex";
 }
 
-
 /**
  * Sets up the main game UI and interface elements
  */
@@ -45,7 +43,6 @@ function setupUI() {
   hideGameControlButtons();
 }
 
-
 /**
  * Sets up the game canvas and hides loading screen
  */
@@ -54,7 +51,6 @@ function setupGameCanvas() {
   canvas.style.display = "block";
   getCachedElement("loading-screen").style.display = "none";
 }
-
 
 /**
  * Hides all welcome and intro elements
@@ -67,8 +63,6 @@ function hideWelcomeElements() {
   }
 }
 
-
-
 /**
  * Initializes a level with specified dimensions
  * @param {number} levelWidth - Width of the level
@@ -79,7 +73,6 @@ function initializeLevel(levelWidth, levelNumber) {
   return createLevel(levelWidth, levelNumber);
 }
 
-
 /**
  * Initializes the game world with the current level
  * @param {Level} currentLevel - Level to initialize world with
@@ -87,7 +80,6 @@ function initializeLevel(levelWidth, levelNumber) {
 function initializeGameWorld(currentLevel) {
   world = new World(canvas, keyboard, currentLevel);
 }
-
 
 /**
  * Sets up input handling for touch and mobile controls
@@ -97,7 +89,6 @@ function setupInput() {
   setupMobileControls();
   showMobileControlsForGame(); // Show mobile controls when game starts
 }
-
 
 /**
  * Hides mobile controls by setting display and visibility to hidden
@@ -111,7 +102,6 @@ function hideMobileControls() {
 }
 window.forceMobileControls = forceMobileControls;
 
-
 /**
  * Sets up the audio system and loads all game sounds
  */
@@ -120,7 +110,6 @@ function setupAudio() {
   loadAllGameSounds();
   startBackgroundMusic();
 }
-
 
 /**
  * Initializes the sound manager and loads mute state
@@ -137,7 +126,6 @@ function initializeSoundManager() {
   soundManager.stopAll();
 }
 
-
 /**
  * Loads all game sounds into the sound manager
  */
@@ -148,7 +136,6 @@ function loadAllGameSounds() {
   });
   refreshMuteButton(soundManager.isMuted);
 }
-
 
 /**
  * Starts background music with delay to prevent audio errors
@@ -169,7 +156,6 @@ function startBackgroundMusic() {
   }, 200);
 }
 
-
 /**
  * Loads mute state from localStorage if not already loaded
  */
@@ -182,7 +168,6 @@ function loadMuteStateFromLocalStorage() {
   muteStateAlreadyLoaded = true;
 }
 
-
 /**
  * Updates mute button display based on current mute state
  * @param {boolean} isMuted - Current mute state
@@ -193,7 +178,6 @@ function refreshMuteButton(isMuted) {
     muteBtn.textContent = isMuted ? "🔊" : "🔇";
   }
 }
-
 
 /**
  * Starts background music if not muted
@@ -209,7 +193,6 @@ function startMusicWhenNotMuted(isMuted) {
   }
 }
 
-
 /**
  * Detects touch devices and adjusts UI interface accordingly
  */
@@ -217,7 +200,6 @@ function touchDetection() {
   const isTouchDevice = detectTouchDevice();
   adjustUIForDevice(isTouchDevice);
 }
-
 
 /**
  * Detects if the current device supports touch input
@@ -233,7 +215,6 @@ function detectTouchDevice() {
   const isSmallScreen = window.innerWidth <= 768 || window.innerHeight <= 600;  
   return hasTouchScreen || isMobileUserAgent || hasCoarsePointer || hasOrientation || isSmallScreen;
 }
-
 
 /**
  * Gets UI elements for device adjustment
@@ -279,7 +260,6 @@ if (document.readyState === 'loading') {
 } else {
   touchDetection();
 }
-
 
 /**
  * Checks if touch target is impressum related
@@ -351,15 +331,12 @@ function setupGameStartListeners() {
   setupDesktopKeyboardListener();
 }
 
-
-
 // Setup on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
   touchDetection();
   setupGameStartListeners();
   setupMobileImpressumButton();
 });
-
 
 /**
  * Event Listener for key press - sets keyboard state to true
@@ -374,7 +351,6 @@ window.addEventListener("keydown", (button) => {
   if (button.keyCode == 32) keyboard.SPACE = true;
 });
 
-
 /**
  * Event Listener for key release - sets keyboard state to false
  * Handles movement and action keys (arrow keys and spacebar)
@@ -388,7 +364,6 @@ window.addEventListener("keyup", (button) => {
   if (button.keyCode == 32) keyboard.SPACE = false;
 });
 
-
 /**
  * Creates a new level with specified parameters
  * @param {number} levelWidth - Width of the level
@@ -399,24 +374,36 @@ function createLevel(levelWidth, levelNumber) {
   return new Level([], [], [], levelWidth, levelNumber);
 }
 
+/**
+ * Sets up event listeners for left and right movement buttons
+ */
+function setupMovementControls() {
+  const btnLeft = getCachedElement("btn-left");
+  const btnRight = getCachedElement("btn-right");
+  btnLeft.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.LEFT = true; }, { passive: false });
+  btnLeft.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.LEFT = false; }, { passive: false });
+  btnRight.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.RIGHT = true; }, { passive: false });
+  btnRight.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.RIGHT = false; }, { passive: false });
+}
+
+/**
+ * Sets up event listeners for jump and throw action buttons
+ */
+function setupActionControls() {
+  const btnJump = getCachedElement("btn-jump");
+  const btnThrow = getCachedElement("btn-throw");
+  btnJump.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.UP = true; }, { passive: false });
+  btnJump.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.UP = false; }, { passive: false });
+  btnThrow.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.SPACE = true; }, { passive: false });
+  btnThrow.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.SPACE = false; }, { passive: false });
+}
 
 /**
  * Sets up mobile control button event listeners
  */
 function setupMobileControls() {
-  const btnLeft = getCachedElement("btn-left");
-  const btnRight = getCachedElement("btn-right");
-  const btnJump = getCachedElement("btn-jump");
-  const btnThrow = getCachedElement("btn-throw");
-  
-  btnLeft.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.LEFT = true; }, { passive: false });
-  btnLeft.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.LEFT = false; }, { passive: false });
-  btnRight.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.RIGHT = true; }, { passive: false });
-  btnRight.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.RIGHT = false; }, { passive: false });
-  btnJump.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.UP = true; }, { passive: false });
-  btnJump.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.UP = false; }, { passive: false });
-  btnThrow.addEventListener("touchstart", (e) => { e.preventDefault(); keyboard.SPACE = true; }, { passive: false });
-  btnThrow.addEventListener("touchend", (e) => { e.preventDefault(); keyboard.SPACE = false; }, { passive: false });
+  setupMovementControls();
+  setupActionControls();
 }
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', touchDetection);
