@@ -339,7 +339,9 @@ function setupGameStartListeners() {
   setupDesktopKeyboardListener();
 }
 
-// Setup on DOMContentLoaded
+/**
+ * Setup event listeners and initialize functionality on DOMContentLoaded
+ */
 document.addEventListener('DOMContentLoaded', function() {
   touchDetection();
   setupGameStartListeners();
