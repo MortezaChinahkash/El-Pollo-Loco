@@ -155,11 +155,6 @@ class Endboss extends movableObject {
   }
 
   /**
-   * Plays a looping animation with given images
-   * @param {Array} images - Array of image paths for animation
-   * @param {number} interval - Interval between animation frames
-   */
-  /**
    * Loops an animation continuously until stopped
    * @param {Array} images - Array of image paths for animation
    * @param {number} interval - Time between animation frames (default: 200)
@@ -230,9 +225,6 @@ class Endboss extends movableObject {
   }
 
   /**
-   * Stops the current animation and resets animation state
-   */
-  /**
    * Stops any currently running animation
    */
   stopCurrentAnimation() {
@@ -244,9 +236,6 @@ class Endboss extends movableObject {
     this.isAnimating = false;
   }
 
-  /**
-   * Plays the death animation sequence for the endboss
-   */
   /**
    * Plays the death animation sequence for the boss
    */
@@ -285,9 +274,6 @@ class Endboss extends movableObject {
   /**
    * Fades out the endboss and marks it for deletion
    */
-  /**
-   * Fades out the boss and marks it for deletion
-   */
   fadeOutAndRemove() {
     const fadeInterval = setInterval(() => {
       this.opacity -= 0.02;
@@ -301,10 +287,6 @@ class Endboss extends movableObject {
 
   /**
    * Draws the endboss with direction flipping and opacity support
-   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
-   */
-  /**
-   * Draws the boss with proper orientation and opacity
    * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
    */
   draw(ctx) {
