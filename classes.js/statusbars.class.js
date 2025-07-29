@@ -23,7 +23,8 @@ class Statusbar extends DrawableObject {
     this.height = 60;
     if (linkedObject) {
       this.startSyncWithObject(linkedObject);
-    }  }
+    }  
+  }
 
   /**
    * Initializes the image paths for all status bar types
@@ -118,7 +119,8 @@ class Statusbar extends DrawableObject {
       if (this.type === "endboss") {
         this.updateEndbossBarPosition(obj);
       }
-    }, 100);  }
+    }, 100);  
+  }
 
   /**
    * Determines the current value of the linked object based on the status bar type
@@ -134,7 +136,8 @@ class Statusbar extends DrawableObject {
     } else if (this.type === "bottles") {
       value = obj.bottles;
     }
-    return value;  }
+    return value;  
+  }
 
   /**
    * Updates the position of the endboss status bar
@@ -143,7 +146,8 @@ class Statusbar extends DrawableObject {
    */
   updateEndbossBarPosition(obj) {
     this.x = obj.x + obj.width / 2 - this.width / 2;
-    this.y = obj.y - 30;  }
+    this.y = obj.y - 30;  
+  }
 
   /**
    * Sets the percentage of the status bar and updates the displayed image
@@ -154,7 +158,8 @@ class Statusbar extends DrawableObject {
     this.percentage = percent;
     const index = this.resolveImageIndex();
     const path = this.IMAGES[this.type][index];
-    this.img = this.imageCache[path];  }
+    this.img = this.imageCache[path];  
+  }
 
   /**
    * Determines the index of the image to display based on the percentage
