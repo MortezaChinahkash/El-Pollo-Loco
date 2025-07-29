@@ -51,7 +51,8 @@ class Endboss extends movableObject {
     "img/img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G23.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G24.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png",
-    "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png",  ];
+    "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png",
+  ];
 
   /**
    * Creates a new Endboss with specified properties
@@ -70,7 +71,7 @@ class Endboss extends movableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_DEAD);
-    this.applyGravity();  
+    this.applyGravity();
   }
 
   /**
@@ -97,7 +98,12 @@ class Endboss extends movableObject {
    */
   startAlert() {
     this.alertInterval = setInterval(() => {
-      if (!this.isDead() && !this.isDying && !this.jumpingAttack && !this.isAnimating) {
+      if (
+        !this.isDead() &&
+        !this.isDying &&
+        !this.jumpingAttack &&
+        !this.isAnimating
+      ) {
         this.loopAnimation(this.IMAGES_ALERT, 160);
       } else if (this.isDead() || this.isDying) {
         clearInterval(this.alertInterval);
@@ -130,7 +136,7 @@ class Endboss extends movableObject {
    * @param {Object} player - The player character
    * @param {number} step - Movement step size
    */
-  walkToPlayer(player,step){
+  walkToPlayer(player, step) {
     if (!this.jumpingAttack && !this.isAnimating) {
       this.loopAnimation(this.IMAGES_WALKING, 180);
       if (this.x < player.x - 10) this.x += step;
@@ -144,14 +150,22 @@ class Endboss extends movableObject {
    * @param {number} distanceToPlayer - Distance to the player
    */
   handleJumpAttack(player, distanceToPlayer) {
-    if (distanceToPlayer < 180 && !this.jumpingAttack && !this.isAboveGround()) {
+    if (
+      distanceToPlayer < 180 &&
+      !this.jumpingAttack &&
+      !this.isAboveGround()
+    ) {
       this.jumpingAttack = true;
       this.speedY = 25;
       const direction = player.x < this.x ? -1 : 1;
       this.x += direction * 120;
-      this.playFullAnimationOnce(this.IMAGES_ATTACK, () => {
-        this.jumpingAttack = false;
-      }, 120);
+      this.playFullAnimationOnce(
+        this.IMAGES_ATTACK,
+        () => {
+          this.jumpingAttack = false;
+        },
+        120
+      );
     }
   }
 

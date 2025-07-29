@@ -1,5 +1,4 @@
 class SoundManager {
-
   /**
    * Creates a new SoundManager to manage all game audio files
    * Initializes sounds dictionary, music reference and mute status
@@ -7,7 +6,8 @@ class SoundManager {
   constructor() {
     this.sounds = {};
     this.music = null;
-    this.isMuted = false;  }
+    this.isMuted = false;
+  }
 
   /**
    * Unlocks audio playback after user interaction
@@ -17,9 +17,13 @@ class SoundManager {
     Object.values(this.sounds).forEach((audio) => {
       try {
         audio.muted = false;
-        audio.play().then(() => audio.pause()).catch(() => {});
+        audio
+          .play()
+          .then(() => audio.pause())
+          .catch(() => {});
       } catch {}
-    });  }
+    });
+  }
 
   /**
    * Loads an audio file and adds it to the sounds collection
@@ -30,7 +34,8 @@ class SoundManager {
   loadSound(name, path, loop = false) {
     const audio = new Audio(path);
     audio.loop = loop;
-    this.sounds[name] = audio;  }
+    this.sounds[name] = audio;
+  }
 
   /**
    * Stops all currently playing sounds and resets them
@@ -40,7 +45,8 @@ class SoundManager {
     for (const audio of Object.values(this.sounds)) {
       audio.pause();
       audio.currentTime = 0;
-    }  }
+    }
+  }
 
   /**
    * Plays a sound effect once
@@ -56,7 +62,8 @@ class SoundManager {
       sound.currentTime = 0;
       sound.volume = volume;
       sound.play().catch(() => {});
-    } catch {}  }
+    } catch {}
+  }
 
   /**
    * Sets up background music reference without playing
@@ -87,13 +94,15 @@ class SoundManager {
     this.setupMusic(name, volume);
     if (!this.isMuted) {
       this.music.play().catch(() => {});
-    }  }
+    }
+  }
 
   /**
    * Pauses the currently playing background music
    */
   pauseMusic() {
-    if (this.music) this.music.pause();  }
+    if (this.music) this.music.pause();
+  }
 
   /**
    * Toggles between mute and normal playback
@@ -112,14 +121,15 @@ class SoundManager {
         this.music.muted = true;
       }
     }
-    localStorage.setItem("soundMuted", this.isMuted ? "true" : "false");  }
+    localStorage.setItem("soundMuted", this.isMuted ? "true" : "false");
+  }
 
   /**
    * Sets the volume of the currently playing background music
    * @param {number} value - Volume between 0.0 and 1.0
    */
   setMusicVolume(value) {
-    if (this.music) this.music.volume = Math.min(Math.max(value, 0), 1);  
+    if (this.music) this.music.volume = Math.min(Math.max(value, 0), 1);
   }
 
   /**

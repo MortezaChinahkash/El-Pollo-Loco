@@ -5,7 +5,6 @@
  * @version 1.0.0
  */
 class CharacterInputManager {
-
   /**
    * Creates a new character input manager
    * @param {Character} character - The character to manage input for
@@ -31,7 +30,9 @@ class CharacterInputManager {
    * Checks if input should be ignored
    */
   shouldIgnoreInput() {
-    return this.character.isDeadState || this.character.world?.level?.boss?.movingIn;
+    return (
+      this.character.isDeadState || this.character.world?.level?.boss?.movingIn
+    );
   }
 
   /**
@@ -65,7 +66,8 @@ class CharacterInputManager {
   moveRightWhenSpace() {
     if (
       this.character.world.keyboard.RIGHT &&
-      this.character.x < this.character.world.level.levelWidth - this.character.width
+      this.character.x <
+        this.character.world.level.levelWidth - this.character.width
     ) {
       this.character.moveRight();
       return true;
@@ -104,7 +106,10 @@ class CharacterInputManager {
    */
   playRunningSound(moved) {
     const isActuallyRunning =
-      moved && !this.character.isAboveGround() && !this.character.isHurt && !this.character.isDeadState;
+      moved &&
+      !this.character.isAboveGround() &&
+      !this.character.isHurt &&
+      !this.character.isDeadState;
     if (isActuallyRunning) {
       this.character.audioManager.startRunningSound();
     } else {
@@ -116,7 +121,8 @@ class CharacterInputManager {
    * Sets camera limits
    */
   setCamLimit() {
-    const camLimit = this.character.world.level.levelWidth - this.character.world.canvas.width;
+    const camLimit =
+      this.character.world.level.levelWidth - this.character.world.canvas.width;
     this.character.setLevelWidth(camLimit);
   }
 }

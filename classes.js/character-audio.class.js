@@ -5,7 +5,6 @@
  * @version 1.0.0
  */
 class CharacterAudioManager {
-
   /**
    * Creates a new character audio manager
    * @param {Character} character - The character to manage audio for
@@ -79,10 +78,12 @@ class CharacterAudioManager {
    * @returns {boolean} True if running sound can be started
    */
   canStartRunningSound() {
-    return !this.runningSoundInstance &&
-           !this.isRunningSoundPlaying &&
-           typeof soundManager !== "undefined" &&
-           !soundManager.isMuted;
+    return (
+      !this.runningSoundInstance &&
+      !this.isRunningSoundPlaying &&
+      typeof soundManager !== "undefined" &&
+      !soundManager.isMuted
+    );
   }
 
   /**
@@ -112,7 +113,8 @@ class CharacterAudioManager {
    * @param {HTMLAudioElement} sound - The audio element to play
    */
   playRunningSoundWithCallback(sound) {
-    sound.play()
+    sound
+      .play()
       .then(() => {
         this.isRunningSoundPlaying = true;
       })
@@ -148,9 +150,11 @@ class CharacterAudioManager {
    * @returns {boolean} True if jump sound should be played
    */
   shouldPlayJumpSound(now) {
-    return typeof soundManager !== "undefined" &&
-           !soundManager.isMuted &&
-           now - this.lastJumpSoundTime >= this.jumpSoundCooldown;
+    return (
+      typeof soundManager !== "undefined" &&
+      !soundManager.isMuted &&
+      now - this.lastJumpSoundTime >= this.jumpSoundCooldown
+    );
   }
 
   /**
@@ -191,10 +195,12 @@ class CharacterAudioManager {
    * @returns {boolean} True if snore sound can be started
    */
   canStartSnoreSound() {
-    return !this.snoreSoundInstance &&
-           !this.isSnoringSoundPlaying &&
-           typeof soundManager !== "undefined" &&
-           !soundManager.isMuted;
+    return (
+      !this.snoreSoundInstance &&
+      !this.isSnoringSoundPlaying &&
+      typeof soundManager !== "undefined" &&
+      !soundManager.isMuted
+    );
   }
 
   /**
@@ -224,7 +230,8 @@ class CharacterAudioManager {
    * @param {HTMLAudioElement} sound - The audio element to play
    */
   playSnoreSoundWithCallback(sound) {
-    sound.play()
+    sound
+      .play()
       .then(() => {
         this.isSnoringSoundPlaying = true;
       })

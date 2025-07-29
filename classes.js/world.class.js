@@ -33,13 +33,19 @@ class World {
     this.clouds = level.clouds;
     this.backgroundObjects = level.backgroundObjects;
     this.collectableItems = level.collectableItems || [];
-    this.maxBottles = this.collectableItems.filter((i) => i.type === "bottle").length;
+    this.maxBottles = this.collectableItems.filter(
+      (i) => i.type === "bottle"
+    ).length;
     this.END_BOSS_TRIGGER_X = this.level.levelWidth - 690;
     this.setWorld();
     this.healthBar = new Statusbar("health", this.character);
     this.coinBar = new Statusbar("coins", this.character, 10);
     this.bottleBar = new Statusbar("bottles", this.character, this.maxBottles);
-    this.endbossBar = new Statusbar("endboss", this.level.boss, this.level.boss.energy);
+    this.endbossBar = new Statusbar(
+      "endboss",
+      this.level.boss,
+      this.level.boss.energy
+    );
     this.level.boss.world = this;
     this.draw();
     this.run();
@@ -79,7 +85,7 @@ class World {
     });
     this.collectableItems = this.collectableItems.filter(
       (item) => !item.markedForDeletion
-    );  
+    );
   }
 
   /**
@@ -89,7 +95,7 @@ class World {
   checkThrowObjects() {
     const now = Date.now();
     if (this.character.world.level.boss?.movingIn) return;
-    this.checkInventory(now);  
+    this.checkInventory(now);
   }
 
   /**
@@ -171,18 +177,18 @@ class World {
    * Also plays the "Ay Dios Mio" sound on first appearance
    */
   activateBoss() {
-  const boss = this.level.enemies.find((e) => e instanceof Endboss);
-  if (
-    boss &&
-    !boss.activated &&
-    this.character.x >= this.END_BOSS_TRIGGER_X
-  ) {
-    boss.activate();
-    if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
-      soundManager.playSound("ay_dios_mio", 0.3);
+    const boss = this.level.enemies.find((e) => e instanceof Endboss);
+    if (
+      boss &&
+      !boss.activated &&
+      this.character.x >= this.END_BOSS_TRIGGER_X
+    ) {
+      boss.activate();
+      if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
+        soundManager.playSound("ay_dios_mio", 0.3);
+      }
     }
   }
-}
 
   /**
    * Checks all collisions in the game
@@ -355,72 +361,72 @@ class World {
     this.ctx.restore();
   }
 
- /**
-  * Shows the win screen and starts the win sequence
-  * Hides UI elements and loads the win image
-  */
- showWinScreen() {
-  this.gameWon = true;
-  this.hideUIForWinScreen();
-  this.loadWinImage();
- }
-
- /**
-  * Hides UI elements for the win screen
-  */
- hideUIForWinScreen() {
-  const mobileControls = document.getElementById("mobile-controls");
-  if (mobileControls) {
-    mobileControls.style.display = "none";
+  /**
+   * Shows the win screen and starts the win sequence
+   * Hides UI elements and loads the win image
+   */
+  showWinScreen() {
+    this.gameWon = true;
+    this.hideUIForWinScreen();
+    this.loadWinImage();
   }
- }
 
- /**
-  * Loads and displays the win image
-  */
- loadWinImage() {
-  const img = new Image();
-  img.src = "img/img_pollo_locco/img/You won, you lost/You won A.png";
-  if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
-    soundManager.playSound("won", 0.4);
+  /**
+   * Hides UI elements for the win screen
+   */
+  hideUIForWinScreen() {
+    const mobileControls = document.getElementById("mobile-controls");
+    if (mobileControls) {
+      mobileControls.style.display = "none";
+    }
   }
-  img.onload = () => {
-    this.displayWinScreen(img);
-  };
- }
 
- /**
-  * Shows the win screen and buttons
-  * @param {Image} img - The win image
-  */
- displayWinScreen(img) {
-  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
-  this.showRestartButton();
-  this.showNextLevelButton();
- }
+  /**
+   * Loads and displays the win image
+   */
+  loadWinImage() {
+    const img = new Image();
+    img.src = "img/img_pollo_locco/img/You won, you lost/You won A.png";
+    if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
+      soundManager.playSound("won", 0.4);
+    }
+    img.onload = () => {
+      this.displayWinScreen(img);
+    };
+  }
+
+  /**
+   * Shows the win screen and buttons
+   * @param {Image} img - The win image
+   */
+  displayWinScreen(img) {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+    this.showRestartButton();
+    this.showNextLevelButton();
+  }
 
   /**
    * Shows the game over screen
    * Hides mobile controls and plays game over sound
    */
   showGameOverScreen() {
-  this.gameOver = true;
-  const mobileControls = document.getElementById("mobile-controls");
-  if (mobileControls) {
-    mobileControls.style.display = "none";
+    this.gameOver = true;
+    const mobileControls = document.getElementById("mobile-controls");
+    if (mobileControls) {
+      mobileControls.style.display = "none";
+    }
+    const img = new Image();
+    img.src = "img/img_pollo_locco/img/You won, you lost/Game Over.png";
+    if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
+      soundManager.playSound("lost", 0.4);
+    }
+    img.onload = () => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+      this.showRestartButton();
+    };
   }
-  const img = new Image();
-  img.src = "img/img_pollo_locco/img/You won, you lost/Game Over.png";
-  if (typeof soundManager !== "undefined" && !soundManager.isMuted) {
-    soundManager.playSound("lost", 0.4);
-  }
-  img.onload = () => {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
-    this.showRestartButton();
-  };
-}
 
   /**
    * Shows the restart button and home button

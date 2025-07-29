@@ -5,7 +5,6 @@
  * @version 1.0.0
  */
 class CharacterAnimationManager {
-
   /**
    * Creates a new character animation manager
    * @param {Character} character - The character to manage animations for
@@ -68,7 +67,9 @@ class CharacterAnimationManager {
    * Checks if character is moving
    */
   isMoving() {
-    return this.character.world.keyboard.RIGHT || this.character.world.keyboard.LEFT;
+    return (
+      this.character.world.keyboard.RIGHT || this.character.world.keyboard.LEFT
+    );
   }
 
   /**
@@ -102,7 +103,11 @@ class CharacterAnimationManager {
     if (this.character.speedY > 0 && !this.hasJumpedUp) {
       this.playAnimationOnce(this.character.IMAGES_JUMP_UP);
       this.hasJumpedUp = true;
-    } else if (this.character.speedY < 0 && this.hasJumpedUp && !this.hasJumpedDown) {
+    } else if (
+      this.character.speedY < 0 &&
+      this.hasJumpedUp &&
+      !this.hasJumpedDown
+    ) {
       this.playAnimationOnce(this.character.IMAGES_JUMP_DOWN);
       this.hasJumpedDown = true;
     }

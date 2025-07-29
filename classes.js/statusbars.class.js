@@ -23,7 +23,7 @@ class Statusbar extends DrawableObject {
     this.height = 60;
     if (linkedObject) {
       this.startSyncWithObject(linkedObject);
-    }  
+    }
   }
 
   /**
@@ -35,7 +35,7 @@ class Statusbar extends DrawableObject {
       ...this.getHealthBarImages(),
       ...this.getCoinBarImages(),
       ...this.getBottleBarImages(),
-      ...this.getEndbossBarImages()
+      ...this.getEndbossBarImages(),
     };
   }
 
@@ -52,7 +52,7 @@ class Statusbar extends DrawableObject {
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/blue/60.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png",
-      ]
+      ],
     };
   }
 
@@ -69,7 +69,7 @@ class Statusbar extends DrawableObject {
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/60.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/80.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png",
-      ]
+      ],
     };
   }
 
@@ -86,7 +86,7 @@ class Statusbar extends DrawableObject {
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png",
-      ]
+      ],
     };
   }
 
@@ -103,7 +103,7 @@ class Statusbar extends DrawableObject {
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/orange/60.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/orange/80.png",
         "img/img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/orange/100.png",
-      ]
+      ],
     };
   }
 
@@ -119,7 +119,7 @@ class Statusbar extends DrawableObject {
       if (this.type === "endboss") {
         this.updateEndbossBarPosition(obj);
       }
-    }, 100);  
+    }, 100);
   }
 
   /**
@@ -136,7 +136,7 @@ class Statusbar extends DrawableObject {
     } else if (this.type === "bottles") {
       value = obj.bottles;
     }
-    return value;  
+    return value;
   }
 
   /**
@@ -146,7 +146,7 @@ class Statusbar extends DrawableObject {
    */
   updateEndbossBarPosition(obj) {
     this.x = obj.x + obj.width / 2 - this.width / 2;
-    this.y = obj.y - 30;  
+    this.y = obj.y - 30;
   }
 
   /**
@@ -158,7 +158,7 @@ class Statusbar extends DrawableObject {
     this.percentage = percent;
     const index = this.resolveImageIndex();
     const path = this.IMAGES[this.type][index];
-    this.img = this.imageCache[path];  
+    this.img = this.imageCache[path];
   }
 
   /**
@@ -171,7 +171,7 @@ class Statusbar extends DrawableObject {
     if (this.percentage >= 60) return 3;
     if (this.percentage >= 30) return 2;
     if (this.percentage > 0) return 1;
-    return 0;  
+    return 0;
   }
 
   /**
@@ -186,7 +186,7 @@ class Statusbar extends DrawableObject {
         return 460;
       default:
         return 40;
-    }  
+    }
   }
 
   /**

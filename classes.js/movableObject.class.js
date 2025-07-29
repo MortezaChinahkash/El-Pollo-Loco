@@ -13,7 +13,8 @@ class movableObject extends DrawableObject {
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0,  };
+    right: 0,
+  };
 
   /**
    * Applies gravity to the object
@@ -27,7 +28,8 @@ class movableObject extends DrawableObject {
       } else {
         this.speedY = 0;
       }
-    }, 1000 / 25);  }
+    }, 1000 / 25);
+  }
 
   /**
    * Checks collision between this and another movable object
@@ -36,14 +38,16 @@ class movableObject extends DrawableObject {
    * @returns {boolean} True if collision is detected
    */
   isColliding(mo) {
-  const buffer = 5;
-  return (
-    this.x + this.width - this.offset.right > mo.x + mo.offset.left + buffer &&
-    this.x + this.offset.left < mo.x + mo.width - mo.offset.right - buffer &&
-    this.y + this.height - this.offset.bottom > mo.y + mo.offset.top + buffer &&
-    this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom - buffer
-  );
-}
+    const buffer = 5;
+    return (
+      this.x + this.width - this.offset.right >
+        mo.x + mo.offset.left + buffer &&
+      this.x + this.offset.left < mo.x + mo.width - mo.offset.right - buffer &&
+      this.y + this.height - this.offset.bottom >
+        mo.y + mo.offset.top + buffer &&
+      this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom - buffer
+    );
+  }
 
   /**
    * Reduces the object's energy by the specified damage
@@ -53,7 +57,8 @@ class movableObject extends DrawableObject {
     this.energy -= damage;
     if (this.energy < 0) {
       this.energy = 0;
-    }  }
+    }
+  }
 
   /**
    * Checks if the object is dead (energy = 0)

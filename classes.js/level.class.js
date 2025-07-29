@@ -24,7 +24,7 @@ class Level {
     this.generateClouds();
     this.generateChickens();
     this.generateEndboss();
-    this.generateCollectables();  
+    this.generateCollectables();
   }
 
   /**
@@ -45,7 +45,7 @@ class Level {
       backgrounds: this.defineBG(),
       segmentWidth: 719,
       startX: -719,
-      blockIndex: 0
+      blockIndex: 0,
     };
   }
 
@@ -55,7 +55,8 @@ class Level {
    */
   createBackgroundLoop(config) {
     while (config.startX < this.levelWidth) {
-      let block = config.backgrounds[config.blockIndex % config.backgrounds.length];
+      let block =
+        config.backgrounds[config.blockIndex % config.backgrounds.length];
       this.addBackgroundLayers(block, config.startX);
       config.startX += config.segmentWidth;
       config.blockIndex++;
@@ -79,10 +80,7 @@ class Level {
    * @returns {Array} Array with background configurations for different layers
    */
   defineBG() {
-    return [
-      this.getBackgroundSet1(),
-      this.getBackgroundSet2()
-    ];
+    return [this.getBackgroundSet1(), this.getBackgroundSet2()];
   }
 
   /**
@@ -93,7 +91,8 @@ class Level {
     return {
       air: "img/img_pollo_locco/img/5_background/layers/air.png",
       third: "img/img_pollo_locco/img/5_background/layers/3_third_layer/1.png",
-      second: "img/img_pollo_locco/img/5_background/layers/2_second_layer/1.png",
+      second:
+        "img/img_pollo_locco/img/5_background/layers/2_second_layer/1.png",
       first: "img/img_pollo_locco/img/5_background/layers/1_first_layer/1.png",
     };
   }
@@ -106,7 +105,8 @@ class Level {
     return {
       air: "img/img_pollo_locco/img/5_background/layers/air.png",
       third: "img/img_pollo_locco/img/5_background/layers/3_third_layer/2.png",
-      second: "img/img_pollo_locco/img/5_background/layers/2_second_layer/2.png",
+      second:
+        "img/img_pollo_locco/img/5_background/layers/2_second_layer/2.png",
       first: "img/img_pollo_locco/img/5_background/layers/1_first_layer/2.png",
     };
   }
@@ -119,7 +119,7 @@ class Level {
     const numberOfClouds = Math.floor(this.levelWidth / 700);
     for (let i = 0; i < numberOfClouds; i++) {
       this.clouds.push(new Cloud(this.levelWidth));
-    }  
+    }
   }
 
   /**
@@ -147,7 +147,7 @@ class Level {
     const energy = 200 + this.levelNumber * 50;
     const boss = new Endboss(this.levelWidth, bossDamage, energy);
     this.boss = boss;
-    this.enemies.push(boss);  
+    this.enemies.push(boss);
   }
 
   /**
