@@ -111,15 +111,6 @@ function forceMobileControls() {
   return false;
 }
 
-
-/**
- * Logs warning when mobile controls are forced on desktop
- */
-function logMobileControlsWarning() {
-  console.warn("⚠️ Warning: Mobile Controls should not be activated on desktop devices!");
-}
-
-
 /**
  * Applies forced styling to mobile controls
  * @param {HTMLElement} mobileControls - Mobile controls element

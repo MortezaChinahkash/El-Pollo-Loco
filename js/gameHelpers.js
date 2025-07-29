@@ -158,7 +158,6 @@ function setupMuteButton() {
 function setupWrapperTouchStart(wrapper) {
   wrapper.addEventListener("touchstart", (e) => {
     preventEventBubbling(e);
-    console.log("Touch start on wrapper - preventing bubbling");
   }, { passive: false });
 }
 
@@ -177,7 +176,6 @@ function setupWrapperTouchMove(wrapper) {
 function setupWrapperTouchEnd(wrapper) {
   wrapper.addEventListener("touchend", (e) => {
     preventEventBubbling(e);
-    console.log("Touch end on wrapper - preventing bubbling");
   }, { passive: false });
 }
 
@@ -208,7 +206,6 @@ function preventEventBubbling(e) {
 function setupButtonTouchStart(btn) {
   btn.addEventListener("touchstart", (e) => {
     preventEventBubbling(e);
-    console.log("Touch start on button");
   }, { passive: false });
 }
 
@@ -219,7 +216,6 @@ function setupButtonTouchStart(btn) {
 function setupButtonTouchEnd(btn) {
   btn.addEventListener("touchend", (e) => {
     preventEventBubbling(e);
-    console.log("Impressum Button clicked - opening impressum.html");
     window.location.href = "impressum.html";
   }, { passive: false });
 }
@@ -231,7 +227,6 @@ function setupButtonTouchEnd(btn) {
 function setupButtonClick(btn) {
   btn.addEventListener("click", (e) => {
     preventEventBubbling(e);
-    console.log("Click event on button - opening impressum.html");
     window.location.href = "impressum.html";
   });
 }

@@ -297,12 +297,10 @@ function startGame() {
 function setupMobileTouchListener(startMessage) {
   startMessage.addEventListener("touchend", (e) => {
     if (isImpressumTarget(e)) {
-      console.log("Impressum Button/Wrapper detected - preventing game start");
       e.preventDefault(); e.stopPropagation(); return false;
     }
     const impressumWrapper = document.getElementById('impressum-wrapper');
     if (impressumWrapper && impressumWrapper.contains(e.target)) {
-      console.log("Touch inside Impressum Wrapper - preventing game start");
       e.preventDefault(); e.stopPropagation(); return false;
     }
     startGame();
